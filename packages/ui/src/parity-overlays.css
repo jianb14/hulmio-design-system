@@ -1,0 +1,67 @@
+/* Additive presentation options for the existing Radix overlays. */
+:where([data-hulmio-ui="overlay"])[data-backdrop="blur"] { background: color-mix(in srgb, var(--hulmio-text) 16%, transparent); backdrop-filter: blur(8px); }
+:where([data-hulmio-ui="overlay"])[data-backdrop="transparent"] { background: transparent; }
+:where([data-hulmio-ui="modal"], [data-hulmio-ui="alert-dialog"])[data-size="xs"] { width: min(300px, calc(100vw - 32px)); }
+:where([data-hulmio-ui="modal"], [data-hulmio-ui="alert-dialog"])[data-size="sm"] { width: min(380px, calc(100vw - 32px)); }
+:where([data-hulmio-ui="modal"], [data-hulmio-ui="alert-dialog"])[data-size="lg"] { max-width: 720px; width: min(720px, calc(100vw - 32px)); }
+:where([data-hulmio-ui="modal"], [data-hulmio-ui="alert-dialog"])[data-size="xl"] { max-width: 960px; width: min(960px, calc(100vw - 32px)); }
+:where([data-hulmio-ui="modal"], [data-hulmio-ui="alert-dialog"]):not(.drawer)[data-placement="top"] { top: 24px; transform: translateX(-50%); }
+:where([data-hulmio-ui="modal"], [data-hulmio-ui="alert-dialog"]):not(.drawer)[data-placement="bottom"] { top: auto; bottom: 24px; transform: translateX(-50%); }
+:where([data-hulmio-ui="modal"])[data-scroll="inside"] { display: flex; flex-direction: column; }
+:where([data-hulmio-ui="modal"])[data-scroll="inside"] .h-dialog-body { overflow-y: auto; min-height: 0; }
+:where([data-hulmio-ui="modal"])[data-scroll="outside"] { overflow-y: auto; }
+:where([data-hulmio-ui="modal"]).drawer-top { inset: 0 0 auto; width: 100%; max-width: none; border-radius: 0 0 var(--hulmio-radius-md, 10px) var(--hulmio-radius-md, 10px); transform: none; }
+:where([data-hulmio-ui="alert-dialog"]) .h-dialog-status-icon { display: inline-flex; color: var(--h-tone, var(--hulmio-primary)); margin-bottom: 14px; }
+:where([data-hulmio-ui="dropdown-menu"]) .h-menu-item-copy { flex: 1; display: grid; gap: 3px; }
+:where([data-hulmio-ui="dropdown-menu"]) small { color: var(--hulmio-muted); font-size: 12px; }
+:where([data-hulmio-ui="dropdown-menu"]) .h-menu-icon { display: inline-flex; }
+:where([data-hulmio-ui="dropdown-menu"]) .h-menu-section-label { padding: 8px 10px; color: var(--hulmio-muted); font-size: 12px; }
+:where([data-hulmio-ui="dropdown-menu"]) .h-menu-separator { height: 1px; margin: 5px; background: var(--hulmio-border); }
+:where([data-hulmio-ui="popover"]) .h-popover-arrow { fill: var(--hulmio-surface); }
+:where([data-hulmio-ui="toast"]) .h-toast-action { min-height: 36px; margin-top: 8px; padding: 6px 12px; border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md, 10px); background: var(--hulmio-subtle); color: var(--hulmio-text); font: inherit; cursor: pointer; }
+.h-toast-viewport:where([data-hulmio-ui]) { position: fixed; z-index: 200; display: flex; flex-direction: column; max-width: calc(100vw - 32px); padding: 0; pointer-events: none; }
+.h-toast-viewport:where([data-hulmio-ui])[data-placement^="top"] { top: 16px; }
+.h-toast-viewport:where([data-hulmio-ui])[data-placement^="bottom"] { bottom: 16px; }
+.h-toast-viewport:where([data-hulmio-ui])[data-placement$="left"] { left: 16px; }
+.h-toast-viewport:where([data-hulmio-ui])[data-placement$="right"] { right: 16px; }
+.h-toast-viewport:where([data-hulmio-ui]):is([data-placement="top"], [data-placement="bottom"]) { left: 50%; transform: translateX(-50%); }
+:where([data-hulmio-ui="toast-provider"]) .h-toast-stack-item { pointer-events: auto; transition: margin .2s, transform .2s; }
+:where([data-hulmio-ui="toast-provider"]):not([data-expanded]) .h-toast-stack-item + .h-toast-stack-item { margin-top: -48px; }
+:where([data-hulmio-ui="toast-provider"]):is(:hover, :focus-within) .h-toast-stack-item + .h-toast-stack-item { margin-top: 0; }
+:where([data-hulmio-ui="toast-provider"]) .h-toast { width: 100%; }
+.h-sheet:where([data-hulmio-ui="modal"]) { display: flex; flex-direction: column; transition: height .2s, width .2s; touch-action: pan-x; }
+.h-sheet:where([data-hulmio-ui="modal"]) .h-dialog-body { overflow-y: auto; overscroll-behavior: contain; }
+:where([data-hulmio-ui="modal"]) .h-sheet-handle { display: flex; width: 100%; min-height: 44px; align-items: center; justify-content: center; border: 0; background: transparent; cursor: ns-resize; touch-action: none; }
+:where([data-hulmio-ui="modal"]) .h-sheet-handle > span { width: 44px; height: 5px; border-radius: 10px; background: var(--hulmio-border); }
+.h-sheet.h-sheet-detached:where([data-hulmio-ui="modal"]) { margin: 12px; border-radius: var(--hulmio-radius-md, 10px); }
+:where([data-hulmio-ui="progress"])[data-size="sm"] .h-progress-track { height: 4px; }
+:where([data-hulmio-ui="progress"])[data-size="lg"] .h-progress-track { height: 12px; }
+:where([data-hulmio-ui="progress"]) .h-progress-value { background: var(--h-tone, var(--hulmio-primary)); }
+:where([data-hulmio-ui="progress"]) .h-progress-ring-value { stroke: var(--h-tone, var(--hulmio-primary)); }
+.h-progress-circular:where([data-hulmio-ui])[data-size="sm"] { width: 64px; height: 64px; }
+.h-progress-circular:where([data-hulmio-ui])[data-size="lg"] { max-width: 720px; width: 140px; height: 140px; }
+:where([data-hulmio-ui="progress"]) .h-progress-circle-label { display: block; font-size: 13px; text-align: center; margin-top: 5px; }
+:where([data-hulmio-ui="spinner"]) .h-spinner-ring { border-top-color: var(--h-tone, var(--hulmio-primary)); animation-duration: var(--h-spinner-speed, .7s); }
+:where([data-hulmio-ui="skeleton"])[data-animation="none"] { animation: none; }
+:where([data-hulmio-ui="skeleton"])[data-animation="shimmer"] { background: linear-gradient(100deg, var(--hulmio-subtle) 25%, var(--hulmio-surface) 50%, var(--hulmio-subtle) 75%); background-size: 200% 100%; animation: h-skeleton-shimmer 1.8s linear infinite; }
+.h-skeleton-group { position: relative; overflow: hidden; }
+.h-skeleton-group::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--hulmio-surface) 70%, transparent), transparent); animation: h-skeleton-group-shimmer 1.8s infinite; pointer-events: none; }
+:where([data-hulmio-ui="skeleton"])[data-shared-shimmer] { animation: none; background: var(--hulmio-subtle); }
+@keyframes h-skeleton-shimmer { to { background-position: -200% 0; } }
+@keyframes h-skeleton-group-shimmer { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .h-skeleton-group::after, .h-sheet:where([data-hulmio-ui]), :where([data-hulmio-ui="skeleton"])[data-animation="shimmer"] { animation: none; transition: none; } :where([data-hulmio-ui="toast-provider"]) .h-toast-stack-item { transition: none; } }
+
+.h-sheet:where([data-hulmio-ui="modal"]):is(.drawer-bottom, .drawer-top) { max-width: 100%; width: 100%; }
+.h-sheet.h-sheet-detached:where([data-hulmio-ui="modal"]):is(.drawer-bottom, .drawer-top) { width: calc(100% - 24px); }
+
+:where([data-hulmio-ui="modal"]) .h-sheet-handle { position: absolute; top: 0; left: 0; right: 0; }
+
+:where([data-hulmio-ui="command-palette"]) .h-command-group > ul { margin: 0; overflow: visible; max-height: none; }
+:where([data-hulmio-ui="command-palette"]) .h-command-group-label { padding: 12px 10px 6px; color: var(--hulmio-muted); font-size: 12px; }
+:where([data-hulmio-ui="command-palette"]) li > button { display: flex; align-items: center; gap: 12px; }
+:where([data-hulmio-ui="command-palette"]) button:disabled { opacity: .45; cursor: not-allowed; }
+:where([data-hulmio-ui="command-palette"]) .h-command-copy { display: grid; gap: 3px; flex: 1; }
+:where([data-hulmio-ui="command-palette"]) small, :where([data-hulmio-ui="command-palette"]) kbd { color: var(--hulmio-muted); font-size: 12px; }
+
+.h-dialog-scroll-container { position: fixed; inset: 0; z-index: 60; overflow-y: auto; padding: 32px 16px; }
+.h-dialog-scroll-container > .dialog-content:where([data-hulmio-ui="modal"]) { position: relative; top: auto; left: auto; bottom: auto; transform: none; margin: 0 auto; max-height: none; overflow: visible; }

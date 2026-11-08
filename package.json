@@ -3,7 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "brand:sync": "node scripts/sync-brand.mjs",
     "dev": "npm run build:ui && vite --host 127.0.0.1",
@@ -12,27 +14,30 @@
     "pack:ui": "npm run build:ui && node scripts/pack-ui.mjs",
     "check:package": "node scripts/verify-package.mjs",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "playwright test"
+    "test": "playwright test",
+    "generate:examples": "node scripts/generate-parity.mjs && node scripts/generate-api.mjs",
+    "check:coverage": "node scripts/verify-parity.mjs"
   },
   "dependencies": {
-    "hulmio-ui": "0.1.0",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-tooltip": "^1.2.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.468.0",
+    "hulmio-ui": "0.1.0",
+    "lucide-react": "1.70.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "@tailwindcss/vite": "^4.1.13",
+    "@tanstack/react-table": "8.21.3",
     "@types/node": "^24.5.2",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.3",
-    "@playwright/test": "^1.55.0",
     "typescript": "~5.9.2",
     "vite": "^7.1.7"
   }

@@ -1,0 +1,12 @@
+import * as React from "react";
+import { Pagination } from "hulmio-ui";
+import "hulmio-ui/styles.css";
+
+export default function Example() {
+  const [page, setPage] = React.useState(5);
+  return (
+    <div style={{ display: "grid", gap: 16, width: "100%", maxWidth: 640, justifyItems: "start" }}>
+      <><style>{".custom-pagination [data-hulmio-ui] { border-radius: calc(var(--hulmio-radius-md) * 1.5); } .custom-pagination { padding: 20px; background: var(--hulmio-subtle); color: var(--hulmio-text); border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md); }"}</style><div className="custom-pagination"><Pagination page={page} totalPages={24} onPageChange={setPage}  /></div></>
+    </div>
+  );
+}

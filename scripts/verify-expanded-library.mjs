@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 
 export const expandedConsumerSource = `import { useState } from "react";
 import * as UI from "hulmio-ui";
-import { PillButton, BrutalistButton, GradientButton, Field, FilledInput, Select, FileUpload, Checkbox, Slider, Switch, MultiSelect, TagInput, PillTabs, DataTable, Modal, CommandPalette, Popover, Toolbar } from "hulmio-ui";
+import { Button, Field, Input, Select, NativeFileUpload, Checkbox, NativeSlider, Switch, NativeMultiSelect, TagInput, Tabs, DataTable, Modal, CommandPalette, Popover, Toolbar } from "hulmio-ui";
 import type { DataTableRow, SelectProps, NativeSelectProps } from "hulmio-ui";
 import { NativeSelect } from "hulmio-ui";
 import { AlertDialog, InputGroup, InputGroupInput, InputGroupAddon, ItemGroup, Item, ItemContent, ItemTitle, ItemDescription, ItemActions, Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption } from "hulmio-ui";
@@ -31,11 +31,15 @@ export default function ExpandedConsumer() {
   const nativeProps: NativeSelectProps = { label: "Native consumer workspace", defaultValue: "studio", options: selectProps.options };
   return <section aria-label="Expanded library" style={{ display: "grid", gap: 24, maxWidth: 650, marginBlock: 32 }}>
     <output hidden data-testid="public-exports">{Object.keys(UI).join(",")}</output>
-    <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}><PillButton data-testid="pill-design">Pill design</PillButton><BrutalistButton data-testid="brutalist-design">Brutalist design</BrutalistButton><GradientButton data-testid="gradient-design">Gradient design</GradientButton></div>
+    <style>{'.consumer-button[data-hulmio-ui] { background: rgb(18, 52, 86); color: white; }'}</style>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}><Button data-testid="base-button">Base button</Button><Button data-testid="custom-button" className="consumer-button" style={{ borderRadius: 18 }}>Custom button</Button></div>
+    <div style={{ "--hulmio-primary": "rgb(80, 40, 120)", "--hulmio-input-focus": "rgb(140, 140, 140)", "--hulmio-radius-md": "14px" } as import("react").CSSProperties}><Button data-testid="themed-button">Themed button</Button><Input label="Themed consumer input" /></div>
     <Field label="Consumer field" hint="A connected description"><input name="consumer-name" defaultValue="Good ideas" /></Field>
-    <FilledInput label="Filled consumer input" defaultValue="Inherited font" />
+    <Input label="Consumer input" defaultValue="Inherited font" />
     <Field label="Outer consumer label" hint="Outer consumer hint"><Select hint="Inner consumer hint" options={[{ value: "alpha", label: "Alpha" }]} /></Field>
     <Select {...selectProps} />
+    <Select label="Invalid consumer select" error="Choose a workspace" options={selectProps.options} />
+    <InputGroup aria-invalid="true"><InputGroupInput aria-label="Invalid consumer group" /></InputGroup>
     <output aria-label="Consumer workspace value">{workspace}</output>
     <form onSubmit={event => { event.preventDefault(); setSubmittedWorkspace(String(new FormData(event.currentTarget).get("workspace"))); }}><Select label="Required consumer workspace" name="workspace" required placeholder="Choose a workspace" options={selectProps.options} /><button type="submit">Submit consumer workspace</button><button type="reset">Reset consumer workspace</button></form>
     <output aria-label="Submitted consumer workspace">{submittedWorkspace}</output>
@@ -43,42 +47,42 @@ export default function ExpandedConsumer() {
     <form onReset={event => event.preventDefault()}><Select label="Canceled reset workspace" defaultValue="studio" options={selectProps.options} /><Select {...selectProps} label="Canceled controlled workspace" /><button type="reset">Prevent workspace reset</button></form>
     <form id="external-workspace-form"><button type="reset">Reset external workspace</button></form><Select label="External consumer workspace" name="externalWorkspace" form="external-workspace-form" defaultValue="studio" options={selectProps.options} />
     <form onSubmit={event => event.preventDefault()}><Select label="First required workspace" required placeholder="Choose first" options={selectProps.options} /><Select label="Second required workspace" required placeholder="Choose second" options={selectProps.options} /><button type="submit">Validate both workspaces</button></form>
-    <form><FileUpload label="Resettable upload" maxSize={2} /><button type="reset">Reset consumer upload</button></form>
+    <form><NativeFileUpload label="Resettable upload" maxSize={2} /><button type="reset">Reset consumer upload</button></form>
     <Checkbox label="Mixed consumer checkbox" indeterminate />
-    <Slider label="Stepped consumer slider" min={0} max={5} step={2} />
+    <NativeSlider label="Stepped consumer slider" min={0} max={5} step={2} />
     <Switch label="Consumer notifications" defaultChecked />
-    <MultiSelect label="Consumer interests" value={selected} onValueChange={setSelected} options={[{ value: "design", label: "Design" }, { value: "code", label: "Code" }]} />
+    <NativeMultiSelect label="Consumer interests" value={selected} onValueChange={setSelected} options={[{ value: "design", label: "Design" }, { value: "code", label: "Code" }]} />
     <output aria-label="Selected interests">{selected.join(",")}</output>
     <TagInput label="Consumer tags" value={tags} onValueChange={setTags} />
     <output aria-label="Consumer tag values">{tags.join(",")}</output>
-    <PillTabs label="Consumer perspectives" items={[{ value: "one", label: "First", content: "First perspective" }, { value: "two", label: "Unavailable", disabled: true }, { value: "three", label: "Third", content: "Third perspective" }]} />
+    <Tabs label="Consumer perspectives" items={[{ value: "one", label: "First", content: "First perspective" }, { value: "two", label: "Unavailable", disabled: true }, { value: "three", label: "Third", content: "Third perspective" }]} />
     <DataTable caption="Consumer tasks" rows={rows} columns={[{ key: "title", label: "Title", sortable: true }, { key: "status", label: "State" }]} pageSize={2} selectable editable onRowsChange={setRows} onSelectionChange={setRowIds} />
     <output aria-label="Selected row identities">{rowIds.join(",")}</output>
-    <form onSubmit={event => { event.preventDefault(); setSubmissions(count => count + 1); }}><div data-hulmio-theme="dark" ref={setPortal} style={{ padding: 18 }}><Modal title="Scoped consumer dialog" description="A dark subtree in a light document" portalContainer={portal} trigger={<PillButton>Open scoped dialog</PillButton>}><p>Theme travels with its portal container.</p></Modal><PillButton onClick={() => setCommandsOpen(true)}>Open consumer commands</PillButton><CommandPalette open={commandsOpen} onOpenChange={setCommandsOpen} portalContainer={portal} items={[{ id: "run", label: "Run consumer task", onSelect: () => setCommandAction("ran") }]} /></div></form>
+    <form onSubmit={event => { event.preventDefault(); setSubmissions(count => count + 1); }}><div data-hulmio-theme="dark" ref={setPortal} style={{ padding: 18 }}><Modal title="Scoped consumer dialog" description="A dark subtree in a light document" portalContainer={portal} trigger={<Button>Open scoped dialog</Button>}><p>Theme travels with its portal container.</p></Modal><Button onClick={() => setCommandsOpen(true)}>Open consumer commands</Button><CommandPalette open={commandsOpen} onOpenChange={setCommandsOpen} portalContainer={portal} items={[{ id: "run", label: "Run consumer task", onSelect: () => setCommandAction("ran") }]} /></div></form>
     <output aria-label="Consumer command action">{commandAction}</output><output aria-label="Consumer submissions">{submissions}</output>
-    <div ref={setPopoverRoot} style={{ transform: "translateZ(0)", padding: 16 }}><Popover title="Transformed consumer popover" portalContainer={popoverRoot} trigger={<PillButton>Open transformed consumer popover</PillButton>}><p>Content stays beside its trigger.</p></Popover></div>
+    <div ref={setPopoverRoot} style={{ transform: "translateZ(0)", padding: 16 }}><Popover title="Transformed consumer popover" portalContainer={popoverRoot} trigger={<Button>Open transformed consumer popover</Button>}><p>Content stays beside its trigger.</p></Popover></div>
     <Toolbar label="Consumer tools"><button type="button">First consumer tool</button><button type="button" disabled tabIndex={0}>Unavailable consumer tool</button><button type="button">Last consumer tool</button></Toolbar>
-    <AlertDialog {...confirmProps} trigger={<PillButton>Delete consumer file</PillButton>} confirmLabel="Delete file" destructive onConfirm={() => setDeleted(true)} />
+    <AlertDialog {...confirmProps} trigger={<Button>Delete consumer file</Button>} confirmLabel="Delete file" destructive onConfirm={() => setDeleted(true)} />
     <output aria-label="Consumer deleted">{String(deleted)}</output>
-    <form onSubmit={event => { event.preventDefault(); setSearch(String(new FormData(event.currentTarget).get("query"))); }}><InputGroup><InputGroupAddon>Find</InputGroupAddon><InputGroupInput {...searchProps} /><InputGroupAddon><PillButton type="submit" size="sm">Search consumer</PillButton></InputGroupAddon></InputGroup></form>
+    <form onSubmit={event => { event.preventDefault(); setSearch(String(new FormData(event.currentTarget).get("query"))); }}><InputGroup><InputGroupAddon>Find</InputGroupAddon><InputGroupInput {...searchProps} /><InputGroupAddon><Button type="submit" size="sm">Search consumer</Button></InputGroupAddon></InputGroup></form>
     <output aria-label="Consumer query">{search}</output>
     <ItemGroup aria-label="Consumer files"><Item {...itemProps}><ItemContent><ItemTitle>Readme</ItemTitle><ItemDescription>Installation notes</ItemDescription></ItemContent><ItemActions><a href="#readme">Read</a></ItemActions></Item></ItemGroup>
     <Table {...tableProps}><TableCaption>Invoice list</TableCaption><TableHeader><TableRow><TableHead>Invoice</TableHead><TableHead>Amount</TableHead></TableRow></TableHeader><TableBody><TableRow><TableHead scope="row">INV-001</TableHead><TableCell>$250.00</TableCell></TableRow></TableBody><TableFooter><TableRow><TableHead scope="row">Total</TableHead><TableCell>$250.00</TableCell></TableRow></TableFooter></Table>
   </section>;
 }`;
 
-export async function verifyExpandedConsumer(page, guideSource) {
-  const expected = [...guideSource.matchAll(/family\(\[([^\]]*)\]/g)].flatMap(match => [...match[1].matchAll(/"([^"]+)"/g)].map(item => item[1]));
+export async function verifyExpandedConsumer(page, families) {
+  const expected = Object.values(families).flatMap(family => family.exports);
   assert(expected.length >= 60, "Expected a comprehensive family export map.");
   const actual = (await page.getByTestId("public-exports").textContent()).split(",");
   for (const name of new Set(expected)) assert(actual.includes(name), `Advertised export is missing from installed package: ${name}`);
   const customSelect = page.getByRole("combobox", { name: "Controlled consumer workspace", exact: true });
   await customSelect.click();
+  assert.equal(await page.locator('.h-select-trigger[data-state="open"]').evaluate(element => getComputedStyle(element).outlineStyle), "none");
   await expect(page.getByRole("option", { name: "Studio", exact: true }).locator(".h-select-check")).toBeVisible();
   await page.getByRole("option", { name: "Personal", exact: true }).click();
   await expect(page.getByLabel("Consumer workspace value", { exact: true })).toHaveText("personal");
   await expect(customSelect).toBeFocused();
-  assert.equal(await customSelect.evaluate(element => getComputedStyle(element).outlineStyle), "none");
   const requiredSelect = page.getByRole("combobox", { name: "Required consumer workspace", exact: true });
   await page.getByRole("button", { name: "Submit consumer workspace", exact: true }).click();
   await expect(page.getByLabel("Submitted consumer workspace", { exact: true })).toHaveText("");
@@ -140,15 +144,28 @@ export async function verifyExpandedConsumer(page, guideSource) {
   await expect(simpleTable.getByRole("columnheader")).toHaveCount(2);
   await expect(simpleTable.getByRole("rowheader")).toHaveCount(2);
   assert.equal(await simpleTable.evaluate(element => getComputedStyle(element).borderCollapse), "collapse");
-  const pill = await page.getByTestId("pill-design").evaluate(element => getComputedStyle(element).borderRadius);
-  const brutalist = await page.getByTestId("brutalist-design").evaluate(element => getComputedStyle(element).borderRadius);
-  const gradient = await page.getByTestId("gradient-design").evaluate(element => getComputedStyle(element).backgroundImage);
-  assert(parseFloat(pill) > parseFloat(brutalist), "Named button designs should retain different shapes.");
-  assert(gradient.includes("gradient"), "GradientButton should carry its actual visual design.");
+  assert.equal(await page.getByTestId("base-button").evaluate(element => getComputedStyle(element).backgroundImage), "none");
+  assert.equal(await page.getByTestId("custom-button").evaluate(element => getComputedStyle(element).backgroundColor), "rgb(18, 52, 86)");
+  assert.equal(await page.getByTestId("custom-button").evaluate(element => getComputedStyle(element).borderRadius), "18px");
+  assert.equal(await page.getByTestId("themed-button").evaluate(element => getComputedStyle(element).backgroundColor), "rgb(80, 40, 120)");
+  assert.equal(await page.getByTestId("themed-button").evaluate(element => getComputedStyle(element).borderRadius), "14px");
+  const themedInput = page.getByLabel("Themed consumer input", { exact: true });
+  await themedInput.focus();
+  assert.deepEqual(await themedInput.evaluate(element => {
+    const shell = getComputedStyle(element.parentElement);
+    return [shell.outlineWidth, shell.outlineOffset, shell.outlineColor, shell.borderRadius];
+  }), ["2px", "2px", "rgb(140, 140, 140)", "14px"]);
+  const invalidSelect = page.getByRole("combobox", { name: "Invalid consumer select", exact: true });
+  await page.keyboard.press("Tab");
+  await invalidSelect.focus();
+  assert.equal(await invalidSelect.evaluate(element => getComputedStyle(element).outlineColor), await page.getByRole("alert").filter({ hasText: "Choose a workspace" }).evaluate(element => getComputedStyle(element).color));
+  const invalidGroup = page.getByRole("textbox", { name: "Invalid consumer group", exact: true });
+  await invalidGroup.focus();
+  assert.equal(await invalidGroup.evaluate(element => getComputedStyle(element.parentElement).outlineColor), await page.getByRole("alert").filter({ hasText: "Choose a workspace" }).evaluate(element => getComputedStyle(element).color));
   const field = page.getByLabel("Consumer field", { exact: true });
   const hint = await field.getAttribute("aria-describedby");
   assert(hint && await page.locator(`[id="${hint}"]`).textContent() === "A connected description");
-  assert.equal(await page.getByLabel("Filled consumer input").evaluate(element => getComputedStyle(element).fontFamily), await page.locator("body").evaluate(element => getComputedStyle(element).fontFamily));
+  assert.equal(await page.getByLabel("Consumer input", { exact: true }).evaluate(element => getComputedStyle(element).fontFamily), await page.locator("body").evaluate(element => getComputedStyle(element).fontFamily));
   const nestedDescriptions = await page.getByLabel("Outer consumer label", { exact: true }).evaluate(element => {
     const ids = element.getAttribute("aria-describedby").split(/\s+/);
     return ids.map(id => ({ count: document.querySelectorAll(`[id="${id}"]`).length, text: document.getElementById(id)?.textContent }));

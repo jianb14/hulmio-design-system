@@ -3,6 +3,340 @@
 Ito ang tala ng mga pagbabago para maintindihan ng owner ang bawat milestone.
 Dates use Asia/Manila.
 
+## 2026-11-08 - Full-library examples and shared API expansion
+
+Implemented the approved HeroUI v3.2.7 topic inventory using Hulmio components and
+styles. The catalog now contains 104 families and 1,147 source-backed examples,
+covering all 639 pinned reference sections and the 32 Hulmio-only checklists.
+Twenty dedicated entries add composed form/date/color controls, Autocomplete,
+TagGroup, Surface, Sheet and the related helpers. Existing routes and useful
+legacy examples remain available.
+
+Public APIs now support the demonstrated controlled values, validation, selection,
+loading, menus, calendars, virtualized collections/tables, async confirmations,
+sheet snap points and queued notifications. The gallery imports the actual TSX
+example modules and copies exactly those files; section links preserve demo state.
+Responsive indexes, actual TypeScript API tables and customization guidance are
+available on every component page. Native radio forms and example-local IDs keep
+multiple demonstrations independent.
+
+A fresh source review identified six important edge cases. Regression checks
+reproduced and fixed nested Sheet capture, swatch/collection form reset,
+validation messages, toast timer resumption and controlled color editing. Further
+verification fixed cancelled resets, RGB hue editing, swatch hex normalization,
+resizable panel IDs and corrupted close glyphs. Generated verification artifacts
+are excluded from Vite/Tailwind watching so tests cannot reload their own app.
+Follow-up source review reported no remaining Important issues in these remedies.
+
+Validation: production build, exact-source coverage and independent packed-consumer
+checks pass, including strict compilation of all 1,147 examples. Browser coverage
+contains 119 current checks; the complete run and affected reruns resolved every
+identified failure. The final 13-check run and branding recheck pass. All 104 pages
+mount their examples without runtime/React errors, duplicate IDs or ambiguous labels.
+Inspected 24 screenshots at 1440px, 768px and 390px in both themes, including open
+confirmation dialogs. See `docs/HEROUI-VALIDATION.md` and the implementation tracker
+for exact evidence. Package version/private status and existing Git staging remain
+unchanged; nothing was published or committed.
+
+## 2026-11-06 - HeroUI parity research and proposed full-library scope
+
+The owner requested HeroUI-style example coverage across every component while
+keeping Hulmio's design. The current evaluated registry contains 84 families and
+167 examples. Research retrieved all 73 English React component documents from
+HeroUI v3.2.7, tag commit `7cb1642606c6f96f424dad78a961ccf45436be72`, matching the
+version in the supplied screenshots. It identified 566 named example sections,
+including advanced Autocomplete examples, plus Basic usage and customization.
+
+`docs/HEROUI-PARITY.md` lists every target and current example. The structured
+snapshot in `docs/research/heroui-v3.2.7-coverage.json` records pinned source URLs,
+SHA-256 hashes, preview identifiers, API prop names and the complete existing
+inventory. The proposal adds 20 dedicated entries and covers the 32 existing
+Hulmio families without a HeroUI counterpart as well.
+
+The proposed design is in
+`docs/superpowers/specs/2026-11-06-heroui-parity-design.md`. A fresh builder review
+reported no important unanswered questions. A documentation consistency check
+passed for all 73 source hashes, all 84 existing families, 167 current examples,
+566 named sections, 20 proposed entries, 32 additional-family checklists and local
+document links. Every implementation status remains explicitly unverified.
+
+This milestone changes documentation only. Product implementation awaits the
+design approval required by the brainstorming skill. No build/browser/package
+tests were run for these research documents; existing product changes and Git
+staging were preserved.
+
+## 2026-11-06 - Responsive hover, category scrolling, search and copy follow-up
+
+The owner changed the mobile navbar hover preference to circles. Hamburger and
+theme controls now use circular backgrounds at 900px and below, retaining their
+44px hit areas. Desktop controls keep the existing corner radius.
+
+Catalog category links stay on one row with horizontal overflow and a thin native
+scrollbar instead of wrapping. The final category remains reachable by scrolling
+and clicking, and the document itself does not overflow.
+
+Shared Input search styles now suppress native browser clear decorations. The
+single Hulmio clear action has a 4px inset around its hover background via content
+clipping. It still updates controlled values and restores input focus; coarse
+pointer targets remain at least 44px. The package README documents this behavior.
+
+Mobile example-source copy toolbars have no extra side padding and sit 10px from
+the corner. The copy button uses 4px padding; an empty feedback label no longer
+leaves an icon gap. Complete source copying and the Copied feedback remain intact.
+
+Validation:
+- Observed all four new/updated regression checks fail before implementation.
+- `npm.cmd run build` passed; the existing large-bundle advisory remains.
+- 35 relevant Playwright checks passed against the production build, covering
+  catalog refinement, navbar, input focus/clear behavior, examples/copy and controls.
+- `npm.cmd run check:package` passed: installed tarball, 84 public families,
+  167 compiled examples, standalone CSS, host-style isolation and browser checks.
+  Its controlled search example now verifies the native reset, inset clear hover
+  and focus restoration without gallery styles.
+- Reviewed light/dark screenshots at 320/390/768/1440px and verified clearing in
+  touch mode with a target of at least 44px. Screenshots are in ignored
+  `artifacts/responsive-polish/`.
+- `git diff --check` passed for tracked files changed in this follow-up.
+
+Verification used Chrome. The whole gallery suite was not repeated for this
+scoped styling follow-up. No publishing or deployment.
+
+## 2026-11-06 - Theme transitions, catalog and navigation refinement
+
+Theme changes now crossfade the rendered page over 280ms with the native View
+Transition API. Initial rendering, reduced motion, and unsupported browsers use
+immediate updates. A revision guard prevents an earlier delayed transition from
+overwriting the latest theme choice. The delayed native callback regression was
+observed failing before the fix and passing afterward; a separate reviewer
+confirmed the corrected behavior.
+
+Removed sidebar link icons. The theme and hamburger buttons now have matching
+44 × 44px square hover areas and the shared 10px corner radius, as confirmed by
+the owner. Their pressed state keeps the same dimensions.
+
+The catalog retains two columns on phones with smaller preview areas, balanced
+padding, wrapping titles, and readable descriptions. Search uses the available
+width, with the result count below on narrow screens. Replaced the ambiguous
+icon-button artwork with heart/add/more symbols, corrected the joined button
+group without an extra divider path, and gave the input a real placeholder.
+Reviewed all 84 static thumbnails together and desktop/mobile screenshots in
+both themes.
+
+Added Foundations → Accessibility to navigation, command search, page titles,
+and active section state. The guide covers keyboard focus, contrast, labels and
+feedback, touch and reflow, reduced motion, and semantics. It includes a real
+labeled keyboard-usable form, a shipping checklist, and links to W3C guidance.
+
+Validation:
+- `npm.cmd run build` passed (existing large-chunk advisory remains).
+- Full gallery suite: 80/81 passed in the initial run; the homepage playground
+  check reset while source/build updates were occurring. All five homepage
+  checks passed on the subsequent stable-server rerun, together with all seven
+  refinement checks: 12/12 passed.
+- The whole-catalog check rendered every family distinctly. Existing system
+  checks covered all component pages on desktop and mobile.
+- Checked 16 widths from 320px through 1920px: no document/navbar horizontal
+  overflow; two catalog columns through 1000px, three through 1250px, four above.
+- `git diff --check` passed for the tracked files changed in this task.
+
+Screenshots are in ignored `artifacts/refinement/`. Browser verification used
+installed Chrome. No public package source/API/CSS changed in this task, so the
+independent package-consumer check was not repeated. No publication or deployment.
+
+## 2026-11-06 - Homepage motion, responsive composition and scrollbars
+
+Removed the scroll-linked scaling behind the hero playground. Entrances now use
+short opacity/translation effects when content reaches the viewport, run once on
+desktop and mobile, and preserve authored rotation. Row, picture and code
+treatments differ; fast scrolling skips content already readable in the screen.
+Reduced-motion changes cancel active animations and keep the static content.
+
+The fixed playground is now 566px tall, with 28px top stage padding and more space
+between form controls. The form stays fully visible while every tab retains the
+same outer height. Phone layouts use opposing headline alignment, a visible H
+frame, angled supporting cards and staggered category tiles. Tablet assembly
+descriptions align with their matching component previews. Compact desktop card
+placement keeps the Documentation link unobstructed across 1024–1440px.
+
+The entire website now uses thin scrollbars with thumb colors derived from each
+element's Hulmio theme tokens. This includes portaled search and nested light/dark
+previews. Removed the search input's rectangular outline while keeping a visible
+bottom-edge focus indicator; other keyboard focus remains available.
+
+Production build passes. Browser measurements at 320/390/768/1440/1920px report no
+horizontal overflow or clipped playground form, a steady hero backdrop and no page
+errors. Light/dark captures verify the search focus and scrollbar colors; a nested
+light customizer keeps light scrollbar colors inside a dark site. Independent
+review found and verified fixes for the mobile category entrance jump and the
+1024px supporting-card overlap. Regression tests reproduce both issues before the
+fix and pass afterward, including link hit testing at seven breakpoints.
+
+The visual inspector reports 0 failures and 7 documented style warnings with the
+same actual-UI/WAAPI allowances as the preceding milestone. All nine production
+contact sheets and direct phone/dark-mode captures were reviewed. Existing
+one-motif direction and brand assets are retained; final visual critique 7.9/10.
+Evidence: `artifacts/home-polish-final/`,
+`.taste-skill/home-motion-final/` and `.taste-skill/home-motion-critique.md`.
+
+Final production Playwright suite: **76 passed (4.6m)**, including the new motion,
+mobile stagger and link-hit regressions. Production animation recording confirms
+33 visibly fading targets on desktop and mobile, all returning to full opacity,
+and zero animations with reduced motion. Scoped `git diff --check` also passes.
+
+No public component API or package stylesheet changed, so the independent package
+consumer check was not repeated. Browser verification uses installed Chrome;
+Safari and Firefox remain untested. The production build retains its existing
+large-chunk advisory. No staging, commit, publication or deployment was performed.
+
+## 2026-11-06 - Navbar states, bounded playground and earlier scroll motion
+
+Search hover now changes only its border in both themes. Its keycap content is
+centered, and Search/theme controls keep their size on press. Shared library
+buttons retain their press feedback. GitHub uses one filled mark with a compact
+genuine count in a soft pill; its accessible name retains the complete total.
+Existing cache validation and unavailable-API behavior remain in place.
+
+Replaced both task workspaces and deleted the obsolete task/auth composition
+file. The hero now opens on a composed form inside a fixed-height playground.
+Visitors can switch Form/Button/Input/Badge/Tabs, try real variants and local
+actions, read matching JSX and open component documentation. Repeated interaction
+cannot extend the preview over later sections. A separate shared Card settings
+composition completes the assembly sequence. The narrowest customizer grid also
+uses a bounded track.
+
+Scroll entrances now begin 240px before arrival, have no nonhero delay and skip
+animation when fast scrolling already puts content inside the viewport. Heading,
+row, picture and code entrances have different treatments. Authored transforms,
+static smaller-screen/reduced-motion layouts and focus behavior are preserved.
+Production recording observed all 27 nonhero entrances before viewport arrival,
+zero delayed nonhero targets, zero scroll-induced layout shift and no page errors.
+
+Removed visible badge dots from the homepage, patterns, reference demos, nested
+examples, copyable source and badge artwork. Removed the Dot gallery option.
+The optional public Badge dot prop remains compatible for consuming apps.
+
+Verification and artifact paths are recorded in the homeplayground implementation
+ledger. Production build/types and the independent installed-package check pass,
+including all 84 public families and 167 compiled examples. Screenshots cover
+390/768/1440/1920px, light/dark, all assembly stages, complete form controls and
+code expansion. Independent review found no important issues in this scope.
+The final visual meter reports zero failures with documented product-UI/WAAPI
+allowances; the critique is under `.taste-skill/homeplayground-critique.md`.
+The final full Playwright run passed all 73 tests (6.0m), including the new
+navbar, dot-free badge, bounded preview and early-scroll regressions.
+The repository remains an uncommitted private local preview.
+
+## 2026-11-06 - Typography, theme, content and interaction refinement
+
+Onest is now the website's primary typeface, with Google Sans Flex secondary and
+IBM Plex Mono for code. Onest is self-hosted with its OFL notice and recorded
+source/hash. Removed the unused Instrument Serif assets and cursive styling.
+The public package now offers light and dark themes. System remains a website
+preference; saved high-contrast preferences migrate to light.
+
+Default rectangular surfaces, controls, menus and hovered rows share the input's
+10px radius token. Explicit square/pill/circle shapes, small image radii, choice
+indicators and consumer radius overrides remain supported. Code panels show a
+faded excerpt with a compact centered Expand code button. Copy works while
+collapsed and always includes the complete runnable example.
+
+The navbar has a longer search, aligned wordmark, GitHub icons with a genuine
+API star count and a border that appears after scrolling. Counts use a validated
+five-minute cache; unavailable API responses do not invent a count. Search closes
+back to its trigger with focus restored.
+
+The homepage now has six focused sections: overview, categories, assembly,
+variants, customization and installation. This supersedes the eight-section
+homepage recorded in the earlier milestone below. Removed repetitive sections
+and rewrote the content around the package's actual capabilities. Tablet panels
+sit below the workspace without covering controls. Desktop entrances preserve
+authored rotation/position through individual translate/scale animation. They run
+once and cancel for smaller screens or reduced motion; those layouts stay static.
+Scoped previews also set the native color-scheme to match their light/dark tokens.
+
+All 84 catalog families now have distinct static SVG artwork. Raster comparisons
+cover every family and check visibly different silhouettes for thirteen similar
+pairs, including Breadcrumbs/Pagination and Alert/Toast.
+
+Verification: the production build and all 62 Playwright tests passed. The fresh
+tarball installation check passed 84 public families, 167 compiled examples,
+strict public types, standalone CSS, consumer customization and browser behavior.
+Production screenshots were reviewed at 390, 768, 1440 and 1920px, including
+code expansion, dark theme and all assembly stages. Browser recording observed
+33 desktop entrance targets, zero mobile/tablet entrances, zero scroll-induced
+layout shift and no page errors. Independent review found no remaining important
+issues after the mobile motion fix. All five homepage tests also passed after
+the final wording, code readability and scoped native-theme polish. The
+refinement implementation ledger records commands and evidence paths.
+
+Evidence is under `artifacts/redesign/refinement-*`; visual critique and the
+before/after inspection are under `.taste-skill/refinement-*`. The final visual
+meter reports zero failures with explicit allowances for real component UI,
+the requested navigation border and WAAPI sampling limits. Its remaining warnings
+are documented in the critique. Vite retains the comprehensive gallery's bundle
+size warning. This remains a private local preview with no publication,
+deployment, staging or commit.
+
+## 2026-11-06 - Hulmio product and library redesign
+
+Expanded the shared React package to 84 component families with 167 runnable
+examples. Added the twenty approved menu, selection, display and layout families,
+custom searchable/date/number/OTP/upload controls, and explicit Native* alternatives.
+Useful variants now appear together in labeled examples. Input keeps its numeric
+native size attribute; Badge keeps the compatibility outline shorthand.
+
+Focus now follows Hulmio's theme color with a 2px ring and 2px gap, superseding
+the earlier neutral-ring pass below. Invalid fields retain red focus. Consumer
+overrides remain supported, and pressed/selected states do not create rings.
+
+The eight-section homepage composes working package controls, with desktop scroll
+assembly, reduced-motion/mobile fallbacks, theme switching, scoped customization
+and local installation code. The catalog uses static SVG artwork for every family.
+Detail pages keep previews visible above expandable highlighted code, with full
+example copying. Documentation and the surrounding shell follow the same identity.
+
+Independent review fixes preserve native Combobox selection callbacks, slider
+focus/keyboard props, cancelled resets, scoped rich-control portals, nested tab
+styles and srcSet-only images. Final verification is recorded in the redesign
+implementation ledger. Publication and deployment remain outside this work.
+
+Validation: production build passed; the final Playwright run passed all 52 tests.
+The independent tarball check passed fresh installation, strict public types and
+all 167 compiled examples, consumer build, customization, host-style isolation,
+native events/forms, scoped portals, mobile layout and reduced motion. Screenshots
+were inspected at 390, 768, 1440 and 1920px, including dark/contrast homepage
+layouts, themed focus rings and desktop assembly scroll states. Additional range,
+file-size and drop checks passed. The homepage follows saved theme preferences.
+Vite reports a bundle-size warning for the comprehensive gallery. No publication,
+deployment or commit was performed.
+
+## 2026-11-06 - Shared focus ring and simpler component designs
+
+Text fields use one neutral 2px focus outline with a 2px gap, matching the supplied
+reference. Input, Input Group, tags, textarea, native fields, date/number inputs,
+selects, table editors, command search, and earlier gallery compositions share the
+focus treatment. Composite fields draw the ring on their shell. Invalid Input,
+Select, and Input Group keep red error rings, including invalid states on a group.
+Choice controls retain visible keyboard focus. Pressed action controls have no
+outline; keyboard focus indicators remain available.
+
+Removed the named decorative Button/Input/Card/Badge/Tabs presets and their CSS,
+exports, gallery options, homepage controls, and related reference galleries. The
+64 component families now have 73 package examples. Semantic variants, sizes,
+loading/disabled behavior, native props, refs, and styling hooks remain available.
+Updated the quick start, owner guide, package README, and consumer examples to use
+the base components. The package guide documents customization through className,
+style, and CSS variables, including primary color, radius, font, and input focus.
+
+Validation: production build passed; all 26 Playwright tests passed. Desktop and
+mobile focus/pressed screenshots were inspected; light, dark, and contrast rings
+were checked. Independent installed-consumer behavior and customization checks
+passed. `npm run check:package` also passed with a fresh tarball installation,
+TypeScript compile, consumer build, and browser checks. Existing font-loading
+assertions now wait for font readiness. Independent source review found no
+remaining substantive issues. Local preview remains private; no publication or
+deployment performed.
+
 ## 2026-11-04 · Control states, custom select and sidebar hierarchy
 
 Pantay na ang Getting started / Foundations headings at category headings; may

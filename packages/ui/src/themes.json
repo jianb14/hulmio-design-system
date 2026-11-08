@@ -53,32 +53,5 @@
     "danger-bg": "#3e2c2a",
     "info-bg": "#263749",
     "shadow": "0 4px 24px #0002"
-  },
-  "contrast": {
-    "background": "#000",
-    "surface": "#101010",
-    "sidebar": "#080808",
-    "text": "#fff",
-    "muted": "#e0e0e0",
-    "border": "#b8b8b8",
-    "control-border": "#fff",
-    "subtle": "#252525",
-    "primary": "#e5ff78",
-    "primary-hover": "#d9f26c",
-    "on-primary": "#000",
-    "lime": "#e5ff78",
-    "on-lime": "#000",
-    "soft": "#2c351c",
-    "focus": "#e5ff78",
-    "success": "#b3ffbb",
-    "warning": "#ffe8a0",
-    "danger": "#ffb3a8",
-    "info": "#b9ddff",
-    "overlay": "#000c",
-    "success-bg": "#162819",
-    "warning-bg": "#302a14",
-    "danger-bg": "#301c19",
-    "info-bg": "#182735",
-    "shadow": "none"
   }
 }

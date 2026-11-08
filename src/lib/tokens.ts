@@ -48,9 +48,9 @@ export const tokens = {
     disabled: theme["control-border"],
   }])),
   font: {
-    body: "Google Sans Flex",
-    display: "Google Sans Flex",
-    editorial: "Instrument Serif",
+    body: "Onest",
+    display: "Onest",
+    secondary: "Google Sans Flex",
     mono: "IBM Plex Mono",
     weights: [400, 450, 500, 550, 600, 650, 700],
     sizes: {
@@ -89,7 +89,7 @@ export const tokens = {
   radius: {
     none: "0",
     sm: "4px",
-    md: "8px",
+    md: "10px",
     lg: "12px",
     xl: "16px",
     "2xl": "24px",

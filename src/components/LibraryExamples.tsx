@@ -1,28 +1,26 @@
+import { AdditionalExample } from "./AdditionalExamples";
+import { additionalFamilies } from "../lib/additional";
+import { VariantExample } from "./VariantExamples";
+import { libraryFamilies } from "../lib/distribution";
+import { variantExamples } from "../lib/variantExamples";
 import { useId, useState } from "react";
 import type { ReactNode } from "react";
 import {
-  Accordion, Alert, AspectRatio, Avatar, AvatarGroup, Badge, Breadcrumbs, Button,
-  ButtonGroup, ButtonLink, Card, Carousel, Chart, Checkbox, ClassicButton,
-  Collapsible, ColorPicker, Combobox, CommandPalette, Container, DataTable,
+  CodeBlock, Accordion, Alert, AspectRatio, Avatar, AvatarGroup, Badge, Breadcrumbs, Button,
+  ButtonGroup, ButtonLink, Card, Carousel, Chart, Checkbox, Collapsible, ColorPicker, Combobox, CommandPalette, Container, DataTable,
   DatePicker, DateRangePicker, Dialog, DialogClose, Drawer, DropdownMenu,
-  ElevatedButton, ElevatedCard, EmptyState, Field, FileUpload, FilledInput,
-  Form, GlassButton, GradientButton, Grid, Heading, IconButton, Input, Kbd,
-  Kanban, Label, MultiSelect, Navbar, NumberInput, OtpInput, OutlineBadge,
-  OutlineButton, OutlinedCard, OutlineInput, Pagination, PillButton, PillTabs,
-  Popover, Progress, RadioGroup, Rating, ScrollArea, Select, Separator,
-  Sidebar, Skeleton, Slider, SoftBadge, SoftButton, SoftCard, Spinner,
+  EmptyState, Field, FileUpload, Form, Grid, Heading, IconButton, Input, Kbd,
+  Kanban, Label, MultiSelect, Navbar, NumberInput, OtpInput, Pagination, Popover, Progress, RadioGroup, Rating, ScrollArea, Select, Separator,
+  Sidebar, Skeleton, Slider, Spinner,
   Stack, Stepper, Switch, Tabs, TagInput, Text, Textarea, Timeline,
-  Toast, Toggle, ToggleGroup, Toolbar, Tooltip, UnderlineInput,
-  UnderlineTabs, BrutalistButton, AlertDialog, InputGroup, InputGroupAddon,
+  Toast, Toggle, ToggleGroup, Toolbar, Tooltip, AlertDialog, InputGroup, InputGroupAddon,
   InputGroupInput, Item, ItemGroup, ItemContent, ItemTitle, ItemDescription,
   ItemActions, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption,
 } from "hulmio-ui";
 import type { Size, Variant } from "hulmio-ui";
 import { ArrowRight, Check, Copy, Plus, Search } from "lucide-react";
-import { buttonDesigns } from "../lib/distribution";
 import type { LibraryDesign } from "../lib/distribution";
 
-const namedButtons = { ClassicButton, PillButton, SoftButton, OutlineButton, ElevatedButton, GradientButton, BrutalistButton, GlassButton };
 const variants: Variant[] = ["primary", "secondary", "outline", "ghost", "link", "destructive", "soft", "success", "warning", "information"];
 const sizes: Size[] = ["xs", "sm", "md", "lg", "xl"];
 
@@ -40,47 +38,31 @@ function CopyExample({ code }: { code: string }) {
       setCopyFailed(true);
     }
   };
-  return <div className="library-copy-action"><button type="button" onClick={copy} aria-label="Copy import example">{copied ? <Check size={15} /> : <Copy size={15} />}<span aria-live="polite">{copied ? "Copied" : "Copy"}</span></button>{copyFailed && <span className="library-copy-help" role="status">Open Code and select the example to copy.</span>}</div>;
+  return <div className="library-copy-action"><button type="button" onClick={copy} aria-label="Copy code">{copied ? <Check size={15} /> : <Copy size={15} />}<span aria-live="polite">{copied ? "Copied" : ""}</span></button>{copyFailed && <span className="library-copy-help" role="status">Expand code and select the example to copy.</span>}</div>;
 }
 
 export function ExamplePreview({ code, label, children }: { code: string; label: string; children: ReactNode }) {
   const id = useId();
-  const [view, setView] = useState("preview");
+  const [expanded, setExpanded] = useState(false);
   return <div className="library-example">
-    <div className="library-example-bar">
-      <div role="tablist" aria-label={`${label} example`} className="library-example-tabs" onKeyDown={event => {
-        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
-        event.preventDefault();
-        const next = event.key === "Home" ? "preview" : event.key === "End" ? "code" : view === "preview" ? "code" : "preview";
-        setView(next);
-        document.getElementById(`${id}-${next}-tab`)?.focus();
-      }}>
-        {(["preview", "code"] as const).map(value => <button key={value} id={`${id}-${value}-tab`} type="button" role="tab" aria-selected={view === value} aria-controls={`${id}-${value}-panel`} tabIndex={view === value ? 0 : -1} onClick={() => setView(value)}>{value === "preview" ? "Preview" : "Code"}</button>)}
-      </div>
-      <CopyExample code={code} />
+    <div className="library-preview" aria-label={`${label} preview`}>{children}</div>
+    <div className={`example-source${expanded ? " is-expanded" : ""}`}>
+      <div className="example-source-bar"><CopyExample code={code} /></div>
+      {!expanded && <div className="example-code-excerpt" aria-label="Code preview"><CodeBlock code={code.split("\n").slice(0, 8).join("\n")} showLineNumbers tabIndex={-1} /></div>}
+      <div id={`${id}-code`} className="library-code" hidden={!expanded}><CodeBlock code={code} showLineNumbers aria-label="Import example" /></div>
+      <div className="example-toggle-wrap"><Button variant="outline" size="sm" shape="pill" className="example-code-toggle" aria-expanded={expanded} aria-controls={`${id}-code`} onClick={() => setExpanded(!expanded)}>{expanded ? "Collapse code" : "Expand code"}</Button></div>
     </div>
-    <div id={`${id}-preview-panel`} role="tabpanel" aria-labelledby={`${id}-preview-tab`} hidden={view !== "preview"}>{children}</div>
-    <div id={`${id}-code-panel`} className="library-code" role="tabpanel" aria-labelledby={`${id}-code-tab`} hidden={view !== "code"}><pre tabIndex={0} aria-label="Import example"><code>{code}</code></pre></div>
   </div>;
 }
 
-export function ButtonDesignExample({ design }: { design: (typeof buttonDesigns)[number] }) {
-  const [variant, setVariant] = useState<Variant>("primary");
-  const [size, setSize] = useState<Size>("md");
-  const [state, setState] = useState("default");
-  const ButtonDesign = namedButtons[design.exportName];
-  const code = `import { ${design.exportName} } from "hulmio-ui";\nimport "hulmio-ui/styles.css";\n\nexport default function App() {\n  return (\n    <${design.exportName}\n      variant="${variant}"\n      size="${size}"${state === "disabled" ? "\n      disabled" : ""}${state === "loading" ? "\n      loading" : ""}\n    >\n      Get started\n    </${design.exportName}>\n  );\n}`;
-  return <article className={`library-design library-button-design library-design-${design.design}`} data-library-design={design.design}>
-    <header><h2>{design.name}</h2><p>{design.description}</p></header>
-    <ExamplePreview code={code} label={`${design.name} button`}>
-    <div className="library-button-stage"><ButtonDesign variant={variant} size={size} disabled={state === "disabled"} loading={state === "loading"}>Get started{design.design !== "classic" && <ArrowRight size={16} aria-hidden="true" />}</ButtonDesign></div>
-    <div className="library-design-controls">
-      <Select label="Variant" aria-label={`${design.name} button variant`} value={variant} onValueChange={value => setVariant(value as Variant)} options={variants.map(value => ({ value, label: value }))} />
-      <Select label="Size" aria-label={`${design.name} button size`} value={size} onValueChange={value => setSize(value as Size)} options={sizes.map(value => ({ value, label: value.toUpperCase() }))} />
-      <Select label="State" aria-label={`${design.name} button state`} value={state} onValueChange={setState} options={[{ value: "default", label: "Default" }, { value: "disabled", label: "Disabled" }, { value: "loading", label: "Loading" }]} />
-    </div>
-    </ExamplePreview>
-  </article>;
+export function ButtonExample() {
+  const group = (title: string, source: string, children: ReactNode, key: string) => <article className="library-design library-button-design" data-library-design={key} key={key}><header><h2>{title}</h2></header><ExamplePreview code={libraryFamilies.button.designs.find(example => example.name === title)?.code ?? `import { Button } from "hulmio-ui";\nimport "hulmio-ui/styles.css";\n\nexport default function App() {\n  return (\n    <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>\n${source}\n    </div>\n  );\n}`} label={title}><div className="library-button-stage">{children}</div></ExamplePreview></article>;
+  return <>
+    {group("Variants", variants.map(variant => `      <Button variant="${variant}">${variant[0].toUpperCase() + variant.slice(1)}</Button>`).join("\n"), variants.map(variant => <Button key={variant} variant={variant}>{variant[0].toUpperCase() + variant.slice(1)}</Button>), "Button")}
+    {group("Sizes", sizes.map(size => `      <Button size="${size}">Button ${size.toUpperCase()}</Button>`).join("\n"), sizes.map(size => <div className="variant-sample" key={size}><Button size={size}>Button</Button><span>{size.toUpperCase()}</span></div>), "ButtonSizes")}
+    {group("Shapes and icons", '      <Button shape="rounded">Rounded</Button>\n      <Button shape="pill">Pill</Button>\n      <Button shape="square">Square</Button>\n      <Button aria-label="Add item" shape="circle">+</Button>\n      <Button><span aria-hidden="true">+</span> Create project</Button>', <><Button shape="rounded">Rounded</Button><Button shape="pill">Pill</Button><Button shape="square">Square</Button><Button shape="circle" aria-label="Add item">+</Button><Button><span aria-hidden="true">+</span> Create project</Button></>, "ButtonShapes")}
+    {group("States and full width", '      <Button loading>Saving changes</Button>\n      <Button disabled>Unavailable</Button>\n      <Button fullWidth>Continue to workspace</Button>', <><Button loading>Saving changes</Button><Button disabled>Unavailable</Button><Button fullWidth>Continue to workspace</Button></>, "ButtonStates")}
+  </>;
 }
 
 const workspaceOptions = [{ value: "studio", label: "Design studio" }, { value: "personal", label: "Personal" }, { value: "archive", label: "Archive", disabled: true }];
@@ -113,14 +95,18 @@ export function LibraryExample({ id, design }: { id: string; design?: LibraryDes
     { id: "3", title: "Choose a direction", column: "done", description: "A shared starting point." },
   ]);
   const exportName = design?.exportName;
+  if (additionalFamilies[id]) return <AdditionalExample id={id} exampleName={design?.name} />;
+  if (design && variantExamples[id]?.some(example => example.name === design.name)) return <VariantExample name={design.name} />;
   switch (id) {
-    case "button": return <ClassicButton>Get started</ClassicButton>;
+    case "button": return <Button>Get started</Button>;
     case "icon-button": return <IconButton label="Add item"><Plus size={20} /></IconButton>;
     case "button-group": return <ButtonGroup label="Document actions"><Button variant="outline">Print</Button><Button>Save</Button></ButtonGroup>;
     case "input": {
+      if (design?.name === "Input sizes") return <div className="library-example-stack"><Input label="Small" controlSize="sm" placeholder="Small input" /><Input label="Medium" placeholder="Medium input" /><Input label="Large" controlSize="lg" placeholder="Large input" /></div>;
+      if (design?.name === "Password and search") return <div className="library-example-stack"><Input label="Password" type="password" placeholder="Enter your password" /><Input label="Search" type="search" placeholder="Find a project" clearable /></div>;
+      if (design?.name === "Readonly and disabled") return <div className="library-example-stack"><Input label="Readonly workspace" readOnly defaultValue="Hulmio Studio" /><Input label="Disabled workspace" disabled placeholder="Unavailable" /></div>;
       if (design?.name === "Invalid input") return <Input label="Invalid email" type="email" defaultValue="alex@" error="Enter a valid email address." />;
-      const InputDesign = exportName === "FilledInput" ? FilledInput : exportName === "UnderlineInput" ? UnderlineInput : OutlineInput;
-      return <InputDesign label="Email" type="email" placeholder="you@example.com" helper="A little space for a useful hint." />;
+      return <Input label="Email" variant={design?.name === "Filled input" ? "filled" : design?.name === "Underline input" ? "underline" : "outline"} type="email" placeholder="you@example.com" />;
     }
     case "textarea": return <Textarea label="Your message" placeholder="Tell us a little more…" maxLength={240} showCount />;
     case "otp-input": return <OtpInput label="Verification code" length={6} name="code" />;
@@ -138,13 +124,11 @@ export function LibraryExample({ id, design }: { id: string; design?: LibraryDes
     case "slider": return <Slider label="Volume" name="volume" min={0} max={100} step={5} defaultValue={60} />;
     case "rating": return <Rating label="Your rating" name={uid} max={5} defaultValue={4} />;
     case "badge": {
-      const BadgeDesign = exportName === "SoftBadge" ? SoftBadge : exportName === "OutlineBadge" ? OutlineBadge : Badge;
-      return <div className="library-example-row"><BadgeDesign tone="success" dot>Available</BadgeDesign><BadgeDesign tone="warning">In review</BadgeDesign><BadgeDesign tone="neutral">Draft</BadgeDesign></div>;
+      return <div className="library-example-row"><Badge tone="success">Available</Badge><Badge tone="warning">In review</Badge><Badge tone="neutral">Draft</Badge></div>;
     }
     case "avatar": return exportName === "AvatarGroup" ? <AvatarGroup names={["Alex Morgan", "Jules Santos", "Morgan Lee", "Riley Chen"]} max={3} /> : <Avatar name="Alex Morgan" size="lg" status="online" />;
     case "card": {
-      const CardDesign = exportName === "SoftCard" ? SoftCard : exportName === "OutlinedCard" ? OutlinedCard : exportName === "ElevatedCard" ? ElevatedCard : Card;
-      return <CardDesign title="A place for your next idea" description="Bring the details together."><p>Made for the way you work, with space for what matters.</p></CardDesign>;
+      return <Card title="A place for your next idea" description="Bring the details together."><p>Made for the way you work, with space for what matters.</p></Card>;
     }
     case "table": return <div className="library-example-stack"><DataTable caption="Project tasks" columns={[{ key: "title", label: "Task", sortable: true }, { key: "status", label: "Status", sortable: true }]} rows={rows} onRowsChange={setRows} rowKey="id" pageSize={3} selectable editable expandable onSelectionChange={ids => setSelectionCount(ids.length)} renderExpanded={row => <p>Details for {row.title}. Edit cells or select a row to explore the table.</p>} /><output>{selectionCount} selected</output></div>;
     case "accordion": return <Accordion items={[{ id: "install", title: "How do I install Hulmio?", content: "Install the local package and import its stylesheet." }, { id: "fonts", title: "Can I use my own font?", content: "Yes. Components inherit your app’s font." }, { id: "coming", title: "An unavailable section", content: "Not available.", disabled: true }]} />;
@@ -155,8 +139,7 @@ export function LibraryExample({ id, design }: { id: string; design?: LibraryDes
     }
     case "carousel": return <Carousel label="Project highlights" items={[<div className="library-carousel-item" key="1"><span>01</span><h3>Start with a good idea.</h3><p>A clear beginning makes the next step easier.</p></div>, <div className="library-carousel-item" key="2"><span>02</span><h3>Make room for the details.</h3><p>The small things shape the whole experience.</p></div>, <div className="library-carousel-item" key="3"><span>03</span><h3>Build something useful.</h3><p>Good design becomes something people can use.</p></div>]} />;
     case "tabs": {
-      const TabsDesign = exportName === "PillTabs" ? PillTabs : exportName === "UnderlineTabs" ? UnderlineTabs : Tabs;
-      return <TabsDesign label="Project sections" defaultValue="overview" items={tabItems} />;
+      return <Tabs label="Project sections" defaultValue="overview" items={tabItems} />;
     }
     case "breadcrumbs": return <Breadcrumbs items={[{ label: "Home", href: "#/" }, { label: "Components", href: "#/components" }, { label: "Breadcrumbs" }]} />;
     case "pagination": return <div className="library-example-stack"><Pagination page={page} totalPages={5} onPageChange={setPage} /><output>Page {page} of 5</output></div>;

@@ -1,0 +1,10 @@
+import { CodeBlock, Clipboard } from "hulmio-ui";
+import "hulmio-ui/styles.css";
+
+export default function Example() {
+  return (
+    <div style={{ display: "grid", gap: 16, width: "100%", maxWidth: 640, justifyItems: "start" }}>
+      <CodeBlock code={"const project = \"A detailed project title that remains selectable and scrolls inside the source container without widening the document.\";"} language="tsx"  aria-label="Example component code"  />
+    </div>
+  );
+}

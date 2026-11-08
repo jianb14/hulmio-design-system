@@ -1,6 +1,15 @@
 {
-  "downloaded_on": "2026-11-04",
+  "downloaded_on": "2026-11-06",
   "fonts": [
+    {
+      "family": "onest",
+      "file": "onest-latin.woff2",
+      "source": "https://fonts.gstatic.com/s/onest/v11/gNMKW3F-SZuj7xmf-HY.woff2",
+      "css_source": "https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap",
+      "license_source": "https://raw.githubusercontent.com/google/fonts/main/ofl/onest/OFL.txt",
+      "bytes": 33760,
+      "sha256": "052df74533250c2e0ca0c4bdd32de594e107d99c1648e63820ef9c6142067828"
+    },
     {
       "family": "google-sans-flex",
       "file": "google-sans-flex-latin.woff2",
@@ -8,22 +17,6 @@
       "css_source": "https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..1000&display=swap",
       "bytes": 51128,
       "sha256": "ca6f390b8a995c7a9b1c8b66aec2059d0cf68f53a358d3a9d09a4bc69d5b7f43"
-    },
-    {
-      "family": "instrument-serif",
-      "file": "instrument-serif-italic-latin.woff2",
-      "source": "https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zAjjH7M.woff2",
-      "css_source": "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap",
-      "bytes": 22128,
-      "sha256": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7"
-    },
-    {
-      "family": "instrument-serif",
-      "file": "instrument-serif-latin.woff2",
-      "source": "https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjg.woff2",
-      "css_source": "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap",
-      "bytes": 21032,
-      "sha256": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31"
     },
     {
       "family": "ibm-plex-mono",

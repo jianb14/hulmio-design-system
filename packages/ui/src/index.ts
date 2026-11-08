@@ -2,7 +2,7 @@
 
 import "./styles.css";
 export { Button } from "./Button";
-export type { ButtonProps, ButtonDesign, Variant, Size } from "./Button";
+export type { ButtonProps, ButtonRenderState, Variant, Size } from "./Button";
 export * from "./Actions";
 export * from "./Controls";
 export * from "./Select";
@@ -18,3 +18,15 @@ export type { InputProps } from "./Input";
 export { Modal, Modal as Dialog, DialogClose } from "./Modal";
 export type { ModalProps } from "./Modal";
 export { default as themeTokens } from "./themes.json";
+export * from "./CodeBlock";
+export * from "./AdditionalOverlays";
+export * from "./AdditionalSelection";
+export * from "./AdditionalDisplay";
+export * from "./AdditionalLayout";
+export * from "./RichControls";
+export * from "./FormFields";
+export * from "./ColorControls";
+export { ColorSwatch } from "./ColorControls";
+export * from "./Surface";
+export * from "./Sheet";
+export * from "./ToastProvider";

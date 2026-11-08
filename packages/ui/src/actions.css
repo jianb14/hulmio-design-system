@@ -1,4 +1,4 @@
-/* Named designs share semantics and keep consumer styles scoped. */
+/* Action styles stay scoped to the shared components. */
 .h-button:where([data-hulmio-ui]) {
   --h-button-tone: var(--hulmio-primary);
   --h-button-bg: var(--hulmio-primary);
@@ -8,7 +8,7 @@
   justify-content: center;
   gap: .5rem;
   border: 1px solid transparent;
-  border-radius: var(--hulmio-radius-md, 8px);
+  border-radius: var(--hulmio-radius-md, 10px);
   background: var(--h-button-bg);
   color: var(--h-button-fg);
   font-family: inherit;
@@ -37,15 +37,6 @@
 .h-button:where([data-hulmio-ui]).button-md { min-height: 42px; padding: 10px 16px; font-size: 14px; }
 .h-button:where([data-hulmio-ui]).button-lg { min-height: 48px; padding: 12px 21px; font-size: 16px; }
 .h-button:where([data-hulmio-ui]).button-xl { min-height: 56px; padding: 15px 26px; font-size: 18px; }
-.h-button:where([data-hulmio-ui])[data-design="pill"] { border-radius: 9999px; padding-inline: 1.5em; letter-spacing: .01em; }
-.h-button:where([data-hulmio-ui])[data-design="soft"] { background: color-mix(in srgb, var(--h-button-tone) 12%, var(--hulmio-surface)); color: var(--h-button-tone); border-color: color-mix(in srgb, var(--h-button-tone) 10%, transparent); border-radius: 12px; }
-.h-button:where([data-hulmio-ui])[data-design="outline"] { background: transparent; color: var(--h-button-tone); border: 1px solid var(--hulmio-control-border); }
-.h-button:where([data-hulmio-ui])[data-design="elevated"] { border-color: color-mix(in srgb, var(--h-button-tone) 45%, var(--hulmio-border)); box-shadow: 0 3px 0 color-mix(in srgb, var(--h-button-tone) 55%, var(--hulmio-surface)), 0 6px 14px color-mix(in srgb, var(--h-button-tone) 12%, transparent); }
-.h-button:where([data-hulmio-ui])[data-design="gradient"] { background: linear-gradient(115deg, var(--h-button-bg), color-mix(in srgb, var(--h-button-bg) 75%, var(--h-button-fg))); border-color: color-mix(in srgb, var(--h-button-tone) 40%, transparent); border-radius: 10px; }
-.h-button:where([data-hulmio-ui])[data-design="brutalist"] { border: 2px solid var(--hulmio-text); border-radius: 0; box-shadow: 4px 4px 0 var(--hulmio-text); font-weight: 700; }
-.h-button:where([data-hulmio-ui])[data-design="glass"] { background: color-mix(in srgb, var(--hulmio-surface) 75%, transparent); color: var(--h-button-tone); border-color: color-mix(in srgb, var(--h-button-tone) 25%, transparent); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--hulmio-text) 8%, transparent), 0 3px 10px color-mix(in srgb, var(--h-button-tone) 8%, transparent); backdrop-filter: blur(12px); border-radius: 14px; }
-.h-button:where([data-hulmio-ui]):is([data-design="soft"], [data-design="outline"], [data-design="glass"]):hover:not(:disabled) { background: color-mix(in srgb, var(--h-button-tone) 17%, var(--hulmio-surface)); }
-.h-button:where([data-hulmio-ui])[data-design="gradient"]:hover:not(:disabled) { background: linear-gradient(115deg, var(--h-button-bg), color-mix(in srgb, var(--h-button-bg) 65%, var(--h-button-fg))); }
 .h-button:where([data-hulmio-ui]).rounded-full { border-radius: 9999px; }
 .h-button:where([data-hulmio-ui]).rounded-none { border-radius: 0; }
 .h-button:where([data-hulmio-ui]).p-0 { padding: 0; }
@@ -54,13 +45,13 @@
 :where([data-hulmio-ui]) .h-toggle-option:has(input:focus-visible),
 .h-toggle:where([data-hulmio-ui]):focus-visible { outline: 2px solid var(--hulmio-focus); outline-offset: 0; }
 .h-icon-button:where([data-hulmio-ui]) { aspect-ratio: 1; padding-inline: .65em; }
-.h-button-group:where([data-hulmio-ui]) { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 1px; border-radius: var(--hulmio-radius-md, 8px); }
+.h-button-group:where([data-hulmio-ui]) { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 1px; border-radius: var(--hulmio-radius-md, 10px); }
 .h-button-group:where([data-hulmio-ui]) > .h-button { position: relative; border-radius: 0; }
 .h-button-group:where([data-hulmio-ui]) > .h-button:first-child { border-start-start-radius: inherit; border-end-start-radius: inherit; }
 .h-button-group:where([data-hulmio-ui]) > .h-button:last-child { border-start-end-radius: inherit; border-end-end-radius: inherit; }
 .h-button-group:where([data-hulmio-ui]) > .h-button:focus-visible { z-index: 1; }
 .h-toggle:where([data-hulmio-ui]),
-:where([data-hulmio-ui="toggle-group"]) .h-toggle-option { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 8px 14px; border: 1px solid var(--hulmio-control-border); border-radius: var(--hulmio-radius-md, 8px); background: var(--hulmio-surface); color: var(--hulmio-text); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
+:where([data-hulmio-ui="toggle-group"]) .h-toggle-option { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 8px 14px; border: 1px solid var(--hulmio-control-border); border-radius: var(--hulmio-radius-md, 10px); background: var(--hulmio-surface); color: var(--hulmio-text); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
 .h-toggle:where([data-hulmio-ui])[aria-pressed="true"],
 :where([data-hulmio-ui="toggle-group"]) .h-toggle-option:has(input:checked) { background: var(--hulmio-soft); color: var(--hulmio-primary); border-color: var(--hulmio-primary); }
 .h-toggle:where([data-hulmio-ui]):disabled,
@@ -70,3 +61,25 @@
 :where([data-hulmio-ui="toggle-group"]) .h-toggle-option input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 @media (pointer: coarse) { .h-button:where([data-hulmio-ui]), .h-toggle:where([data-hulmio-ui]), :where([data-hulmio-ui="toggle-group"]) .h-toggle-option { min-height: 44px; } }
 @media (prefers-reduced-motion: reduce) { .h-button:where([data-hulmio-ui]) { transition: none; } }
+
+.h-button:where([data-hulmio-ui])[data-variant="tertiary"] { --h-button-bg: var(--hulmio-subtle); --h-button-fg: var(--hulmio-text); }
+.h-button:where([data-hulmio-ui])[data-variant="destructive-soft"] { --h-button-tone: var(--hulmio-danger); --h-button-bg: var(--hulmio-danger-bg); --h-button-fg: var(--hulmio-danger); }
+.h-button:where([data-hulmio-ui])[data-ripple] { position: relative; isolation: isolate; overflow: hidden; }
+.h-button:where([data-hulmio-ui])[data-ripple]:active::after { content: ""; position: absolute; inset: -50%; border-radius: 50%; background: currentColor; pointer-events: none; opacity: .1; animation: hulmio-ripple .5s ease-out; }
+@keyframes hulmio-ripple { from { transform: scale(0); opacity: .3; } to { transform: scale(1); opacity: .1; } }
+.h-button-spinner { display: inline-flex; align-items: center; }
+.h-button-group:where([data-hulmio-ui])[data-orientation="vertical"],
+.h-toggle-group:where([data-hulmio-ui])[data-orientation="vertical"] { flex-direction: column; align-items: stretch; }
+.h-button-group:where([data-hulmio-ui])[data-orientation="vertical"] > .h-button:first-child { border-radius: var(--hulmio-radius-md, 10px) var(--hulmio-radius-md, 10px) 0 0; }
+.h-button-group:where([data-hulmio-ui])[data-orientation="vertical"] > .h-button:last-child { border-radius: 0 0 var(--hulmio-radius-md, 10px) var(--hulmio-radius-md, 10px); }
+.h-button-group:where([data-hulmio-ui])[data-separated="false"], .h-toggle-group:where([data-hulmio-ui])[data-separated="false"] { gap: 0; }
+:where([data-hulmio-ui])[data-full-width="true"], .h-action-full:where([data-hulmio-ui]) { width: 100%; }
+:where([data-hulmio-ui="button-group"], [data-hulmio-ui="toggle-group"])[data-full-width="true"] > * { flex: 1; }
+.h-toggle-group:where([data-hulmio-ui])[data-detached="false"] { gap: 1px; border-radius: var(--hulmio-radius-md, 10px); overflow: hidden; }
+.h-toggle-group:where([data-hulmio-ui])[data-detached="false"] .h-toggle-option { border-radius: 0; }
+.h-toggle:where([data-hulmio-ui])[data-size="sm"], .h-toggle-group:where([data-hulmio-ui])[data-size="sm"] .h-toggle-option { min-height: 36px; padding: 6px 10px; font-size: 13px; }
+.h-toggle:where([data-hulmio-ui])[data-size="lg"], .h-toggle-group:where([data-hulmio-ui])[data-size="lg"] .h-toggle-option { min-height: 48px; padding: 12px 20px; font-size: 16px; }
+.h-toggle:where([data-hulmio-ui])[data-variant="ghost"] { border-color: transparent; background: transparent; }
+.h-toggle:where([data-hulmio-ui])[data-variant="primary"][aria-pressed="true"] { background: var(--hulmio-primary); color: var(--hulmio-on-primary); }
+@media (pointer: coarse) { .h-toggle:where([data-hulmio-ui]), .h-toggle-group:where([data-hulmio-ui]) .h-toggle-option { min-height: 44px; } }
+@media (prefers-reduced-motion: reduce) { .h-button:where([data-hulmio-ui])[data-ripple]::after { animation: none; } }

@@ -1,0 +1,45 @@
+/* Navbar controls share a square hit area and the input radius. */
+.site-shell > .site-navbar { border-bottom-color: transparent; }
+.site-navbar[data-scrolled="true"] { border-bottom-color: var(--border); }
+.site-navbar .site-wordmark .brand > span { padding-bottom: 0; font-family: "Google Sans Flex", sans-serif; }
+.site-navbar .site-search {
+  width: clamp(240px, 21vw, 320px);
+  flex: 0 0 auto;
+  justify-content: flex-start;
+  gap: 10px;
+  height: 38px;
+  padding-inline: 12px;
+  border-radius: var(--radius-md, var(--hulmio-radius-md));
+  background: var(--surface);
+  color: var(--muted);
+}
+.site-navbar .site-search.h-button:hover { border-color: var(--muted); background: var(--surface); color: var(--muted); }
+.site-navbar .h-button:is(.site-search, .icon-control, .mobile-menu):active { transform: none; }
+.site-navbar .site-search kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 22px; margin-left: auto; padding: 0 5px; line-height: 1; }
+.site-navbar .site-github { gap: 8px; min-height: 36px; padding: 0 12px; flex-shrink: 0; border-radius: 9999px; background: color-mix(in srgb, var(--background) 92%, var(--text)); color: var(--text); }
+.site-navbar .site-github:hover { background: color-mix(in srgb, var(--background) 86%, var(--text)); color: var(--text); text-decoration: none; }
+.site-navbar .site-github-count { font-size: 14px; line-height: 1; font-variant-numeric: tabular-nums; }
+.site-navbar .icon-control { padding: 0; border-radius: var(--radius-md, var(--hulmio-radius-md)); }
+.site-navbar .theme-menu { border-radius: var(--radius-md, var(--hulmio-radius-md)); }
+.site-navbar .theme-menu button { justify-content: flex-start; border-radius: var(--radius-md, var(--hulmio-radius-md)); }
+.site-navbar .mobile-menu { padding: 0; border-radius: var(--radius-md, var(--hulmio-radius-md)); }
+.site-navbar .h-button:is(.icon-control, .mobile-menu) { width: 44px; height: 44px; min-width: 44px; min-height: 44px; flex: 0 0 44px; }
+.site-navbar .h-button:is(.icon-control, .mobile-menu):hover { background: var(--subtle); }
+
+@media (max-width: 900px) {
+  .site-navbar .h-button:is(.icon-control, .mobile-menu) { border-radius: 50%; }
+}
+
+@media (max-width: 1200px) {
+  .site-navbar .site-search kbd { display: none; }
+}
+@media (min-width: 901px) and (max-width: 1200px) {
+  .site-navbar .site-search { width: 200px; }
+}
+@media (min-width: 541px) and (max-width: 900px) {
+  .site-navbar .site-search { width: clamp(180px, 30vw, 270px); }
+}
+@media (max-width: 540px) {
+  .site-navbar .site-search { width: 36px; height: 44px; padding: 0; justify-content: center; border: 0; background: transparent; }
+  .site-navbar .site-search.h-button:hover { background: transparent; }
+}

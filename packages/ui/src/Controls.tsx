@@ -3,6 +3,8 @@ import type { FormHTMLAttributes, HTMLAttributes, InputHTMLAttributes, LabelHTML
 import { Input } from "./Input";
 import type { InputProps } from "./Input";
 import { cn } from "./utils";
+import { Form as AriaForm } from "react-aria-components";
+import type { FormProps as AriaFormProps } from "react-aria-components";
 
 type Descriptions = { hint?: ReactNode; error?: ReactNode };
 function describedBy(id: string, hint: ReactNode, error: ReactNode, existing?: string) {
@@ -41,30 +43,32 @@ export const Field = forwardRef<HTMLDivElement, FieldProps>(({ label, htmlFor, h
 });
 Field.displayName = "Field";
 
-export interface FormProps extends FormHTMLAttributes<HTMLFormElement> {}
-export const Form = forwardRef<HTMLFormElement, FormProps>(({ className, ...props }, ref) => <form {...props} ref={ref} data-hulmio-ui="form" className={cn("h-form", className)} />);
+export interface FormProps extends FormHTMLAttributes<HTMLFormElement> { validationErrors?: AriaFormProps["validationErrors"]; validationBehavior?: "native" | "aria" }
+export const Form = forwardRef<HTMLFormElement, FormProps>(({ className, ...props }, ref) => <AriaForm {...props as AriaFormProps} ref={ref} data-hulmio-ui="form" className={cn("h-form", className)} />);
 Form.displayName = "Form";
 
-export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement>, Descriptions { label?: string; showCount?: boolean }
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({ label, hint, error, showCount, id, className, value, defaultValue, onChange, ...props }, ref) => {
+export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement>, Descriptions { label?: string; showCount?: boolean; variant?: "outline" | "filled" | "underline" }
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({ label, hint, error, showCount, variant = "outline", id, className, value, defaultValue, onChange, ...props }, ref) => {
   const autoId = useId();
   const inputId = id ?? autoId;
   const [length, setLength] = useState(String(defaultValue ?? "").length);
   return <Field label={label} htmlFor={inputId} hint={hint} error={error} required={props.required}>
-    <textarea {...props} ref={ref} id={inputId} value={value} defaultValue={defaultValue} rows={props.rows ?? 4} className={cn("h-control h-textarea", className)} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(inputId, hint, error, props["aria-describedby"])} onChange={(event) => { setLength(event.target.value.length); onChange?.(event); }} />
+    <textarea {...props} data-variant={variant} ref={ref} id={inputId} value={value} defaultValue={defaultValue} rows={props.rows ?? 4} className={cn("h-control h-textarea", className)} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(inputId, hint, error, props["aria-describedby"])} onChange={(event) => { setLength(event.target.value.length); onChange?.(event); }} />
     {showCount && <output className="h-count" aria-live="off" htmlFor={inputId}>{value === undefined ? length : String(value).length}{props.maxLength !== undefined ? ` / ${props.maxLength}` : ""}</output>}
   </Field>;
 });
 Textarea.displayName = "Textarea";
 
-export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type">, Descriptions { label?: ReactNode; indeterminate?: boolean }
-export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({ label, hint, error, indeterminate = false, className, id, ...props }, ref) => {
+export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type">, Descriptions { label?: ReactNode; indeterminate?: boolean; variant?: "outline" | "soft"; fullRounded?: boolean; renderIndicator?: (state: { selected: boolean; indeterminate: boolean; disabled: boolean }) => ReactNode; renderLabel?: (state: { selected: boolean; indeterminate: boolean; disabled: boolean }) => ReactNode }
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({ label, hint, error, indeterminate = false, variant = "outline", fullRounded, renderIndicator, renderLabel, className, id, ...props }, ref) => {
   const autoId = useId();
   const inputId = id ?? autoId;
+  const [selected, setSelected] = useState(!!props.defaultChecked);
+  const state = { selected: props.checked ?? selected, indeterminate, disabled: !!props.disabled };
   const localRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => { if (localRef.current) localRef.current.indeterminate = indeterminate; }, [indeterminate]);
-  return <div data-hulmio-ui="checkbox" className="h-choice-field">
-    <label className="h-choice" htmlFor={inputId}><input {...props} ref={(node) => { localRef.current = node; if (typeof ref === "function") ref(node); else if (ref) ref.current = node; }} id={inputId} type="checkbox" className={cn("h-choice-input", className)} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(inputId, hint, error, props["aria-describedby"])} /><span>{label}</span></label>
+  return <div data-hulmio-ui="checkbox" data-variant={variant} data-rounded={fullRounded || undefined} className="h-choice-field">
+    <label className="h-choice" htmlFor={inputId}><input {...props} ref={(node) => { localRef.current = node; if (typeof ref === "function") ref(node); else if (ref) ref.current = node; }} id={inputId} type="checkbox" onChange={event => { setSelected(event.target.checked); props.onChange?.(event); }} className={cn("h-choice-input", className)} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(inputId, hint, error, props["aria-describedby"])} />{renderIndicator && <span aria-hidden="true">{renderIndicator(state)}</span>}<span>{renderLabel ? renderLabel(state) : label}</span></label>
     {hint && <p className="h-hint" id={`${inputId}-hint`}>{hint}</p>}{error && <p className="h-error" id={`${inputId}-error`} role="alert">{error}</p>}
   </div>;
 });
@@ -78,7 +82,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(({ label, hint, er
 });
 Radio.displayName = "Radio";
 
-export interface ControlOption { value: string; label: string; disabled?: boolean }
+export interface ControlOption { value: string; label: string; disabled?: boolean; description?: string; icon?: ReactNode; group?: string }
 export interface RadioGroupProps extends Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, "defaultValue" | "onChange">, Descriptions {
   label: string;
   options: ControlOption[];
@@ -86,23 +90,28 @@ export interface RadioGroupProps extends Omit<FieldsetHTMLAttributes<HTMLFieldSe
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   required?: boolean;
+  orientation?: "horizontal" | "vertical";
+  renderOption?: (option: ControlOption, selected: boolean) => ReactNode;
+  variant?: "outline" | "soft";
 }
-export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(({ label, options, value, defaultValue, onValueChange, name, disabled, required, hint, error, id, className, form, ...props }, ref) => {
+export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(({ label, options, value, defaultValue, onValueChange, name, disabled, required, hint, error, id, className, form, orientation = "vertical", renderOption, variant = "outline", ...props }, ref) => {
   const autoId = useId();
   const groupId = id ?? autoId;
+  const [selected, setSelected] = useValue(value, defaultValue ?? "", onValueChange);
   return <fieldset {...props} id={groupId} ref={ref} disabled={disabled} form={form} data-hulmio-ui="radio-group" className={cn("h-fieldset", className)} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(groupId, hint, error, props["aria-describedby"])}>
     <legend className="h-label">{label}{required && <span className="h-required" aria-hidden="true"> *</span>}</legend>
-    <div className="h-options">{options.map((option, index) => <Radio key={option.value} id={`${groupId}-${index}`} form={form} name={name ?? `${groupId}-value`} label={option.label} value={option.value} required={required} disabled={disabled || option.disabled} checked={value === undefined ? undefined : value === option.value} defaultChecked={value === undefined ? defaultValue === option.value : undefined} onChange={(event) => { if (event.target.checked) onValueChange?.(option.value); }} />)}</div>
+    <div className="h-options" data-orientation={orientation} data-variant={variant}>{options.map((option, index) => <Radio key={option.value} id={`${groupId}-${index}`} form={form} name={name ?? `${groupId}-value`} label={renderOption ? renderOption(option, selected === option.value) : <>{option.icon}{option.label}{option.description && <span className="h-hint">{option.description}</span>}</>} value={option.value} required={required} disabled={disabled || option.disabled} checked={selected === option.value} onChange={(event) => { if (event.target.checked) setSelected(option.value); }} />)}</div>
     {hint && <p className="h-hint" id={`${groupId}-hint`}>{hint}</p>}{error && <p className="h-error" id={`${groupId}-error`} role="alert">{error}</p>}
   </fieldset>;
 });
 RadioGroup.displayName = "RadioGroup";
 
-export interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type">, Descriptions { label?: ReactNode; onCheckedChange?: (checked: boolean) => void }
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(({ label, hint, error, id, className, onCheckedChange, onChange, ...props }, ref) => {
+export interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type">, Descriptions { label?: ReactNode; onCheckedChange?: (checked: boolean) => void; controlSize?: "sm" | "md" | "lg"; labelPosition?: "start" | "end"; thumbIcon?: ReactNode; renderLabel?: (state: { selected: boolean; disabled: boolean }) => ReactNode }
+export const Switch = forwardRef<HTMLInputElement, SwitchProps>(({ label, hint, error, id, className, onCheckedChange, onChange, controlSize = "md", labelPosition = "end", thumbIcon, renderLabel, ...props }, ref) => {
   const autoId = useId();
   const inputId = id ?? autoId;
-  return <div data-hulmio-ui="switch" className="h-choice-field"><label htmlFor={inputId} className="h-choice h-switch"><input {...props} type="checkbox" role="switch" ref={ref} id={inputId} className={cn("h-switch-input", className)} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(inputId, hint, error, props["aria-describedby"])} onChange={(event) => { onChange?.(event); onCheckedChange?.(event.target.checked); }} /><span className="h-switch-track" aria-hidden="true" /><span>{label}</span></label>{hint && <p className="h-hint" id={`${inputId}-hint`}>{hint}</p>}{error && <p className="h-error" id={`${inputId}-error`} role="alert">{error}</p>}</div>;
+  const [selected, setSelected] = useState(!!props.defaultChecked);
+  return <div data-hulmio-ui="switch" data-size={controlSize} data-label-position={labelPosition} className="h-choice-field"><label htmlFor={inputId} className="h-choice h-switch"><input {...props} type="checkbox" role="switch" ref={ref} id={inputId} className={cn("h-switch-input", className)} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(inputId, hint, error, props["aria-describedby"])} onChange={(event) => { setSelected(event.target.checked); onChange?.(event); onCheckedChange?.(event.target.checked); }} /><span className="h-switch-track" aria-hidden="true">{thumbIcon}</span><span>{renderLabel ? renderLabel({ selected: props.checked ?? selected, disabled: !!props.disabled }) : label}</span></label>{hint && <p className="h-hint" id={`${inputId}-hint`}>{hint}</p>}{error && <p className="h-error" id={`${inputId}-error`} role="alert">{error}</p>}</div>;
 });
 Switch.displayName = "Switch";
 
@@ -119,39 +128,39 @@ export const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(({ 
 ));
 NativeSelect.displayName = "NativeSelect";
 
-export interface ComboboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "defaultValue" | "list" | "type">, Descriptions {
+export interface NativeComboboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "defaultValue" | "list" | "type">, Descriptions {
   label?: string;
   options: ControlOption[];
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
 }
-export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(({ label, options, hint, error, onValueChange, onChange, id, className, ...props }, ref) => {
+export const NativeCombobox = forwardRef<HTMLInputElement, NativeComboboxProps>(({ label, options, hint, error, onValueChange, onChange, id, className, ...props }, ref) => {
   const autoId = useId();
   const inputId = id ?? autoId;
   return <Field label={label} htmlFor={inputId} hint={hint} error={error} required={props.required}><input {...props} id={inputId} type="text" list={`${inputId}-options`} ref={ref} className={cn("h-control", className)} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(inputId, hint, error, props["aria-describedby"])} onChange={(event) => { onChange?.(event); onValueChange?.(event.target.value); }} /><datalist id={`${inputId}-options`}>{options.filter((option) => !option.disabled).map((option) => <option key={option.value} value={option.value} label={option.label} />)}</datalist></Field>;
 });
-Combobox.displayName = "Combobox";
+NativeCombobox.displayName = "NativeCombobox";
 
-export interface MultiSelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "value" | "defaultValue" | "multiple">, Descriptions {
+export interface NativeMultiSelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "value" | "defaultValue" | "multiple">, Descriptions {
   label?: string;
   options: ControlOption[];
   value?: string[];
   defaultValue?: string[];
   onValueChange?: (value: string[]) => void;
 }
-export const MultiSelect = forwardRef<HTMLSelectElement, MultiSelectProps>(({ label, options, hint, error, onValueChange, onChange, className, ...props }, ref) => (
+export const NativeMultiSelect = forwardRef<HTMLSelectElement, NativeMultiSelectProps>(({ label, options, hint, error, onValueChange, onChange, className, ...props }, ref) => (
   <Field label={label} htmlFor={props.id} hint={hint} error={error} required={props.required}><select {...props} multiple ref={ref} className={cn("h-control h-multi-select", className)} onChange={(event) => { onChange?.(event); onValueChange?.(Array.from(event.target.selectedOptions, (option) => option.value)); }}>{options.map((option) => <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>)}</select></Field>
 ));
-MultiSelect.displayName = "MultiSelect";
+NativeMultiSelect.displayName = "NativeMultiSelect";
 
-export interface SliderProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue">, Descriptions {
+export interface NativeSliderProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue">, Descriptions {
   label?: string;
   value?: number;
   defaultValue?: number;
   onValueChange?: (value: number) => void;
 }
-export const Slider = forwardRef<HTMLInputElement, SliderProps>(({ label, hint, error, value, defaultValue, onValueChange, onChange, id, className, min = 0, max = 100, step = 1, ...props }, ref) => {
+export const NativeSlider = forwardRef<HTMLInputElement, NativeSliderProps>(({ label, hint, error, value, defaultValue, onValueChange, onChange, id, className, min = 0, max = 100, step = 1, ...props }, ref) => {
   const autoId = useId();
   const inputId = id ?? autoId;
   const [current, setCurrent] = useValue(value, defaultValue ?? (Number(min) + Number(max)) / 2, onValueChange);
@@ -163,7 +172,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(({ label, hint, 
   const displayed = step === "any" ? bounded : Number((lower + steps * increment).toPrecision(12));
   return <Field label={label} htmlFor={inputId} hint={hint} error={error}><div className="h-slider-row"><input {...props} ref={ref} id={inputId} type="range" min={min} max={max} step={step} value={displayed} className={cn("h-slider", className)} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(inputId, hint, error, props["aria-describedby"])} onChange={(event) => { onChange?.(event); setCurrent(event.target.valueAsNumber); }} /><output htmlFor={inputId} className="h-slider-value">{displayed}</output></div></Field>;
 });
-Slider.displayName = "Slider";
+NativeSlider.displayName = "NativeSlider";
 
 export interface RatingProps extends Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, "defaultValue" | "onChange">, Descriptions {
   label: string;
@@ -171,19 +180,20 @@ export interface RatingProps extends Omit<FieldsetHTMLAttributes<HTMLFieldSetEle
   defaultValue?: number;
   onValueChange?: (value: number) => void;
   max?: number;
+  renderIcon?: (value: number, filled: boolean) => ReactNode;
   readOnly?: boolean;
   required?: boolean;
 }
-export const Rating = forwardRef<HTMLFieldSetElement, RatingProps>(({ label, value, defaultValue = 0, onValueChange, max = 5, readOnly, disabled, required, name, form, hint, error, id, className, ...props }, ref) => {
+export const Rating = forwardRef<HTMLFieldSetElement, RatingProps>(({ label, value, defaultValue = 0, onValueChange, max = 5, renderIcon, readOnly, disabled, required, name, form, hint, error, id, className, ...props }, ref) => {
   const autoId = useId();
   const groupId = id ?? autoId;
   const [current, setCurrent] = useValue(value, defaultValue, onValueChange);
   const count = Number.isFinite(max) ? Math.max(1, Math.floor(max)) : 5;
-  return <fieldset {...props} ref={ref} id={groupId} disabled={disabled} data-hulmio-ui="rating" className={cn("h-fieldset", className)} aria-readonly={readOnly || undefined} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(groupId, hint, error, props["aria-describedby"])}><legend className="h-label">{label}</legend><div className="h-rating">{Array.from({ length: count }, (_, index) => index + 1).map((number) => <label key={number} className="h-rating-option" data-filled={number <= current || undefined}><input type="radio" form={form} name={name ?? `${groupId}-value`} value={number} checked={current === number} required={required} disabled={disabled} aria-label={`${number} of ${count}`} aria-readonly={readOnly || undefined} onClick={(event) => { if (readOnly) event.preventDefault(); }} onKeyDown={(event) => { if (readOnly && [" ", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) event.preventDefault(); }} onChange={() => { if (!readOnly) setCurrent(number); }} /><span aria-hidden="true">★</span></label>)}</div>{hint && <p className="h-hint" id={`${groupId}-hint`}>{hint}</p>}{error && <p className="h-error" id={`${groupId}-error`} role="alert">{error}</p>}</fieldset>;
+  return <fieldset {...props} ref={ref} id={groupId} disabled={disabled} data-hulmio-ui="rating" className={cn("h-fieldset", className)} aria-readonly={readOnly || undefined} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(groupId, hint, error, props["aria-describedby"])}><legend className="h-label">{label}</legend><div className="h-rating">{Array.from({ length: count }, (_, index) => index + 1).map((number) => <label key={number} className="h-rating-option" data-filled={number <= current || undefined}><input type="radio" form={form} name={name ?? `${groupId}-value`} value={number} checked={current === number} required={required} disabled={disabled} aria-label={`${number} of ${count}`} aria-readonly={readOnly || undefined} onClick={(event) => { if (readOnly) event.preventDefault(); }} onKeyDown={(event) => { if (readOnly && [" ", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) event.preventDefault(); }} onChange={() => { if (!readOnly) setCurrent(number); }} /><span aria-hidden="true">{renderIcon ? renderIcon(number, number <= current) : "\u2605"}</span></label>)}</div>{hint && <p className="h-hint" id={`${groupId}-hint`}>{hint}</p>}{error && <p className="h-error" id={`${groupId}-error`} role="alert">{error}</p>}</fieldset>;
 });
 Rating.displayName = "Rating";
 
-export interface OtpInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue" | "maxLength">, Descriptions {
+export interface NativeOtpInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue" | "maxLength">, Descriptions {
   label?: string;
   length?: number;
   value?: string;
@@ -191,12 +201,12 @@ export interface OtpInputProps extends Omit<InputHTMLAttributes<HTMLInputElement
   onValueChange?: (value: string) => void;
   masked?: boolean;
 }
-export const OtpInput = forwardRef<HTMLInputElement, OtpInputProps>(({ label, length = 6, value, defaultValue = "", onValueChange, masked, hint, error, className, onChange, ...props }, ref) => {
+export const NativeOtpInput = forwardRef<HTMLInputElement, NativeOtpInputProps>(({ label, length = 6, value, defaultValue = "", onValueChange, masked, hint, error, className, onChange, ...props }, ref) => {
   const limit = Number.isFinite(length) ? Math.max(1, Math.floor(length)) : 6;
   const [current, setCurrent] = useValue(value, defaultValue, onValueChange);
   return <Field label={label} htmlFor={props.id} hint={hint} error={error} required={props.required}><input {...props} ref={ref} type={masked ? "password" : "text"} autoComplete={props.autoComplete ?? "one-time-code"} inputMode={props.inputMode ?? "numeric"} maxLength={limit} value={current.slice(0, limit)} className={cn("h-control h-otp-input", className)} onChange={(event) => { onChange?.(event); setCurrent(event.target.value.replace(/\s/g, "").slice(0, limit)); }} /></Field>;
 });
-OtpInput.displayName = "OtpInput";
+NativeOtpInput.displayName = "NativeOtpInput";
 
 export interface TagInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue">, Descriptions {
   label?: string;
@@ -228,12 +238,12 @@ export interface ColorPickerProps extends Omit<InputHTMLAttributes<HTMLInputElem
 export const ColorPicker = forwardRef<HTMLInputElement, ColorPickerProps>(({ label, value, defaultValue = "#284c3f", onValueChange, onChange, hint, error, className, ...props }, ref) => <Field label={label} htmlFor={props.id} hint={hint} error={error} required={props.required}><input {...props} ref={ref} type="color" value={value} defaultValue={value === undefined ? defaultValue : undefined} className={cn("h-control h-color-picker", className)} onChange={(event) => { onChange?.(event); onValueChange?.(event.target.value); }} /></Field>);
 ColorPicker.displayName = "ColorPicker";
 
-export interface DatePickerProps extends Omit<InputProps, "type"> { type?: "date" | "time" | "datetime-local" | "month" | "week" }
-export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(({ type = "date", ...props }, ref) => <Input {...props} type={type} ref={ref} />);
-DatePicker.displayName = "DatePicker";
+export interface NativeDatePickerProps extends Omit<InputProps, "type"> { type?: "date" | "time" | "datetime-local" | "month" | "week" }
+export const NativeDatePicker = forwardRef<HTMLInputElement, NativeDatePickerProps>(({ type = "date", ...props }, ref) => <Input {...props} type={type} ref={ref} />);
+NativeDatePicker.displayName = "NativeDatePicker";
 
 export interface DateRange { start: string; end: string }
-export interface DateRangePickerProps extends Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, "defaultValue" | "onChange">, Descriptions {
+export interface NativeDateRangePickerProps extends Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, "defaultValue" | "onChange">, Descriptions {
   label: string;
   start?: string;
   end?: string;
@@ -244,24 +254,24 @@ export interface DateRangePickerProps extends Omit<FieldsetHTMLAttributes<HTMLFi
   min?: string;
   max?: string;
 }
-export const DateRangePicker = forwardRef<HTMLFieldSetElement, DateRangePickerProps>(({ label, start, end, defaultStart = "", defaultEnd = "", onRangeChange, disabled, required, name, form, min, max, hint, error, id, className, ...props }, ref) => {
+export const NativeDateRangePicker = forwardRef<HTMLFieldSetElement, NativeDateRangePickerProps>(({ label, start, end, defaultStart = "", defaultEnd = "", onRangeChange, disabled, required, name, form, min, max, hint, error, id, className, ...props }, ref) => {
   const autoId = useId();
   const groupId = id ?? autoId;
   const [startValue, setStart] = useValue(start, defaultStart);
   const [endValue, setEnd] = useValue(end, defaultEnd);
   return <fieldset {...props} id={groupId} ref={ref} form={form} disabled={disabled} data-hulmio-ui="date-range" className={cn("h-fieldset", className)} aria-invalid={error ? true : props["aria-invalid"]} aria-describedby={describedBy(groupId, hint, error, props["aria-describedby"])}><legend className="h-label">{label}</legend><div className="h-date-range">
-    <DatePicker label="Start date" id={`${groupId}-start`} name={name ? `${name}-start` : undefined} form={form} value={startValue} min={min} max={endValue ? (max && max < endValue ? max : endValue) : max} disabled={disabled} required={required} onChange={(event) => { const next = event.target.value; setStart(next); onRangeChange?.({ start: next, end: endValue }); }} />
-    <DatePicker label="End date" id={`${groupId}-end`} name={name ? `${name}-end` : undefined} form={form} value={endValue} min={startValue ? (min && min > startValue ? min : startValue) : min} max={max} disabled={disabled} required={required} onChange={(event) => { const next = event.target.value; setEnd(next); onRangeChange?.({ start: startValue, end: next }); }} />
+    <NativeDatePicker label="Start date" id={`${groupId}-start`} name={name ? `${name}-start` : undefined} form={form} value={startValue} min={min} max={endValue ? (max && max < endValue ? max : endValue) : max} disabled={disabled} required={required} onChange={(event) => { const next = event.target.value; setStart(next); onRangeChange?.({ start: next, end: endValue }); }} />
+    <NativeDatePicker label="End date" id={`${groupId}-end`} name={name ? `${name}-end` : undefined} form={form} value={endValue} min={startValue ? (min && min > startValue ? min : startValue) : min} max={max} disabled={disabled} required={required} onChange={(event) => { const next = event.target.value; setEnd(next); onRangeChange?.({ start: startValue, end: next }); }} />
   </div>{hint && <p className="h-hint" id={`${groupId}-hint`}>{hint}</p>}{error && <p className="h-error" id={`${groupId}-error`} role="alert">{error}</p>}</fieldset>;
 });
-DateRangePicker.displayName = "DateRangePicker";
+NativeDateRangePicker.displayName = "NativeDateRangePicker";
 
-export interface FileUploadProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue">, Descriptions {
+export interface NativeFileUploadProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "defaultValue">, Descriptions {
   label?: string;
   maxSize?: number;
   onFilesChange?: (files: File[]) => void;
 }
-export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(({ label, maxSize, onFilesChange, onChange, hint, error, className, ...props }, ref) => {
+export const NativeFileUpload = forwardRef<HTMLInputElement, NativeFileUploadProps>(({ label, maxSize, onFilesChange, onChange, hint, error, className, ...props }, ref) => {
   const [validationError, setValidationError] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
@@ -288,8 +298,8 @@ export const FileUpload = forwardRef<HTMLInputElement, FileUploadProps>(({ label
     onFilesChange?.(message ? [] : files);
   }} /></Field>;
 });
-FileUpload.displayName = "FileUpload";
+NativeFileUpload.displayName = "NativeFileUpload";
 
-export interface NumberInputProps extends Omit<InputProps, "type"> {}
-export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>((props, ref) => <Input {...props} type="number" ref={ref} />);
-NumberInput.displayName = "NumberInput";
+export interface NativeNumberInputProps extends Omit<InputProps, "type"> {}
+export const NativeNumberInput = forwardRef<HTMLInputElement, NativeNumberInputProps>((props, ref) => <Input {...props} type="number" ref={ref} />);
+NativeNumberInput.displayName = "NativeNumberInput";

@@ -4,57 +4,56 @@ import { cn } from "./utils";
 
 export type Tone = "neutral" | "primary" | "success" | "warning" | "danger" | "info";
 
-export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
+export interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, "content"> {
   tone?: Tone;
   dot?: boolean;
   outline?: boolean;
+  variant?: "solid" | "soft" | "outline";
+  size?: "sm" | "md" | "lg";
+  placement?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
+  content?: ReactNode;
 }
-export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(({ children, tone = "neutral", dot, outline, className, ...props }, ref) => (
-  <span {...props} ref={ref} data-hulmio-ui="badge" data-tone={tone} className={cn("h-badge", outline && "h-badge-outline", className)}>
+export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(({ children, tone = "neutral", dot, outline, variant, size = "md", placement = "top-right", content, className, ...props }, ref) => content !== undefined ? <span className="h-badge-anchor">{children}<Badge {...props} ref={ref} tone={tone} dot={dot} variant={variant} outline={outline} size={size} data-placement={placement} className={className}>{content}</Badge></span> : (
+  <span {...props} ref={ref} data-hulmio-ui="badge" data-tone={tone} data-size={size} data-variant={variant ?? (outline ? "outline" : "soft")} className={cn("h-badge", (variant === "outline" || (!variant && outline)) && "h-badge-outline", className)}>
     {dot && <span className="h-badge-dot" aria-hidden="true" />}{children}
   </span>
 ));
 Badge.displayName = "Badge";
-export const SoftBadge = forwardRef<HTMLSpanElement, BadgeProps>((props, ref) => <Badge {...props} ref={ref} outline={false} />);
-SoftBadge.displayName = "SoftBadge";
-export const OutlineBadge = forwardRef<HTMLSpanElement, BadgeProps>((props, ref) => <Badge {...props} ref={ref} outline />);
-OutlineBadge.displayName = "OutlineBadge";
 
 export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
   name: string;
   src?: string;
   size?: "sm" | "md" | "lg" | number;
   status?: "online" | "offline" | "busy" | "away";
+  tone?: Tone;
+  variant?: "solid" | "soft" | "outline";
+  fallback?: ReactNode;
 }
-export function Avatar({ name, src, size = "md", status, className, style, ...props }: AvatarProps) {
+export function Avatar({ name, src, size = "md", status, tone = "neutral", variant = "soft", fallback, className, style, ...props }: AvatarProps) {
   const [failedSource, setFailedSource] = useState<string>();
   const pixels = typeof size === "number" ? size : { sm: 28, md: 40, lg: 56 }[size];
-  return <span {...props} data-hulmio-ui="avatar" className={cn("h-avatar", className)} role="img" aria-label={`${name}${status ? `, ${status}` : ""}`} style={{ "--h-avatar-size": `${pixels}px`, ...style } as CSSProperties}>
-    {src && src !== failedSource ? <img src={src} alt="" onError={() => setFailedSource(src)} /> : <span aria-hidden="true">{name.trim().split(/\s+/).slice(0, 2).map(part => part[0]).join("").toUpperCase() || "?"}</span>}
+  return <span {...props} data-hulmio-ui="avatar" data-tone={tone} data-variant={variant} className={cn("h-avatar", className)} role="img" aria-label={`${name}${status ? `, ${status}` : ""}`} style={{ "--h-avatar-size": `${pixels}px`, ...style } as CSSProperties}>
+    {src && src !== failedSource ? <img src={src} alt="" onError={() => setFailedSource(src)} /> : <span aria-hidden="true">{fallback ?? (name.trim().split(/\s+/).slice(0, 2).map(part => part[0]).join("").toUpperCase() || "?")}</span>}
     {status && <span className="h-avatar-status" data-status={status} aria-hidden="true" />}
   </span>;
 }
-export interface AvatarGroupProps extends HTMLAttributes<HTMLDivElement> { names: string[]; max?: number }
-export function AvatarGroup({ names, max = 4, className, ...props }: AvatarGroupProps) {
+export interface AvatarGroupProps extends HTMLAttributes<HTMLDivElement> { names: string[]; max?: number; size?: AvatarProps["size"]; layout?: "stack" | "grid"; overlap?: number; renderCount?: (count: number) => ReactNode }
+export function AvatarGroup({ names, max = 4, size, layout = "stack", overlap = 12, renderCount, className, style, ...props }: AvatarGroupProps) {
   const count = Math.max(0, Math.floor(max));
-  return <div {...props} data-hulmio-ui="avatar-group" className={cn("h-avatar-group", className)}>{names.slice(0, count).map((name, i) => <Avatar key={`${name}-${i}`} name={name} />)}{names.length > count && <span className="h-avatar-overflow" aria-label={`${names.length - count} more people`}>+{names.length - count}</span>}</div>;
+  return <div {...props} data-hulmio-ui="avatar-group" data-layout={layout} style={{ "--h-avatar-overlap": `${overlap}px`, ...style } as CSSProperties} className={cn("h-avatar-group", className)}>{names.slice(0, count).map((name, i) => <Avatar key={`${name}-${i}`} name={name} size={size} />)}{names.length > count && <span className="h-avatar-overflow" aria-label={`${names.length - count} more people`}>{renderCount?.(names.length - count) ?? `+${names.length - count}`}</span>}</div>;
 }
 
-export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> { title?: ReactNode; description?: ReactNode }
-export const Card = forwardRef<HTMLDivElement, CardProps>(({ children, title, description, className, ...props }, ref) => <div {...props} ref={ref} data-hulmio-ui="card" className={cn("h-card", className)}>{title && <h3 className="h-card-title">{title}</h3>}{description && <p className="h-card-description">{description}</p>}{children}</div>);
+export interface CardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> { title?: ReactNode; description?: ReactNode; variant?: "default" | "outlined" | "soft" }
+export const Card = forwardRef<HTMLDivElement, CardProps>(({ children, title, description, variant = "default", className, ...props }, ref) => <div {...props} ref={ref} data-hulmio-ui="card" data-variant={variant} className={cn("h-card", className)}>{title && <h3 className="h-card-title">{title}</h3>}{description && <p className="h-card-description">{description}</p>}{children}</div>);
 Card.displayName = "Card";
-export const SoftCard = forwardRef<HTMLDivElement, CardProps>(({ className, ...props }, ref) => <Card {...props} ref={ref} className={cn("h-card-soft", className)} />);
-SoftCard.displayName = "SoftCard";
-export const OutlinedCard = forwardRef<HTMLDivElement, CardProps>(({ className, ...props }, ref) => <Card {...props} ref={ref} className={cn("h-card-outlined", className)} />);
-OutlinedCard.displayName = "OutlinedCard";
-export const ElevatedCard = forwardRef<HTMLDivElement, CardProps>(({ className, ...props }, ref) => <Card {...props} ref={ref} className={cn("h-card-elevated", className)} />);
-ElevatedCard.displayName = "ElevatedCard";
 
 export interface AccordionItem { id: string; title: ReactNode; content: ReactNode; disabled?: boolean }
-export interface AccordionProps extends HTMLAttributes<HTMLDivElement> { items: AccordionItem[]; multiple?: boolean }
-export function Accordion({ items, multiple, className, ...props }: AccordionProps) {
+export interface AccordionProps extends HTMLAttributes<HTMLDivElement> { items: AccordionItem[]; multiple?: boolean; expandedKeys?: string[]; defaultExpandedKeys?: string[]; onExpandedChange?: (keys: string[]) => void; disabled?: boolean; variant?: "default" | "surface"; divided?: boolean; renderIndicator?: (state: { expanded: boolean; item: AccordionItem }) => ReactNode; renderTitle?: (item: AccordionItem, state: { expanded: boolean }) => ReactNode }
+export function Accordion({ items, multiple, expandedKeys, defaultExpandedKeys = [], onExpandedChange, disabled, variant = "default", divided = true, renderIndicator, renderTitle, className, ...props }: AccordionProps) {
   const name = useId();
-  return <div {...props} data-hulmio-ui="accordion" className={cn("h-accordion", className)}>{items.map(item => <details key={item.id} name={multiple ? undefined : name} className="h-disclosure" data-disabled={item.disabled || undefined}><summary aria-disabled={item.disabled || undefined} onClick={event => { if (item.disabled) event.preventDefault(); }}>{item.title}<span aria-hidden="true">+</span></summary><div className="h-disclosure-content">{item.content}</div></details>)}</div>;
+  const [internal, setInternal] = useState(defaultExpandedKeys);
+  const current = expandedKeys ?? internal;
+  return <div {...props} data-hulmio-ui="accordion" data-variant={variant} data-divided={divided} className={cn("h-accordion", className)}>{items.map(item => { const expanded = current.includes(item.id); return <details key={item.id} name={multiple ? undefined : name} open={expanded} className="h-disclosure" data-disabled={disabled || item.disabled || undefined}><summary aria-disabled={disabled || item.disabled || undefined} aria-expanded={expanded} onClick={event => { event.preventDefault(); if (disabled || item.disabled) return; const next = expanded ? current.filter(key => key !== item.id) : multiple ? [...current, item.id] : [item.id]; if (expandedKeys === undefined) setInternal(next); onExpandedChange?.(next); }}>{renderTitle?.(item, { expanded }) ?? item.title}<span aria-hidden="true">{renderIndicator?.({ expanded, item }) ?? (expanded ? "−" : "+")}</span></summary><div className="h-disclosure-content">{item.content}</div></details>; })}</div>;
 }
 export interface CollapsibleProps extends Omit<HTMLAttributes<HTMLDetailsElement>, "title"> { title: ReactNode; defaultOpen?: boolean }
 export function Collapsible({ title, children, defaultOpen = false, className, onToggle, ...props }: CollapsibleProps) {
@@ -105,19 +104,21 @@ export function Chart({ label, data, variant = "bar", className, ...props }: Cha
   </figure>;
 }
 
-export interface CarouselProps extends Omit<HTMLAttributes<HTMLDivElement>, "children"> { items: ReactNode[]; label?: string }
-export function Carousel({ items, label = "Slideshow", className, ...props }: CarouselProps) {
-  const [index, setIndex] = useState(0);
-  const current = Math.min(index, Math.max(0, items.length - 1));
+export interface CarouselProps extends Omit<HTMLAttributes<HTMLDivElement>, "children" | "defaultValue" | "onChange"> { items: ReactNode[]; label?: string; value?: number; defaultValue?: number; onValueChange?: (index: number) => void; renderControls?: (state: { index: number; count: number; previous: () => void; next: () => void; goTo: (index: number) => void }) => ReactNode }
+export function Carousel({ items, label = "Slideshow", value, defaultValue = 0, onValueChange, renderControls, className, ...props }: CarouselProps) {
+  const [index, setIndex] = useState(defaultValue);
+  const current = Math.max(0, Math.min(value ?? index, Math.max(0, items.length - 1)));
+  const goTo = (next: number) => { const target = Math.max(0, Math.min(next, Math.max(0, items.length - 1))); if (value === undefined) setIndex(target); if (target !== current) onValueChange?.(target); };
   return <div {...props} data-hulmio-ui="carousel" className={cn("h-carousel", className)} role="region" aria-roledescription="carousel" aria-label={label}>
     <div className="h-carousel-stage" aria-live="polite">{items.length ? items.map((item, i) => <div key={i} hidden={i !== current} role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${items.length}`}>{item}</div>) : <p>No slides</p>}</div>
-    <div className="h-carousel-controls"><button type="button" className="h-small-button" disabled={current === 0} aria-label="Previous slide" onClick={() => setIndex(current - 1)}>Previous</button><span>{items.length ? current + 1 : 0} / {items.length}</span><button type="button" className="h-small-button" disabled={current >= items.length - 1} aria-label="Next slide" onClick={() => setIndex(current + 1)}>Next</button></div>
+    {renderControls ? renderControls({ index: current, count: items.length, previous: () => goTo(current - 1), next: () => goTo(current + 1), goTo }) : <div className="h-carousel-controls"><button type="button" className="h-small-button" disabled={current === 0} aria-label="Previous slide" onClick={() => goTo(current - 1)}>Previous</button><span>{items.length ? current + 1 : 0} / {items.length}</span><button type="button" className="h-small-button" disabled={current >= items.length - 1} aria-label="Next slide" onClick={() => goTo(current + 1)}>Next</button></div>}
   </div>;
 }
 
 export type DataTableRow = Record<string, string | number>;
 export type DataTableRowId = string | number;
-export interface DataTableColumn { key: string; label: string; sortable?: boolean }
+export interface DataTableColumn { key: string; label: string; sortable?: boolean; width?: number; minWidth?: number; render?: (value: string | number, row: DataTableRow) => ReactNode }
+export interface DataTableSort { key: string; direction: "asc" | "desc" }
 export interface DataTableProps extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   columns: DataTableColumn[];
   rows: DataTableRow[];
@@ -130,14 +131,29 @@ export interface DataTableProps extends Omit<HTMLAttributes<HTMLDivElement>, "on
   onRowsChange?: (rows: DataTableRow[]) => void;
   onSelectionChange?: (selectedRowIds: DataTableRowId[]) => void;
   renderExpanded?: (row: DataTableRow) => ReactNode;
+  variant?: "default" | "secondary";
+  loading?: boolean;
+  emptyMessage?: ReactNode;
+  resizableColumns?: boolean;
+  virtualized?: boolean;
+  height?: number;
+  rowHeight?: number;
+  sortDescriptor?: DataTableSort;
+  onSortChange?: (sort: DataTableSort) => void;
+  selectedRowIds?: DataTableRowId[];
+  onColumnResize?: (key: string, width: number) => void;
 }
-export function DataTable({ columns, rows, caption = "Data", pageSize = 5, selectable, editable, expandable, rowKey = "id", onRowsChange, onSelectionChange, renderExpanded, className, ...props }: DataTableProps) {
+export function DataTable({ columns, rows, caption = "Data", pageSize = 5, selectable, editable, expandable, rowKey = "id", onRowsChange, onSelectionChange, renderExpanded, variant = "default", loading, emptyMessage = "No matching rows", resizableColumns, virtualized, height = 320, rowHeight = 40, sortDescriptor, onSortChange, selectedRowIds, onColumnResize, className, ...props }: DataTableProps) {
   const tableId = useId();
   const [localRows, setLocalRows] = useState(rows);
   const [filter, setFilter] = useState("");
-  const [sort, setSort] = useState<{ key: string; direction: "asc" | "desc" }>();
+  const [internalSort, setSort] = useState<DataTableSort>();
+  const sort = sortDescriptor ?? internalSort;
   const [page, setPage] = useState(1);
-  const [selected, setSelected] = useState<Set<DataTableRowId>>(new Set());
+  const [internalSelected, setSelected] = useState<Set<DataTableRowId>>(new Set());
+  const selected = selectedRowIds ? new Set(selectedRowIds) : internalSelected;
+  const [scrollTop, setScrollTop] = useState(0);
+  const [widths, setWidths] = useState<Record<string, number>>({});
   const [expanded, setExpanded] = useState<Set<DataTableRowId>>(new Set());
   useEffect(() => { setLocalRows(rows); }, [rows]);
   const currentRows = onRowsChange ? rows : localRows;
@@ -161,11 +177,14 @@ export function DataTable({ columns, rows, caption = "Data", pageSize = 5, selec
   const limit = Number.isFinite(pageSize) ? Math.max(1, Math.floor(pageSize)) : 5;
   const totalPages = Math.max(1, Math.ceil(visibleRows.length / limit));
   const currentPage = Math.min(page, totalPages);
-  const pageRows = visibleRows.slice((currentPage - 1) * limit, currentPage * limit);
+  const safeRowHeight = Math.max(24, rowHeight);
+  const start = virtualized ? Math.max(0, Math.min(Math.floor(scrollTop / safeRowHeight) - 4, visibleRows.length - Math.ceil(height / safeRowHeight) - 8)) : (currentPage - 1) * limit;
+  const end = virtualized ? Math.min(visibleRows.length, start + Math.ceil(height / safeRowHeight) + 8) : currentPage * limit;
+  const pageRows = visibleRows.slice(start, end);
   const selectedOnPage = pageRows.filter(row => selected.has(row[rowKey])).length;
   const changeSelection = (next: Set<DataTableRowId>) => {
     const valid = new Set([...next].filter(id => ids.has(id)));
-    setSelected(valid);
+    if (selectedRowIds === undefined) setSelected(valid);
     onSelectionChange?.([...valid]);
   };
   const editCell = (id: DataTableRowId, key: string, text: string) => {
@@ -177,23 +196,24 @@ export function DataTable({ columns, rows, caption = "Data", pageSize = 5, selec
     setLocalRows(updated);
     onRowsChange?.(updated);
   };
-  return <div {...props} data-hulmio-ui="data-table" className={cn("h-data-table", className)}>
+  const resize = (column: DataTableColumn, next: number) => { const width = Math.max(column.minWidth ?? 80, next); setWidths(previous => ({ ...previous, [column.key]: width })); onColumnResize?.(column.key, width); };
+  return <div {...props} data-hulmio-ui="data-table" data-variant={variant} aria-busy={loading || undefined} className={cn("h-data-table", className)}>
     <div className="h-table-tools"><label htmlFor={`${tableId}-filter`}>Filter {caption.toLocaleLowerCase()}</label><input id={`${tableId}-filter`} type="search" value={filter} onChange={event => { setFilter(event.target.value); setPage(1); }} placeholder="Search rows…" /></div>
-    <div className="h-table-scroll"><table><caption>{caption}</caption><thead><tr>
+    <div className="h-table-scroll" style={virtualized ? { height, overflow: "auto" } : undefined} onScroll={virtualized ? event => setScrollTop(event.currentTarget.scrollTop) : undefined}><table aria-rowcount={virtualized ? visibleRows.length + 1 : undefined} style={resizableColumns ? { tableLayout: "fixed" } : undefined}><caption>{caption}</caption><thead><tr>
       {selectable && <th scope="col"><input type="checkbox" aria-label="Select all rows on this page" checked={pageRows.length > 0 && selectedOnPage === pageRows.length} disabled={!pageRows.length} ref={node => { if (node) node.indeterminate = selectedOnPage > 0 && selectedOnPage < pageRows.length; }} onChange={event => { const next = new Set(selected); pageRows.forEach(row => { if (event.target.checked) next.add(row[rowKey]); else next.delete(row[rowKey]); }); changeSelection(next); }} /></th>}
       {expandable && <th scope="col"><span className="h-visually-hidden">Details</span></th>}
-      {columns.map(column => <th key={column.key} scope="col" aria-sort={sort?.key === column.key ? sort.direction === "asc" ? "ascending" : "descending" : undefined}>{column.sortable ? <button type="button" className="h-table-sort" onClick={() => { setSort({ key: column.key, direction: sort?.key === column.key && sort.direction === "asc" ? "desc" : "asc" }); setPage(1); }}>{column.label}<span aria-hidden="true">{sort?.key === column.key ? sort.direction === "asc" ? " ↑" : " ↓" : " ↕"}</span></button> : column.label}</th>)}
-    </tr></thead><tbody>{pageRows.map(row => {
+      {columns.map(column => <th key={column.key} scope="col" style={{ position: "relative", width: widths[column.key] ?? column.width }} aria-sort={sort?.key === column.key ? sort.direction === "asc" ? "ascending" : "descending" : undefined}>{column.sortable ? <button type="button" className="h-table-sort" onClick={() => { const next: DataTableSort = { key: column.key, direction: sort?.key === column.key && sort.direction === "asc" ? "desc" : "asc" }; if (sortDescriptor === undefined) setSort(next); onSortChange?.(next); setPage(1); }}>{column.label}<span aria-hidden="true">{sort?.key === column.key ? sort.direction === "asc" ? " ↑" : " ↓" : " ↕"}</span></button> : column.label}{resizableColumns && <span className="h-table-resize" role="separator" aria-label={`Resize ${column.label}`} aria-orientation="vertical" aria-valuenow={widths[column.key] ?? column.width ?? 160} tabIndex={0} onKeyDown={event => { if (event.key === "ArrowLeft" || event.key === "ArrowRight") { event.preventDefault(); resize(column, (widths[column.key] ?? column.width ?? 160) + (event.key === "ArrowRight" ? 10 : -10)); } }} onPointerDown={event => { event.currentTarget.setPointerCapture(event.pointerId); event.currentTarget.dataset.startX = String(event.clientX); event.currentTarget.dataset.startWidth = String(event.currentTarget.parentElement!.getBoundingClientRect().width); }} onPointerMove={event => { if (event.currentTarget.hasPointerCapture(event.pointerId)) resize(column, Number(event.currentTarget.dataset.startWidth) + event.clientX - Number(event.currentTarget.dataset.startX)); }} />}</th>)}
+    </tr></thead><tbody>{virtualized && start > 0 && <tr aria-hidden="true"><td colSpan={columns.length + Number(!!selectable) + Number(!!expandable)} style={{ height: start * safeRowHeight, padding: 0, border: 0 }} /></tr>}{pageRows.map((row, rowIndex) => {
       const id = row[rowKey];
       const key = `${typeof id}:${id}`;
       const expandedId = `${tableId}-row-${encodeURIComponent(key)}`;
-      return <Fragment key={key}><tr data-row-id={String(id)}>
+      return <Fragment key={key}><tr data-row-id={String(id)} aria-rowindex={virtualized ? start + rowIndex + 2 : undefined} style={virtualized ? { height: safeRowHeight } : undefined}>
         {selectable && <td><input type="checkbox" aria-label={`Select row ${id}`} checked={selected.has(id)} onChange={event => { const next = new Set(selected); if (event.target.checked) next.add(id); else next.delete(id); changeSelection(next); }} /></td>}
         {expandable && <td><button className="h-small-button h-table-expand" type="button" aria-label={`${expanded.has(id) ? "Collapse" : "Expand"} row ${id}`} aria-expanded={expanded.has(id)} aria-controls={expandedId} onClick={() => setExpanded(previous => { const next = new Set(previous); if (next.has(id)) next.delete(id); else next.add(id); return next; })}>{expanded.has(id) ? "−" : "+"}</button></td>}
-        {columns.map(column => <td key={column.key}>{editable && column.key !== rowKey ? <input key={String(row[column.key])} className="h-table-edit" aria-label={`Edit ${column.label} for row ${id}`} type={typeof row[column.key] === "number" ? "number" : "text"} defaultValue={row[column.key] ?? ""} onBlur={event => { editCell(id, column.key, event.target.value); event.target.value = String(currentRows.find(item => item[rowKey] === id)?.[column.key] ?? ""); }} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); if (event.key === "Escape") { event.currentTarget.value = String(row[column.key] ?? ""); event.currentTarget.blur(); } }} /> : row[column.key]}</td>)}
-      </tr><tr id={expandedId} hidden={!expandable || !expanded.has(id)} className="h-table-expanded"><td colSpan={columns.length + Number(!!selectable) + Number(!!expandable)}>{renderExpanded ? renderExpanded(row) : <dl>{Object.entries(row).map(([name, value]) => <Fragment key={name}><dt>{name}</dt><dd>{value}</dd></Fragment>)}</dl>}</td></tr></Fragment>;
-    })}{!pageRows.length && <tr><td colSpan={Math.max(1, columns.length + Number(!!selectable) + Number(!!expandable))} className="h-table-empty">No matching rows</td></tr>}</tbody></table></div>
-    <div className="h-table-pagination"><span role="status">{visibleRows.length} rows · Page {currentPage} of {totalPages}{selectable ? ` · ${[...selected].filter(id => ids.has(id)).length} selected` : ""}</span><div><button className="h-small-button" type="button" aria-label="Previous table page" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>Previous</button><button className="h-small-button" type="button" aria-label="Next table page" disabled={currentPage === totalPages} onClick={() => setPage(currentPage + 1)}>Next</button></div></div>
+        {columns.map(column => <td key={column.key}>{editable && column.key !== rowKey ? <input key={String(row[column.key])} className="h-table-edit" aria-label={`Edit ${column.label} for row ${id}`} type={typeof row[column.key] === "number" ? "number" : "text"} defaultValue={row[column.key] ?? ""} onBlur={event => { editCell(id, column.key, event.target.value); event.target.value = String(currentRows.find(item => item[rowKey] === id)?.[column.key] ?? ""); }} onKeyDown={event => { if (event.key === "Enter") event.currentTarget.blur(); if (event.key === "Escape") { event.currentTarget.value = String(row[column.key] ?? ""); event.currentTarget.blur(); } }} /> : column.render?.(row[column.key], row) ?? row[column.key]}</td>)}
+      </tr>{expandable && <tr id={expandedId} hidden={!expanded.has(id)} className="h-table-expanded"><td colSpan={columns.length + Number(!!selectable) + Number(!!expandable)}>{renderExpanded ? renderExpanded(row) : <dl>{Object.entries(row).map(([name, value]) => <Fragment key={name}><dt>{name}</dt><dd>{value}</dd></Fragment>)}</dl>}</td></tr>}</Fragment>;
+    })}{virtualized && end < visibleRows.length && <tr aria-hidden="true"><td colSpan={columns.length + Number(!!selectable) + Number(!!expandable)} style={{ height: (visibleRows.length - end) * safeRowHeight, padding: 0, border: 0 }} /></tr>}{!pageRows.length && <tr><td colSpan={Math.max(1, columns.length + Number(!!selectable) + Number(!!expandable))} className="h-table-empty">{loading ? "Loading rows…" : emptyMessage}</td></tr>}</tbody></table></div>
+    <div className="h-table-pagination"><span role="status">{visibleRows.length} rows{!virtualized && ` · Page ${currentPage} of ${totalPages}`}{selectable ? ` · ${[...selected].filter(id => ids.has(id)).length} selected` : ""}</span>{!virtualized && <div><button className="h-small-button" type="button" aria-label="Previous table page" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>Previous</button><button className="h-small-button" type="button" aria-label="Next table page" disabled={currentPage === totalPages} onClick={() => setPage(currentPage + 1)}>Next</button></div>}</div>
   </div>;
 }
 

@@ -1,111 +1,146 @@
 # Hulmio component coverage
 
-Updated: 2026-11-04, Asia/Manila.
+Updated: 2026-11-08, Asia/Manila.
 
-The package implements 64 core families with 89 package-backed examples.
-Eight button designs share semantic variants, sizes, states and native props.
-Named Input/Card/Badge/Tabs presets add alternatives to their respective families.
-This is a core-library inventory, not a claim that every possible UI or specialist
-enterprise behavior exists. Every family has a real export and live import example.
+The package implements **104 component families** with **1,147 source-backed examples**. Each catalog entry has static SVG artwork; each detail page has working examples with expandable, copyable source. Public package implementations power both the gallery and consumers.
 
-| Family | Named exports | Examples |
-| --- | --- | --- |
-| Button | `Button`, `ClassicButton`, `PillButton`, `SoftButton`, `OutlineButton`, `ElevatedButton`, `GradientButton`, `BrutalistButton`, `GlassButton` | 8 |
-| Icon button | `IconButton` | 1 |
-| Button group | `ButtonGroup` | 1 |
-| Input | `Input`, `OutlineInput`, `FilledInput`, `UnderlineInput` | 4 |
-| Textarea | `Textarea` | 1 |
-| OTP input | `OtpInput` | 1 |
-| Form | `Form` | 1 |
-| Date & time | `DatePicker`, `DateRangePicker` | 2 |
-| File upload | `FileUpload` | 1 |
-| Tag input | `TagInput` | 1 |
-| Color picker | `ColorPicker` | 1 |
-| Checkbox | `Checkbox` | 1 |
-| Radio group | `Radio`, `RadioGroup` | 1 |
-| Switch | `Switch` | 1 |
-| Select | `Select`, `NativeSelect` | 1 |
-| Combobox | `Combobox` | 1 |
-| Multi-select | `MultiSelect` | 1 |
-| Slider | `Slider` | 1 |
-| Rating | `Rating` | 1 |
-| Badge & tag | `Badge`, `SoftBadge`, `OutlineBadge` | 3 |
-| Avatar | `Avatar`, `AvatarGroup` | 2 |
-| Card | `Card`, `SoftCard`, `OutlinedCard`, `ElevatedCard` | 4 |
-| Data table | `DataTable` | 1 |
-| Accordion | `Accordion` | 1 |
-| Timeline | `Timeline` | 1 |
-| Chart | `Chart` | 6 |
-| Carousel | `Carousel` | 1 |
-| Tabs | `Tabs`, `PillTabs`, `UnderlineTabs` | 3 |
-| Breadcrumbs | `Breadcrumbs` | 1 |
-| Pagination | `Pagination` | 1 |
-| Stepper | `Stepper` | 1 |
-| Dropdown menu | `DropdownMenu` | 1 |
-| Command palette | `CommandPalette` | 1 |
-| Alert | `Alert` | 1 |
-| Toast | `Toast` | 1 |
-| Progress | `Progress` | 2 |
-| Skeleton | `Skeleton` | 1 |
-| Spinner | `Spinner` | 1 |
-| Empty state | `EmptyState` | 1 |
-| Dialog | `Dialog`, `Modal`, `DialogClose` | 1 |
-| Drawer & sheet | `Drawer` | 1 |
-| Tooltip | `Tooltip` | 1 |
-| Popover | `Popover` | 1 |
-| Layout primitives | `Container`, `Stack`, `Grid`, `Split` | 1 |
-| Kanban board | `Kanban` | 1 |
-| Toggle | `Toggle` | 1 |
-| Toggle group | `ToggleGroup` | 1 |
-| Number input | `NumberInput` | 1 |
-| Field | `Field` | 1 |
-| Label | `Label` | 1 |
-| Separator | `Separator` | 1 |
-| Collapsible | `Collapsible` | 1 |
-| Scroll area | `ScrollArea` | 1 |
-| Aspect ratio | `AspectRatio` | 1 |
-| Keyboard key | `Kbd` | 1 |
-| Typography | `Text`, `Heading` | 1 |
-| Toolbar | `Toolbar` | 1 |
-| Navbar | `Navbar` | 1 |
-| Sidebar | `Sidebar` | 1 |
-| Button link | `ButtonLink` | 1 |
-| Alert dialog | `AlertDialog` | 1 |
-| Input group | `InputGroup`, `InputGroupInput`, `InputGroupAddon` | 1 |
-| Item | `ItemGroup`, `Item`, `ItemContent`, `ItemTitle`, `ItemDescription`, `ItemActions` | 1 |
-| Table | `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption` | 1 |
+| Family | Examples |
+| --- | --- |
+| `button-group` | 11 |
+| `button` | 16 |
+| `close-button` | 4 |
+| `toggle-group` | 11 |
+| `toggle` | 9 |
+| `tag-group` | 12 |
+| `color-area` | 7 |
+| `color-field` | 13 |
+| `color-picker` | 7 |
+| `color-slider` | 9 |
+| `color-swatch-picker` | 12 |
+| `color-swatch` | 7 |
+| `slider` | 17 |
+| `switch` | 17 |
+| `date-field` | 15 |
+| `calendar` | 23 |
+| `time-field` | 13 |
+| `checkbox-group` | 10 |
+| `checkbox` | 17 |
+| `description` | 4 |
+| `error-message` | 2 |
+| `field-error` | 6 |
+| `fieldset` | 3 |
+| `form` | 4 |
+| `input-group` | 25 |
+| `otp-input` | 13 |
+| `input` | 15 |
+| `label` | 6 |
+| `number-input` | 19 |
+| `radio` | 14 |
+| `search-field` | 15 |
+| `textarea` | 9 |
+| `text-field` | 13 |
+| `autocomplete` | 24 |
+| `combobox` | 26 |
+| `select` | 21 |
+| `accordion` | 12 |
+| `avatar` | 16 |
+| `badge` | 10 |
+| `chip` | 8 |
+| `breadcrumbs` | 7 |
+| `card` | 10 |
+| `inline-calendar` | 21 |
+| `range-calendar` | 22 |
+| `list-box` | 11 |
+| `meter` | 8 |
+| `progress` | 17 |
+| `skeleton` | 10 |
+| `spinner` | 7 |
+| `separator` | 10 |
+| `surface` | 4 |
+| `toolbar` | 6 |
+| `collapsible` | 4 |
+| `disclosure-group` | 3 |
+| `link` | 6 |
+| `pagination` | 11 |
+| `tabs` | 14 |
+| `kbd` | 9 |
+| `typography` | 8 |
+| `scroll-shadow` | 9 |
+| `table` | 14 |
+| `dropdown` | 19 |
+| `alert` | 4 |
+| `alert-dialog` | 15 |
+| `drawer` | 11 |
+| `dialog` | 16 |
+| `popover` | 7 |
+| `sheet` | 15 |
+| `toast` | 14 |
+| `tooltip` | 8 |
+| `icon-button` | 11 |
+| `upload` | 12 |
+| `tag-input` | 11 |
+| `rating` | 10 |
+| `timeline` | 8 |
+| `chart` | 19 |
+| `carousel` | 9 |
+| `stepper` | 10 |
+| `command` | 11 |
+| `empty-state` | 8 |
+| `layout` | 8 |
+| `kanban` | 10 |
+| `field` | 9 |
+| `scroll-area` | 9 |
+| `aspect-ratio` | 9 |
+| `navbar` | 9 |
+| `sidebar` | 9 |
+| `button-link` | 10 |
+| `item` | 11 |
+| `hover-card` | 10 |
+| `context-menu` | 12 |
+| `menubar` | 11 |
+| `navigation-menu` | 11 |
+| `tree-view` | 11 |
+| `checkbox-card` | 11 |
+| `radio-card` | 11 |
+| `stat` | 10 |
+| `data-list` | 10 |
+| `image` | 11 |
+| `code-block` | 9 |
+| `clipboard` | 8 |
+| `resizable` | 11 |
+| `multi-select` | 2 |
+| `simple-table` | 1 |
+
+Reference topics and baseline mappings are recorded in [HEROUI-PARITY.md](HEROUI-PARITY.md). The [implementation tracker](HEROUI-IMPLEMENTATION.json) records each source file and its verification status.
 
 ## Research basis
 
 Coverage was compared with [Radix primitives](https://www.radix-ui.com/primitives/docs/overview/introduction),
 [shadcn/ui's component index](https://ui.shadcn.com/docs/components), and
 [React Aria](https://react-aria.adobe.com/). They informed the inventory and behavior
-expectations; Hulmio retains its own green/lime design language and named presets.
+expectations; Hulmio retains its own green/lime design language and useful semantic variants.
 
 ## Distinguish design, variant, state and composition
 
-- Design: an import such as PillButton or BrutalistButton; both accept common variants.
+- Base components: Button, Input, Card, Badge, and Tabs; customize with native props, className, style, and CSS variables.
 - Variant: a semantic treatment such as primary, outline or destructive.
 - State: loading, disabled, focus, selection or invalid data as appropriate.
-- Reference composition: an earlier gallery arrangement or app workflow, labeled
-  separately. Its appearance does not silently expand the package API.
+- Composition: a homepage/pattern app workflow composed from package components; app authentication, persistence and requests remain consumer responsibilities.
 
 ## Supported limits
 
-- Native MultiSelect is a multiple select; native datalist Combobox allows free text.
-- Date/time pickers follow browser/platform UI and ISO values; no timezone engine.
-- Slider is single-value; an interval slider is not advertised by its package API.
+- Rich Combobox and MultiSelect use styled searchable lists/chips; Native* alternatives preserve browser behavior.
+- Existing date pickers retain date-only ISO strings. SegmentedDatePicker, SegmentedDateRangePicker, DateField and TimeField accept typed DateValue/TimeValue objects with locale and calendar support; parsing and timezone conversion use @internationalized/date.
+- Slider supports a numeric value or two-value range, with min/max and step.
 - Upload chooses/validates files; apps provide transport, progress and server checks.
-- Stateful composite form controls keep React state on native reset; reset controlled
-  values or remount. Native selection controls retain browser reset behavior.
+- Rich controls support native form bridges and reset handling; controlled values remain owned by the consuming app.
 - Field associates a single direct native/ref-capable child; wire grouped/nested
   descriptions explicitly. Native attributes/ref types are in exported Props.
-- DataTable is client-side and requires stable rowKey values; supplied callbacks
-  handle edits/selection. No virtualized/server-side enterprise grid is claimed.
+- DataTable is client-side and requires stable rowKey values. It supports virtual rows, selection, sorting, resizing and custom cells; apps supply remote data and persistence.
 - Chart scatter/heatmap are categorical visualizations; every chart includes a data table.
 - Kanban moves use explicit native controls. Backend persistence and pointer dragging
   are app integrations. Carousel has manual controls, without automatic rotation.
-- Toast is a surface; apps own notification queues/lifetimes. Layout primitives are
+- Toast can be a standalone surface or use ToastProvider with ToastQueue for lifetimes and queued notifications. Apps own network operations. Layout primitives are
   structural helpers; app routing, menu state and business workflows remain app-owned.
 - PortalContainer retains explicitly selected subtree themes. Without it, set the
   theme on html. The package inherits fonts and requires no website/Tailwind CSS.
@@ -115,7 +150,7 @@ expectations; Hulmio retains its own green/lime design language and named preset
 
 ## Typography sources
 
-Google Sans Flex is primary and Instrument Serif is the secondary display accent.
+Onest is primary and Google Sans Flex is secondary. IBM Plex Mono is used for code.
 Font binaries are self-hosted for the website with the corresponding OFL notices.
 See public/fonts/SOURCES.json for URLs/hashes and the official
 [Google Sans Flex metadata](https://github.com/google/fonts/tree/main/ofl/googlesansflex).

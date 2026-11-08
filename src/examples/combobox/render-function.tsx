@@ -1,0 +1,11 @@
+import { Combobox } from "hulmio-ui";
+import "hulmio-ui/styles.css";
+
+export default function Example() {
+  const options = [{value:"design",label:"Design",description:"Interfaces and systems",group:"Product"},{value:"engineering",label:"Engineering",description:"Build reliable products",group:"Product"},{value:"research",label:"Research",description:"Understand people",group:"Insights"}];
+  return (
+    <div style={{ display: "grid", gap: 16, width: "100%", maxWidth: 640, justifyItems: "start" }}>
+      <Combobox label="Team role" options={options} allowsCustomValue={false} renderOption={(option, state) => <span style={{fontWeight:state.isSelected?700:400}}>{option.label}{state.isFocused ? " ←" : ""}</span>} />
+    </div>
+  );
+}

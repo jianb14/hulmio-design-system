@@ -1,21 +1,12 @@
 .h-tabs:where([data-hulmio-ui]) { min-width: 0; color: var(--hulmio-text); }
-:where([data-hulmio-ui="tabs"]) .h-tab-list { display: flex; flex-wrap: wrap; gap: 4px; width: fit-content; max-width: 100%; padding: 4px; border: 1px solid var(--hulmio-border); border-radius: 8px; background: var(--hulmio-subtle); }
-:where([data-hulmio-ui="tabs"]) [role="tab"] { min-height: 38px; padding: 9px 15px; border: 1px solid transparent; border-radius: 5px; background: transparent; color: var(--hulmio-muted); font: inherit; font-size: 14px; font-weight: 550; line-height: 1.3; cursor: pointer; }
+:where([data-hulmio-ui="tabs"]) .h-tab-list { display: flex; flex-wrap: wrap; gap: 4px; width: fit-content; max-width: 100%; padding: 4px; border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md, 10px); background: var(--hulmio-subtle); }
+:where([data-hulmio-ui="tabs"]) [role="tab"] { min-height: 38px; padding: 9px 15px; border: 1px solid transparent; border-radius: var(--hulmio-radius-md, 10px); background: transparent; color: var(--hulmio-muted); font: inherit; font-size: 14px; font-weight: 550; line-height: 1.3; cursor: pointer; }
 :where([data-hulmio-ui="tabs"]) [role="tab"][aria-selected="true"] { color: var(--hulmio-text); background: var(--hulmio-surface); box-shadow: var(--hulmio-shadow); }
 :where([data-hulmio-ui="tabs"]) [role="tab"]:disabled { opacity: .4; cursor: not-allowed; }
 :where([data-hulmio-ui="tabs"]) .h-tab-panel { padding: 20px 0 0; font-size: 15px; line-height: 1.7; }
-.h-tabs-pill:where([data-hulmio-ui]) .h-tab-list { padding: 0; gap: 6px; border: 0; background: transparent; }
-.h-tabs-pill:where([data-hulmio-ui]) [role="tab"] { border-radius: 999px; }
-.h-tabs-pill:where([data-hulmio-ui]) [role="tab"][aria-selected="true"] { background: var(--hulmio-primary); color: var(--hulmio-on-primary); }
-.h-tabs-underline:where([data-hulmio-ui]) .h-tab-list { width: 100%; padding: 0; gap: 14px; border: 0; border-bottom: 1px solid var(--hulmio-border); border-radius: 0; background: transparent; }
-.h-tabs-underline:where([data-hulmio-ui]) [role="tab"] { margin-bottom: -1px; padding-inline: 2px; border: 0; border-bottom: 2px solid transparent; border-radius: 0; }
-.h-tabs-underline:where([data-hulmio-ui]) [role="tab"][aria-selected="true"] { border-color: var(--hulmio-primary); background: transparent; color: var(--hulmio-primary); box-shadow: none; }
 .h-tabs:where([data-hulmio-ui])[data-orientation="vertical"] { display: flex; align-items: flex-start; gap: 24px; }
 :where([data-hulmio-ui="tabs"])[data-orientation="vertical"] .h-tab-list { flex-direction: column; flex: 0 0 auto; }
 :where([data-hulmio-ui="tabs"])[data-orientation="vertical"] .h-tab-panel { flex: 1; min-width: 0; padding-top: 4px; }
-.h-tabs-underline:where([data-hulmio-ui])[data-orientation="vertical"] .h-tab-list { width: auto; border-bottom: 0; border-right: 1px solid var(--hulmio-border); }
-.h-tabs-underline:where([data-hulmio-ui])[data-orientation="vertical"] [role="tab"] { margin: 0 -1px 0 0; padding: 10px 15px; text-align: left; border-bottom: 0; border-right: 2px solid transparent; }
-.h-tabs-underline:where([data-hulmio-ui])[data-orientation="vertical"] [role="tab"][aria-selected="true"] { border-right-color: var(--hulmio-primary); }
 .h-breadcrumbs:where([data-hulmio-ui]) { color: var(--hulmio-muted); font-size: 14px; }
 :where([data-hulmio-ui="breadcrumbs"]) ol { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
 :where([data-hulmio-ui="breadcrumbs"]) li { display: inline-flex; align-items: center; gap: 8px; }
@@ -24,7 +15,7 @@
 :where([data-hulmio-ui="breadcrumbs"]) [aria-current] { color: var(--hulmio-text); font-weight: 550; }
 :where([data-hulmio-ui="breadcrumbs"]) .h-breadcrumb-divider { opacity: .5; }
 .h-pagination:where([data-hulmio-ui]) { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; font-size: 14px; }
-:where([data-hulmio-ui="pagination"]) button { min-width: 36px; min-height: 36px; padding: 7px 10px; border: 1px solid var(--hulmio-border); border-radius: 6px; background: var(--hulmio-surface); color: var(--hulmio-text); font: inherit; cursor: pointer; }
+:where([data-hulmio-ui="pagination"]) button { min-width: 36px; min-height: 36px; padding: 7px 10px; border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md, 10px); background: var(--hulmio-surface); color: var(--hulmio-text); font: inherit; cursor: pointer; }
 :where([data-hulmio-ui="pagination"]) button[aria-current] { background: var(--hulmio-primary); color: var(--hulmio-on-primary); border-color: var(--hulmio-primary); }
 :where([data-hulmio-ui="pagination"]) button:disabled { opacity: .45; cursor: not-allowed; }
 :where([data-hulmio-ui="pagination"]) .h-page-slot { display: flex; gap: 5px; align-items: center; }
@@ -48,7 +39,7 @@
 .h-scroll-area:where([data-hulmio-ui]) { min-width: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--hulmio-control-border) transparent; }
 .h-separator:where([data-hulmio-ui]) { width: 100%; height: 1px; background: var(--hulmio-border); flex-shrink: 0; }
 .h-separator:where([data-hulmio-ui])[data-orientation="vertical"] { width: 1px; height: auto; align-self: stretch; min-height: 1em; }
-.h-kbd:where([data-hulmio-ui]) { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; min-height: 24px; padding: 2px 6px; border: 1px solid var(--hulmio-control-border); border-bottom-width: 2px; border-radius: 5px; background: var(--hulmio-subtle); color: var(--hulmio-muted); font-family: ui-monospace,monospace; font-size: 12px; line-height: 1.3; }
+.h-kbd:where([data-hulmio-ui]) { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; min-height: 24px; padding: 2px 6px; border: 1px solid var(--hulmio-control-border); border-bottom-width: 2px; border-radius: var(--hulmio-radius-md, 10px); background: var(--hulmio-subtle); color: var(--hulmio-muted); font-family: ui-monospace,monospace; font-size: 12px; line-height: 1.3; }
 .h-text:where([data-hulmio-ui]) { margin: 0; color: var(--hulmio-text); font-size: 16px; line-height: 1.7; }
 .h-text:where([data-hulmio-ui])[data-size="sm"] { font-size: 14px; }
 .h-text:where([data-hulmio-ui])[data-size="lg"] { font-size: 19px; }
@@ -61,10 +52,10 @@ h3.h-heading:where([data-hulmio-ui]) { font-size: 24px; }
 h4.h-heading:where([data-hulmio-ui]) { font-size: 20px; }
 h5.h-heading:where([data-hulmio-ui]) { font-size: 18px; }
 h6.h-heading:where([data-hulmio-ui]) { font-size: 16px; }
-.h-toolbar:where([data-hulmio-ui]) { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; width: fit-content; max-width: 100%; padding: 6px; border: 1px solid var(--hulmio-border); border-radius: 9px; background: var(--hulmio-surface); color: var(--hulmio-text); }
+.h-toolbar:where([data-hulmio-ui]) { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; width: fit-content; max-width: 100%; padding: 6px; border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md, 10px); background: var(--hulmio-surface); color: var(--hulmio-text); }
 .h-navbar:where([data-hulmio-ui]) { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; width: 100%; min-height: 68px; padding: 16px 24px; border-bottom: 1px solid var(--hulmio-border); color: var(--hulmio-text); background: var(--hulmio-surface); font-size: 15px; }
 .h-sidebar:where([data-hulmio-ui]) { display: flex; flex-direction: column; gap: 8px; width: 250px; max-width: 100%; padding: 20px 16px; border-right: 1px solid var(--hulmio-border); color: var(--hulmio-text); background: var(--hulmio-sidebar); font-size: 15px; }
-:where([data-hulmio-ui="navbar"], [data-hulmio-ui="sidebar"]) a { color: inherit; text-decoration: none; border-radius: 5px; }
+:where([data-hulmio-ui="navbar"], [data-hulmio-ui="sidebar"]) a { color: inherit; text-decoration: none; border-radius: var(--hulmio-radius-md, 10px); }
 :where([data-hulmio-ui="navbar"], [data-hulmio-ui="sidebar"]) a:hover { color: var(--hulmio-primary); }
 :where([data-hulmio-ui="sidebar"]) a { padding: 8px 12px; }
 :where([data-hulmio-ui="sidebar"]) a[aria-current] { color: var(--hulmio-primary); background: var(--hulmio-soft); font-weight: 550; }

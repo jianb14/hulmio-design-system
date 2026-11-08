@@ -29,6 +29,7 @@ export function BrandMark({
 }: {
   className?: string;
   size?: number;
+  preserveAspectRatio?: string;
   "aria-hidden"?: boolean;
 }) {
   return (

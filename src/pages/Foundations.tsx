@@ -15,7 +15,7 @@ import {
   MousePointer2,
   Sparkles,
 } from "lucide-react";
-import { Alert, Badge, Brand, Button, BrandMark, Tabs } from "../components/ui";
+import { Alert, Badge, Brand, Button, BrandMark, Input, Tabs } from "../components/ui";
 import { downloadFile, logoSvg, palettes, tokens } from "../lib/tokens";
 export function PageIntro({
   title,
@@ -52,6 +52,38 @@ export function SectionTitle({
     </div>
   );
 }
+export function AccessibilityPage() {
+  const [saved, setSaved] = useState(false);
+  return <div className="accessibility-page">
+    <PageIntro title="Accessibility" description="Build interfaces people can read, navigate, and use with confidence." />
+    <SectionTitle label="Start with the essentials" />
+    <div className="accessibility-principles">
+      {[
+        ["Keyboard & focus", "Keep every action reachable with Tab. Use Enter or Space to activate buttons, Escape to dismiss overlays, and a visible focus ring to show your place."],
+        ["Color & contrast", "Aim for at least 4.5:1 contrast for body text and 3:1 for large text. Pair status colors with words or symbols, and check both light and dark themes."],
+        ["Labels & feedback", "Give fields visible labels and connect help and error messages to their controls. Name icon buttons by their action. Announce saved changes without moving focus."],
+        ["Touch & reading", "Use a comfortable 44 × 44px touch area. Let text wrap and layouts reflow when zoomed. Keep instructions close to the action they explain."],
+        ["Motion preferences", "Honor prefers-reduced-motion. Remove decorative movement and use immediate state changes when someone requests less animation."],
+        ["Structure & semantics", "Use real buttons, links, headings, and form controls. Give each page one clear title and provide a skip link to the main content."],
+      ].map(([title, description]) => <article className="token-card" key={title}><h3>{title}</h3><p>{description}</p></article>)}
+    </div>
+    <SectionTitle label="Try it with your keyboard" note="Tab · Shift + Tab · Enter" />
+    <form className="accessibility-example" onSubmit={event => { event.preventDefault(); setSaved(true); }}>
+      <Input label="Display name" name="display-name" placeholder="Your name" required helper="This label stays visible while you type." onChange={() => setSaved(false)} />
+      <Button type="submit">Save name</Button>
+      <p role="status" aria-live="polite">{saved ? "Display name saved for this example." : "Tab through the field and button to see the focus indicator."}</p>
+    </form>
+    <SectionTitle label="Before you ship" />
+    <ul className="accessibility-checklist">
+      <li>Complete the main task using only the keyboard, then check that dialogs return focus to their trigger.</li>
+      <li>Check text, icons, focus rings, and error messages in both themes.</li>
+      <li>Zoom to 200% and test a narrow screen without losing content or controls.</li>
+      <li>Turn on reduced motion and test field labels and announcements with a screen reader.</li>
+    </ul>
+    <p className="body-copy mt-6">Use the <a href="https://www.w3.org/WAI/fundamentals/accessibility-principles/" target="_blank" rel="noreferrer">W3C accessibility principles</a> and <a href="https://www.w3.org/WAI/tutorials/forms/labels/" target="_blank" rel="noreferrer">form labeling guide</a> for the full guidance.</p>
+  </div>;
+}
+
 export function ColorPage({ notify }: { notify: (t: string) => void }) {
   const [active, setActive] = useState("Brand");
   const copy = async (v: string) => {
@@ -184,32 +216,32 @@ export function TypographyPage() {
   return (
     <>
       <PageIntro
-        title="Words, with a little character."
-        description="An expressive voice. An easy read. Typography that feels like a person."
+        title="Typography"
+        description="Onest for the primary interface. Google Sans Flex for supporting text."
       />
       <div className="font-pair">
         <article>
-          <span className="overline">OUR EVERYDAY VOICE</span>
+          <span className="overline">PRIMARY TYPEFACE</span>
           <span className="font-specimen">Aa</span>
-          <h2>Google Sans Flex</h2>
+          <h2>Onest</h2>
           <p>
-            Our primary variable typeface. Clear and comfortable for interfaces,
-            headings, and everyday reading.
+            A geometric variable sans for interface labels, navigation and
+            headings. Open shapes keep the type clear at small sizes.
           </p>
           <div className="font-weights">
             Regular <b>Medium</b> <strong>Semibold</strong>
           </div>
         </article>
         <article className="editorial-font">
-          <span className="overline">A LITTLE EXPRESSION</span>
+          <span className="overline">SECONDARY TYPEFACE</span>
           <span className="font-specimen">Aa</span>
-          <h2>Instrument Serif</h2>
+          <h2>Google Sans Flex</h2>
           <p>
-            A thoughtful accent for the moments that deserve a little more
-            personality.
+            A flexible sans for supporting copy and longer passages. It pairs
+            with Onest without introducing a serif or script style.
           </p>
           <div className="font-weights">
-            <em>Regular Italic</em>
+            Regular <b>Medium</b> <strong>Semibold</strong>
           </div>
         </article>
       </div>

@@ -7,6 +7,13 @@
 @import "./overlays.css";
 @import "./compositions.css";
 @import "./select.css";
+@import "./focus.css";
+@import "./variants.css";
+@import "./rich-controls.css";
+@import "./additional.css";
+@import "./parity-forms.css";
+@import "./parity-display.css";
+@import "./parity-overlays.css";
 
 /* Local resets only: importing Hulmio never resets the host page. */
 :where([data-hulmio-ui], [data-hulmio-ui] *) { box-sizing: border-box; }
@@ -25,7 +32,7 @@
   touch-action: manipulation;
 }
 .f-button:where([data-hulmio-ui]):disabled { pointer-events: none; opacity: 0.45; }
-.f-button:where([data-hulmio-ui]).rounded-lg { border-radius: 8px; }
+.f-button:where([data-hulmio-ui]).rounded-lg { border-radius: var(--hulmio-radius-md, 10px); }
 .f-button:where([data-hulmio-ui]).rounded-full { border-radius: 9999px; }
 .f-button:where([data-hulmio-ui]).rounded-none { border-radius: 0; }
 .f-button:where([data-hulmio-ui]).aspect-square { aspect-ratio: 1; }
@@ -44,6 +51,7 @@
   cursor: pointer;
 }
 :where([data-hulmio-ui="input"]) .input-action:disabled { cursor: not-allowed; }
+:where([data-hulmio-ui="input"]) .input-clear-action { width: 40px; padding: 4px; border-radius: var(--hulmio-radius-md, 10px); background-clip: content-box; }
 .dialog-content:where([data-hulmio-ui]) { color: var(--hulmio-text); font-size: 15px; line-height: 1.6; }
 .dialog-content:where([data-hulmio-ui]) > h2 { margin: 0 18px 0 0; line-height: 1.2; letter-spacing: -0.035em; }
 :where([data-hulmio-ui="modal"]) .dialog-description { line-height: 1.6; }
@@ -64,6 +72,11 @@
 :where([data-hulmio-ui]) :is(.input-action, .dialog-close):focus-visible {
   outline: 2px solid var(--hulmio-focus);
   outline-offset: 0;
+}
+/* Pressed and mouse-focused actions do not inherit a keyboard ring. */
+[data-hulmio-ui] :is(button, a):is(:active, :focus:not(:focus-visible)),
+:is(button, a)[data-hulmio-ui]:is(:active, :focus:not(:focus-visible)) {
+  outline: none;
 }
 @keyframes hulmio-spin { to { transform: rotate(360deg); } }
 @keyframes hulmio-fade-in { from { opacity: 0; } to { opacity: 1; } }

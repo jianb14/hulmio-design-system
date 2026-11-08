@@ -1,0 +1,29 @@
+/* Text fields keep a separate outer ring, including native controls in Field. */
+:where([data-hulmio-ui]) :is(input:not([type="checkbox"], [type="radio"], [type="range"], [type="hidden"]), textarea, select):focus,
+:where([data-hulmio-ui="input"]) .input-shell:has(> input:focus),
+:where([data-hulmio-ui]) .h-tag-shell:has(> .h-tag-entry:focus),
+.h-input-group:where([data-hulmio-ui]):has(> .h-input-group-input:focus),
+.h-select-trigger:where([data-hulmio-ui]):focus-visible:not(:active):not([data-state="open"]) {
+  border-color: var(--hulmio-input-focus, var(--hulmio-focus));
+  outline: 2px solid var(--hulmio-input-focus, var(--hulmio-focus));
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+/* Composite fields draw their ring on the shell, never on both elements. */
+:where([data-hulmio-ui="input"]) .input-shell > input:is(:focus, :focus-visible),
+:where([data-hulmio-ui]) .h-tag-shell > .h-tag-entry:is(:focus, :focus-visible),
+.h-input-group-input[data-hulmio-ui]:is(:focus, :focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+:where([data-hulmio-ui]) :is(input, textarea, select)[aria-invalid="true"]:focus,
+:where([data-hulmio-ui="input"]) .input-shell:has(> input[aria-invalid="true"]:focus),
+:where([data-hulmio-ui]) .h-tag-shell:has(> input[aria-invalid="true"]:focus),
+.h-input-group:where([data-hulmio-ui]):has(> input[aria-invalid="true"]:focus),
+.h-input-group[data-hulmio-ui][aria-invalid="true"]:has(> input:focus),
+.h-select-trigger[data-hulmio-ui][aria-invalid="true"]:focus-visible {
+  border-color: var(--hulmio-danger);
+  outline-color: var(--hulmio-danger);
+}

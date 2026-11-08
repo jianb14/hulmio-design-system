@@ -375,7 +375,7 @@ export function ComponentCover({
         <AvatarGroup />
       ) : id === "badge" ? (
         <div className="flex gap-2">
-          <Badge tone="success" dot>
+          <Badge tone="success">
             Published
           </Badge>
           <Badge tone="warning">In review</Badge>

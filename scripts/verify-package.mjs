@@ -5,6 +5,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium, expect } from "@playwright/test";
 import { expandedConsumerSource, verifyExpandedConsumer } from "./verify-expanded-library.mjs";
+import { collectLibrary } from "./collect-library.mjs";
+import { redesignConsumerSource, verifyRedesignConsumer } from "./verify-redesign-consumer.mjs";
+import { parityConsumerSource, verifyParityConsumer } from "./verify-parity-consumer.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const consumer = path.join(root, ".package-check", `run-${Date.now()}`);
@@ -33,6 +36,8 @@ assert(packageFiles.some(file => file.path === "dist/types/src/themes.json"), "M
 const builtCss = await readFile(path.join(root, "packages/ui/dist/styles.css"), "utf8");
 assert(!builtCss.includes("tailwindcss"), "The consumer should not need Tailwind.");
 assert(!builtCss.includes("fonts.googleapis.com"), "The package should not fetch fonts.");
+assert(!builtCss.includes('data-hulmio-theme="contrast"'), "Removed high-contrast theme must not ship in the package.");
+assert.deepEqual(Object.keys(JSON.parse(await readFile(path.join(root, "packages/ui/src/themes.json"), "utf8"))), ["light", "dark"]);
 
 await mkdir(consumer, { recursive: true });
 const installedVersion = async name => JSON.parse(await readFile(path.join(root, "node_modules", name, "package.json"), "utf8")).version;
@@ -41,6 +46,9 @@ const fixtureManifest = {
   dependencies: {
     "hulmio-ui": `file:${path.relative(consumer, path.join(root, "artifacts", `hulmio-ui-${manifest.version}.tgz`)).replaceAll("\\", "/")}`,
     react: await installedVersion("react"), "react-dom": await installedVersion("react-dom"),
+    "@tanstack/react-table": await installedVersion("@tanstack/react-table"),
+    "@internationalized/date": await installedVersion("@internationalized/date"),
+    "lucide-react": await installedVersion("lucide-react"),
   },
   devDependencies: {
     vite: await installedVersion("vite"), typescript: await installedVersion("typescript"),
@@ -50,16 +58,30 @@ const fixtureManifest = {
 await writeFile(path.join(consumer, "package.json"), JSON.stringify(fixtureManifest, null, 2));
 await writeFile(path.join(consumer, "tsconfig.json"), JSON.stringify({ compilerOptions: {
   target: "ES2022", lib: ["ES2022", "DOM", "DOM.Iterable"], module: "ESNext", moduleResolution: "Bundler", jsx: "react-jsx", strict: true, noEmit: true, skipLibCheck: false, types: ["react", "react-dom"],
-}, include: ["*.tsx"] }, null, 2));
+}, include: ["*.tsx", "examples/*.tsx"] }, null, 2));
 await writeFile(path.join(consumer, "vite.config.mjs"), 'export default { server: { host: "127.0.0.1" }, preview: { host: "127.0.0.1" } };\n');
 await writeFile(path.join(consumer, "index.html"), '<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Independent Hulmio consumer</title><style>body{margin:17px;background:rgb(249,246,240);font-family:Arial,sans-serif}#host-button{background:rgb(201,220,255);border-radius:3px}</style></head><body><button id="host-button">Host button</button><div id="root"></div><script type="module" src="/main.tsx"></script></body></html>');
 const guideSource = await readFile(path.join(root, "src/lib/distribution.ts"), "utf8");
-const documentedExample = guideSource.match(/export const firstExample = `([\s\S]*?)`;/)?.[1];
+const registry = await collectLibrary(root, consumer);
+assert.equal(Object.keys(registry.libraryFamilies).length, 104, "All 104 families must be represented in the package registry.");
+const documentedExample = registry.firstExample;
 assert(documentedExample, "Could not find the documented quick start.");
-const readmeExample = (await readFile(path.join(root, "packages/ui/README.md"), "utf8")).match(/```tsx\n([\s\S]*?)```/)?.[1];
+const readmeExample = (await readFile(path.join(root, "packages/ui/README.md"), "utf8")).replaceAll("\r\n", "\n").match(/```tsx\n([\s\S]*?)```/)?.[1];
 assert.equal(readmeExample?.trim(), documentedExample.trim(), "The website and package README quick starts must match.");
 await writeFile(path.join(consumer, "DocumentedExample.tsx"), documentedExample);
 await writeFile(path.join(consumer, "ExpandedConsumer.tsx"), expandedConsumerSource);
+await writeFile(path.join(consumer, "RedesignConsumer.tsx"), redesignConsumerSource);
+await writeFile(path.join(consumer, "ParityConsumer.tsx"), parityConsumerSource);
+await mkdir(path.join(consumer, "examples"), { recursive: true });
+let compiledExamples = 0;
+for (const [id, family] of Object.entries(registry.libraryFamilies)) {
+  assert(family.designs.length > 0, `No runnable example for ${id}.`);
+  for (const [index, example] of family.designs.entries()) {
+    assert(example.code.includes('from "hulmio-ui"'), `Example ${id}/${example.name} imports private gallery code.`);
+    await writeFile(path.join(consumer, "examples", `${id}-${index}.tsx`), example.code);
+    compiledExamples++;
+  }
+}
 await writeFile(path.join(consumer, "main.tsx"), `import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Button, Input, themeTokens } from "hulmio-ui";
@@ -67,18 +89,20 @@ import type { ButtonProps, InputProps, ModalProps } from "hulmio-ui";
 import "hulmio-ui/styles.css";
 import DocumentedExample from "./DocumentedExample";
 import ExpandedConsumer from "./ExpandedConsumer";
+import RedesignConsumer from "./RedesignConsumer";
+import ParityConsumer from "./ParityConsumer";
 function Consumer() {
   const themeColor: string = themeTokens.light.primary;
   const [value, setValue] = useState("hello");
   const buttonProps: ButtonProps = { loading: true };
-  const inputProps: InputProps = { label: "Controlled input", value, onChange: event => setValue(event.target.value), clearable: true };
+  const inputProps: InputProps = { label: "Controlled input", type: "search", value, onChange: event => setValue(event.target.value), clearable: true };
   const modalProps: Pick<ModalProps, "title"> = { title: "Typed modal" };
-  return <><DocumentedExample /><Input {...inputProps} /><output aria-label="Controlled value">{value}</output><Input label="Password" type="password" defaultValue="secret" /><Input label="Invalid email" error="Enter a valid email" /><Button {...buttonProps}>Working</Button><span>{modalProps.title} {themeColor}</span><ExpandedConsumer /></>;
+  return <><DocumentedExample /><Input {...inputProps} /><output aria-label="Controlled value">{value}</output><Input label="Password" type="password" defaultValue="secret" /><Input label="Invalid email" error="Enter a valid email" /><Button {...buttonProps}>Working</Button><span>{modalProps.title} {themeColor}</span><ExpandedConsumer /><RedesignConsumer /><ParityConsumer /></>;
 }
 createRoot(document.getElementById("root")!).render(<Consumer />);`);
 
 // This is an actual npm install of the tarball, outside the gallery's dependency graph.
-npm(["install", "--ignore-scripts", "--no-audit", "--no-fund", "--prefer-offline", "--cache", path.join(root, ".npm-cache")], consumer);
+npm(["install", "--include=dev", "--ignore-scripts", "--no-audit", "--no-fund", "--prefer-online", "--cache", path.join(root, ".npm-cache")], consumer);
 assert.equal(JSON.parse(await readFile(path.join(consumer, "node_modules/hulmio-ui/package.json"), "utf8")).version, manifest.version);
 run(process.execPath, [path.join(consumer, "node_modules/typescript/bin/tsc"), "-p", consumer], consumer);
 run(process.execPath, [path.join(consumer, "node_modules/vite/bin/vite.js"), "build"], consumer);
@@ -113,7 +137,15 @@ try {
   assert.deepEqual(hostStyles, { margin: "17px", background: "rgb(249, 246, 240)", host: "rgb(201, 220, 255)", button: "rgb(40, 76, 63)" });
   assert(parseFloat(inputHeight) >= 40, "Inputs should retain a comfortable control height.");
   await page.getByLabel("Email", { exact: true }).fill("hello@example.com");
+  const search = page.getByRole("searchbox", { name: "Controlled input", exact: true });
+  assert.equal(await search.evaluate(element => getComputedStyle(element).appearance), "none");
+  const clear = page.getByRole("button", { name: "Clear input", exact: true });
+  await clear.hover();
+  await expect(clear).toHaveCSS("padding", "4px");
+  await expect(clear).toHaveCSS("background-clip", "content-box");
+  await expect(clear).not.toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
   await page.getByRole("button", { name: "Clear input", exact: true }).click();
+  await expect(search).toBeFocused();
   assert.equal(await page.getByLabel("Controlled input", { exact: true }).inputValue(), "");
   assert.equal(await page.getByRole("status", { name: "Controlled value" }).textContent(), "");
   await page.getByRole("button", { name: "Show password", exact: true }).click();
@@ -122,8 +154,10 @@ try {
   const invalid = page.getByLabel("Invalid email", { exact: true });
   assert.equal(await invalid.getAttribute("aria-invalid"), "true");
   assert.equal(await invalid.getAttribute("aria-describedby"), await page.getByText("Enter a valid email", { exact: true }).getAttribute("id"));
-  await verifyExpandedConsumer(page, guideSource);
-  for (const [theme, expected] of [["dark", "rgb(217, 237, 146)"], ["contrast", "rgb(229, 255, 120)"]]) {
+  await verifyExpandedConsumer(page, registry.libraryFamilies);
+  await verifyRedesignConsumer(page);
+  await verifyParityConsumer(page);
+  for (const [theme, expected] of [["dark", "rgb(217, 237, 146)"]]) {
     await page.evaluate(theme => { document.documentElement.dataset.hulmioTheme = theme; }, theme);
     await page.waitForFunction(expected => getComputedStyle(document.querySelector('[data-hulmio-ui="button"]')).backgroundColor === expected, expected);
     assert.equal(await page.locator('[data-hulmio-ui="button"]').first().evaluate(element => getComputedStyle(element).backgroundColor), expected);
@@ -132,7 +166,7 @@ try {
   await trigger.click();
   const dialog = page.getByRole("dialog", { name: "Your first Hulmio modal", exact: true });
   await dialog.waitFor();
-  assert.equal(await dialog.evaluate(element => getComputedStyle(element).backgroundColor), "rgb(16, 16, 16)");
+  assert.equal(await dialog.evaluate(element => getComputedStyle(element).backgroundColor), "rgb(30, 40, 33)");
   await page.keyboard.press("Tab");
   assert.equal(await page.evaluate(() => !!document.activeElement?.closest('[role="dialog"]')), true);
   await page.keyboard.press("Escape");
@@ -151,7 +185,7 @@ try {
   assert.equal(await page.locator('.animate-spin').evaluate(element => getComputedStyle(element).animationName), "none");
   assert.deepEqual(errors, []);
   await page.screenshot({ path: path.join(root, "artifacts/package-consumer-mobile.png"), fullPage: true });
-  console.log("PASS: installed tarball, documented example, public types, standalone CSS, host styles, controlled input, password, loading, themes, modal focus/Escape/close, mobile layout, reduced motion, and browser errors.");
+  console.log(`PASS: installed tarball, 104 public families, ${compiledExamples} compiled examples, documented quick start, public types, standalone CSS, host styles, controlled input, customization, loading, themes, overlays, mobile layout, reduced motion, and browser errors.`);
 } finally {
   await browser?.close();
   server.kill();

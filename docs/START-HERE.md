@@ -12,14 +12,18 @@ May dalawang gamit na ngayon ang repo:
 | Website / gallery | Makita at subukan ang designs, themes, at component variations |
 | `packages/ui` | Component code na puwedeng i-install sa ibang React app |
 
-May **64 core component families**, **89 live package examples**, at **8 named
-button designs** na ngayon. Lahat ng families ay may totoong export sa `hulmio-ui`.
-Piliin ang design, kopyahin ang import, saka piliin ang variant, size at state.
-Halimbawa, magkaibang design ang `PillButton` at `BrutalistButton`, pero parehong
-puwedeng gumamit ng `variant="primary"`, `size="lg"`, `loading` at `disabled`.
+May **104 component families** at **1,147 live package examples**. May visible variants
+at states na ang bawat family kung applicable. Ang All Components ay may static
+SVG illustrations; sa component page, live preview sa taas at **Expand code** sa ilalim.
 
-Ang mas lumang app arrangements ay nasa hiwalay na **Reference compositions**.
-Hindi lahat ng buong arrangement ay isang component import. Nasa
+Oo, puwede pa ring i-customize sa ibang React app gamit ang `className`, `style`,
+at `--hulmio-*` CSS variables. Halimbawa, puwedeng palitan ang brand color,
+font, corner radius, at input focus ring nang hindi ine-edit ang library.
+Nasa [package guide](../packages/ui/README.md#customize-in-your-app) ang halimbawa.
+
+Ang homepage ay may working local authentication, dashboard, at settings
+compositions. Ang reusable controls lang ang package imports; app logic ay nasa
+consuming application. Nasa
 [component coverage](COMPONENT-COVERAGE.md) ang lahat ng exports at limits.
 
 **Status: local preview, version 0.1.0.** Hulmio na ang piniling pangalan, at
@@ -52,10 +56,10 @@ npm.cmd run dev
 ```
 
 Buksan ang Local URL na ipapakita ng terminal. Homepage muna na may navbar.
-Piliin ang **Components** para lumabas ang sidebar na may listahan ng 64 families.
-Buksan ang Button para subukan ang walong designs; may sarili silang controls at
-**Copy import example**. Piliin ang **Documentation** para sa installation steps.
-Google Sans Flex ang primary font, Instrument Serif ang display accent, at mas
+Piliin ang **Components** para lumabas ang sidebar na may listahan ng 104 families.
+Buksan ang Button para makita nang sabay-sabay ang variants, sizes, shapes at states.
+Buksan ang **Expand code**, at gamitin ang **Copy code** para sa buong runnable example. Piliin ang **Documentation** para sa installation steps.
+Onest ang primary font, Google Sans Flex ang secondary, at mas
 malaki na ang base text. Sa ibang
 terminal puwede mong patakbuhin ang commands sa ibaba habang bukas ang website.
 
@@ -88,15 +92,15 @@ npm.cmd install ./hulmio-ui-0.1.0.tgz
 Sa app code:
 
 ```tsx
-import { PillButton, BrutalistButton, Input } from "hulmio-ui";
+import { Button, Input } from "hulmio-ui";
 import "hulmio-ui/styles.css";
 
 export default function App() {
   return (
     <div>
       <Input label="Email" type="email" />
-      <PillButton type="button">Save</PillButton>
-      <BrutalistButton variant="outline">See details</BrutalistButton>
+      <Button type="button">Save</Button>
+      <Button variant="outline">See details</Button>
     </div>
   );
 }
@@ -121,11 +125,11 @@ Sa ibang app, ilagay ang theme sa `html`:
 <html data-hulmio-theme="dark">
 ```
 
-Puwede ang `light`, `dark`, at `contrast`. Kapag nasa `html` ang theme, kasama ang
+Puwede ang `light` at `dark`. Kapag nasa `html` ang theme, kasama ang
 Modal na inilalagay ng Radix sa `body`. Ang fonts ay manggagaling sa app mo. Para
-kapareho ng gallery, i-load ang Google Sans Flex at itakda ang
-`--hulmio-font-family: "Google Sans Flex", sans-serif` sa `:root`.
-Instrument Serif ang secondary display accent. Nasa `public/fonts/` ang
+kapareho ng gallery, i-load ang Onest at itakda ang
+`--hulmio-font-family: "Onest", sans-serif` sa `:root`.
+Google Sans Flex ang secondary font. Nasa `public/fonts/` ang
 self-hosted website font files, sources, at OFL notices; hindi kasama ang fonts
 sa UI package. Puwede ring gamitin ang sariling font ng ibang app.
 
@@ -177,3 +181,13 @@ Ang susunod mong personal na gawain ay subukan ang local `.tgz` sa isa sa tunay
 mong React projects. Para sa npm release sa ibang araw, ikaw ang gagawa ng account,
 verification, at security setup. Ihahanda muna natin ang package at dokumentadong
 validation bago ka magdesisyon tungkol sa public publishing.
+
+## Custom controls at bagong components
+
+May custom search/chips, calendars, steppers, OTP slots, at file dropzone. Kung gusto
+mo pa rin ang native controls, available ang explicit `Native*` exports. Basahin ang
+[custom-controls guide](CUSTOM-CONTROLS.md) para sa migration at refs, at ang
+[additional-components guide](ADDITIONAL-COMPONENTS.md) para sa 20 bagong families.
+
+Default focus ring ay Hulmio theme color; puwede pa rin itong i-override sa app gamit
+ang `--hulmio-input-focus`. Hindi naglalabas ng gradient/glass/brutalist presets.

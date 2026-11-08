@@ -602,11 +602,10 @@ export function ComponentDemo({
       return (
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Badge
-            tone={lower === "dot" ? "success" : lower}
-            dot={lower === "dot"}
+            tone={lower}
             outline={lower === "outline"}
           >
-            {lower === "success" || lower === "dot"
+            {lower === "success"
               ? "Published"
               : lower === "warning"
                 ? "In review"
@@ -768,7 +767,7 @@ export function ComponentDemo({
               {
                 title: "Can I change the appearance?",
                 content:
-                  "Choose a light, dark, or high-contrast appearance. You can change it whenever the mood changes.",
+                  "Choose a light or dark appearance. You can change it whenever the mood changes.",
               },
             ]}
           />
@@ -1704,7 +1703,7 @@ function TableRow({
         </td>
         <td>{["Designer", "Developer", "Admin", "Designer"][index]}</td>
         <td>
-          <Badge tone={index === 2 ? "warning" : "success"} dot>
+          <Badge tone={index === 2 ? "warning" : "success"}>
             {index === 2 ? "Invited" : "Active"}
           </Badge>
         </td>

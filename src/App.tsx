@@ -6,64 +6,30 @@ import {
   Sun,
   Moon,
   Monitor,
-  Contrast,
   Menu,
   X,
-  Home,
-  Palette,
-  Type,
-  Grid2X2,
-  Sparkles,
-  Blocks,
-  MousePointer2,
-  TextCursorInput,
-  Compass,
-  MessageSquare,
-  Table2,
-  LayoutTemplate,
-  Check,
-  SlidersHorizontal,
-  Copy,
-  Shapes,
-  Layers,
   Component,
-  BookOpen,
+  Grid2X2,
+  Check,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import { Brand, BrandMark, Modal, Tooltip, cn } from "./components/ui";
+import { Brand, BrandMark, Button, Modal, Tooltip, cn } from "./components/ui";
+import { GitHubLink } from "./components/GitHubLink";
 import { components, navGroups, categories } from "./lib/catalog";
 import { Overview } from "./pages/Overview";
 import { readPreference } from "./lib/preferences";
 import { libraryFamilies } from "./lib/distribution";
+import "./styles/navbar.css";
 const BrandingPage = lazy(() => import("./pages/Foundations").then(page => ({ default: page.BrandingPage })));
 const ColorPage = lazy(() => import("./pages/Foundations").then(page => ({ default: page.ColorPage })));
 const EffectsPage = lazy(() => import("./pages/Foundations").then(page => ({ default: page.EffectsPage })));
 const SpacingPage = lazy(() => import("./pages/Foundations").then(page => ({ default: page.SpacingPage })));
 const TypographyPage = lazy(() => import("./pages/Foundations").then(page => ({ default: page.TypographyPage })));
+const AccessibilityPage = lazy(() => import("./pages/Foundations").then(page => ({ default: page.AccessibilityPage })));
 const PatternsPage = lazy(() => import("./pages/Patterns").then(page => ({ default: page.PatternsPage })));
 const ComponentCatalog = lazy(() => import("./pages/ComponentGallery").then(page => ({ default: page.ComponentCatalog })));
 const ComponentPage = lazy(() => import("./pages/ComponentGallery").then(page => ({ default: page.ComponentPage })));
 const UsingHulmio = lazy(() => import("./pages/UsingHulmio").then(page => ({ default: page.UsingHulmio })));
-const icons: Record<string, LucideIcon> = {
-  home: Home,
-  brand: Shapes,
-  palette: Palette,
-  type: Type,
-  grid: Grid2X2,
-  sparkles: Sparkles,
-  blocks: Blocks,
-  pointer: MousePointer2,
-  input: TextCursorInput,
-  compass: Compass,
-  message: MessageSquare,
-  table: Table2,
-  layout: LayoutTemplate,
-  selection: SlidersHorizontal,
-  overlays: Copy,
-  layers: Layers,
-  book: BookOpen,
-};
-type Theme = "light" | "dark" | "system" | "contrast";
+type Theme = "light" | "dark" | "system";
 function useRoute() {
   const [route, setRoute] = useState(
     window.location.hash.slice(2) || "overview",
@@ -87,14 +53,23 @@ export default function App() {
   const [command, setCommand] = useState(false);
   const [toast, setToast] = useState("");
   const [themeOpen, setThemeOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(() => window.scrollY > 8);
   const [theme, setTheme] = useState<Theme>(() => {
     const stored = readPreference("theme");
-    return ["light", "dark", "system", "contrast"].includes(stored || "")
+    return ["light", "dark", "system"].includes(stored || "")
       ? (stored as Theme)
       : "light";
   });
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const themeRef = useRef<HTMLDivElement>(null);
+  const themeTransition = useRef<ViewTransition | undefined>(undefined);
+  const themeRevision = useRef(0);
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 8);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
   useEffect(() => {
     const media = window.matchMedia("(max-width: 900px)");
     const update = () => {
@@ -144,8 +119,19 @@ export default function App() {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     const apply = () => {
       const resolved = theme === "system" ? (media.matches ? "dark" : "light") : theme;
-      document.documentElement.setAttribute("data-theme", resolved);
-      document.documentElement.setAttribute("data-hulmio-theme", resolved);
+      const root = document.documentElement;
+      const revision = ++themeRevision.current;
+      themeTransition.current?.skipTransition();
+      if (root.getAttribute("data-theme") === resolved && root.getAttribute("data-hulmio-theme") === resolved) return;
+      const update = () => {
+        // A skipped transition can still run its pending update callback.
+        if (revision !== themeRevision.current) return;
+        root.setAttribute("data-theme", resolved);
+        root.setAttribute("data-hulmio-theme", resolved);
+      };
+      if (root.hasAttribute("data-theme") && document.startViewTransition && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        themeTransition.current = document.startViewTransition(update);
+      } else update();
     };
     apply();
     localStorage.setItem("hulmio-theme", theme);
@@ -185,7 +171,7 @@ export default function App() {
         ?.label ||
       "Hulmio";
     document.title = `${title} — Hulmio UI Library`;
-  }, [route, base]);
+  }, [base]);
   useEffect(() => {
     document.body.style.overflow = mobile ? "hidden" : "";
     return () => {
@@ -195,11 +181,9 @@ export default function App() {
   const ThemeIcon =
     theme === "dark"
       ? Moon
-      : theme === "contrast"
-        ? Contrast
-        : theme === "system"
-          ? Monitor
-          : Sun;
+      : theme === "system"
+        ? Monitor
+        : Sun;
   let page;
   if (base === "overview") page = <Overview />;
   else if (base === "branding") page = <BrandingPage notify={notify} />;
@@ -207,6 +191,7 @@ export default function App() {
   else if (base === "typography") page = <TypographyPage />;
   else if (base === "spacing") page = <SpacingPage />;
   else if (base === "effects") page = <EffectsPage />;
+  else if (base === "accessibility") page = <AccessibilityPage />;
   else if (base === "components") page = <ComponentCatalog route={route} />;
   else if (base.startsWith("components/")) {
     const entry = components.find((c) => c.id === base.split("/")[1]);
@@ -214,6 +199,7 @@ export default function App() {
       <ComponentPage
         key={entry.id}
         entry={entry}
+        route={route}
         onCommand={() => setCommand(true)}
       />
     ) : (
@@ -234,21 +220,31 @@ export default function App() {
       >
         Skip to content
       </a>
-      <header className="site-navbar" inert={isMobile && mobile}>
+      <header className="site-navbar" data-scrolled={scrolled} inert={isMobile && mobile}>
         <div className="site-navbar-inner">
           <a href="#/overview" className="site-wordmark" aria-label="Hulmio home"><Brand /></a>
           <nav className="site-primary-nav" aria-label="Primary navigation">
             <a href="#/components" aria-current={base.startsWith("components") ? "page" : undefined}>Components</a>
-            <a href="#/branding" aria-current={["branding", "colors", "typography", "spacing", "effects"].includes(base) ? "page" : undefined}>Foundations</a>
+            <a href="#/branding" aria-current={["branding", "colors", "typography", "spacing", "effects", "accessibility"].includes(base) ? "page" : undefined}>Foundations</a>
             <a href="#/patterns" aria-current={base === "patterns" ? "page" : undefined}>Patterns</a>
             <a href="#/using-hulmio" aria-current={base === "using-hulmio" ? "page" : undefined}>Documentation</a>
           </nav>
           <div className="site-navbar-actions">
-            <button className="site-search" onClick={() => setCommand(true)} aria-label="Search components"><Search size={18} /><span>Search</span><kbd>⌘ K</kbd></button>
-            <a className="site-github" href="https://github.com/jianb14/hulmio-design-system" target="_blank" rel="noreferrer">GitHub <ArrowUpRight size={14} /></a>
+            <Modal
+              title="Find your next building block."
+              description="Find a component, a color palette, or a little inspiration."
+              open={command}
+              onOpenChange={setCommand}
+              trigger={<Button variant="outline" size="sm" className="site-search" aria-label="Search components"><Search size={18} aria-hidden="true" /><span>Search</span><kbd><span>⌘ K</span></kbd></Button>}
+            >
+              <CommandSearch onSelect={() => setCommand(false)} />
+            </Modal>
+            <GitHubLink />
             <div className="theme-control" ref={themeRef}>
               <Tooltip content="Choose your theme">
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   className="icon-control"
                   aria-label="Choose theme"
                   aria-haspopup="menu"
@@ -256,7 +252,7 @@ export default function App() {
                   onClick={() => setThemeOpen(!themeOpen)}
                 >
                   <ThemeIcon size={18} strokeWidth={1.6} />
-                </button>
+                </Button>
               </Tooltip>
               {themeOpen && (
                 <div
@@ -286,14 +282,11 @@ export default function App() {
                       { value: "light", label: "Light", icon: Sun },
                       { value: "dark", label: "Dark", icon: Moon },
                       { value: "system", label: "System", icon: Monitor },
-                      {
-                        value: "contrast",
-                        label: "High contrast",
-                        icon: Contrast,
-                      },
                     ] as const
                   ).map(({ value, label, icon: Icon }) => (
-                    <button
+                    <Button
+                      variant="ghost"
+                      size="sm"
                       key={value}
                       role="menuitemradio"
                       aria-checked={theme === value}
@@ -307,12 +300,12 @@ export default function App() {
                       {theme === value && (
                         <Check size={14} className="ml-auto" />
                       )}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               )}
             </div>
-            <button className="mobile-menu" aria-label="Open navigation" aria-expanded={mobile} aria-controls={library || isMobile ? "library-navigation" : undefined} onClick={() => { setThemeOpen(false); setMobile(true); }}><Menu size={23} /></button>
+            <Button variant="ghost" size="sm" className="mobile-menu" aria-label="Open navigation" aria-expanded={mobile} aria-controls={library || isMobile ? "library-navigation" : undefined} onClick={() => { setThemeOpen(false); setMobile(true); }}><Menu size={23} aria-hidden="true" /></Button>
           </div>
         </div>
       </header>
@@ -338,18 +331,17 @@ export default function App() {
         </div>
         <nav className="sidebar-nav" aria-label="Library navigation">
           <div className="nav-group"><p>Getting started</p>
-            <a className={cn("nav-link", base === "using-hulmio" && "nav-link-active")} href="#/using-hulmio"><BookOpen size={16} /><span>Using Hulmio</span></a>
-            <a className={cn("nav-link", base === "components" && "nav-link-active")} href="#/components"><Blocks size={16} /><span>All components</span><span className="nav-count">{components.length}</span></a>
+            <a className={cn("nav-link", base === "using-hulmio" && "nav-link-active")} href="#/using-hulmio"><span>Using Hulmio</span></a>
+            <a className={cn("nav-link", base === "components" && "nav-link-active")} href="#/components"><span>All components</span><span className="nav-count">{components.length}</span></a>
           </div>
           {categories.map(category => <div className="nav-group component-nav-group" key={category}>
             <a className="nav-category" href={`#/components?category=${category}`}>{category}</a>
             {components.filter(entry => entry.category === category).map(entry => <a className={cn("nav-link component-nav-link", base === `components/${entry.id}` && "nav-link-active")} href={`#/components/${entry.id}`} key={entry.id} aria-current={base === `components/${entry.id}` ? "page" : undefined}><span>{entry.name}</span>{base === `components/${entry.id}` && <span className="nav-active-dot" />}</a>)}
           </div>)}
           <div className="nav-group"><p>Foundations</p>{navGroups.find(g => g.label === "THE FOUNDATIONS")?.links.map(link => {
-            const Icon = icons[link.icon];
-            return <a className={cn("nav-link", base === link.id && "nav-link-active")} key={link.id} href={`#/${link.id}`} aria-current={base === link.id ? "page" : undefined}><Icon size={16} /><span>{link.label}</span></a>;
+            return <a className={cn("nav-link", base === link.id && "nav-link-active")} key={link.id} href={`#/${link.id}`} aria-current={base === link.id ? "page" : undefined}><span>{link.label}</span></a>;
           })}</div>
-          <div className="nav-group"><a className="nav-link" href="#/patterns"><LayoutTemplate size={16} /><span>Patterns & templates</span></a></div>
+          <div className="nav-group"><a className="nav-link" href="#/patterns"><span>Patterns & templates</span></a></div>
         </nav>
         <div className="sidebar-bottom">
           <div>
@@ -382,14 +374,6 @@ export default function App() {
           </div>
         </main>
       </div>
-      <Modal
-        title="Find your next building block."
-        description="Find a component, a color palette, or a little inspiration."
-        open={command}
-        onOpenChange={setCommand}
-      >
-        <CommandSearch onSelect={() => setCommand(false)} />
-      </Modal>
       <div
         className="toast-region"
         role="status"

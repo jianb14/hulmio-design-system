@@ -1,0 +1,1004 @@
+[
+  {
+    "family": "button",
+    "name": "Variants",
+    "exportName": "Button",
+    "file": "button/legacy-variants.tsx"
+  },
+  {
+    "family": "button",
+    "name": "Sizes",
+    "exportName": "Button",
+    "file": "button/legacy-sizes.tsx"
+  },
+  {
+    "family": "button",
+    "name": "Shapes and icons",
+    "exportName": "Button",
+    "file": "button/legacy-shapes-and-icons.tsx"
+  },
+  {
+    "family": "button",
+    "name": "States and full width",
+    "exportName": "Button",
+    "file": "button/legacy-states-and-full-width.tsx"
+  },
+  {
+    "family": "icon-button",
+    "name": "Icon button",
+    "exportName": "IconButton",
+    "file": "icon-button/legacy-icon-button.tsx"
+  },
+  {
+    "family": "icon-button",
+    "name": "Icon sizes and shapes",
+    "exportName": "IconButton",
+    "file": "icon-button/legacy-icon-sizes-and-shapes.tsx"
+  },
+  {
+    "family": "button-group",
+    "name": "Joined actions",
+    "exportName": "ButtonGroup",
+    "file": "button-group/legacy-joined-actions.tsx"
+  },
+  {
+    "family": "button-group",
+    "name": "Outlined and mixed actions",
+    "exportName": "ButtonGroup",
+    "file": "button-group/legacy-outlined-and-mixed-actions.tsx"
+  },
+  {
+    "family": "input",
+    "name": "Input",
+    "exportName": "Input",
+    "file": "input/legacy-input.tsx"
+  },
+  {
+    "family": "input",
+    "name": "Filled input",
+    "exportName": "Input",
+    "file": "input/legacy-filled-input.tsx"
+  },
+  {
+    "family": "input",
+    "name": "Underline input",
+    "exportName": "Input",
+    "file": "input/legacy-underline-input.tsx"
+  },
+  {
+    "family": "input",
+    "name": "Input sizes",
+    "exportName": "Input",
+    "file": "input/legacy-input-sizes.tsx"
+  },
+  {
+    "family": "input",
+    "name": "Password and search",
+    "exportName": "Input",
+    "file": "input/legacy-password-and-search.tsx"
+  },
+  {
+    "family": "input",
+    "name": "Readonly and disabled",
+    "exportName": "Input",
+    "file": "input/legacy-readonly-and-disabled.tsx"
+  },
+  {
+    "family": "input",
+    "name": "Invalid input",
+    "exportName": "Input",
+    "file": "input/legacy-invalid-input.tsx"
+  },
+  {
+    "family": "input",
+    "name": "Affixes and input types",
+    "exportName": "Input",
+    "file": "input/legacy-affixes-and-input-types.tsx"
+  },
+  {
+    "family": "textarea",
+    "name": "Textarea",
+    "exportName": "Textarea",
+    "file": "textarea/legacy-textarea.tsx"
+  },
+  {
+    "family": "textarea",
+    "name": "Textarea validation and readonly",
+    "exportName": "Textarea",
+    "file": "textarea/legacy-textarea-validation-and-readonly.tsx"
+  },
+  {
+    "family": "otp-input",
+    "name": "One-time code",
+    "exportName": "OtpInput",
+    "file": "otp-input/legacy-one-time-code.tsx"
+  },
+  {
+    "family": "otp-input",
+    "name": "OTP lengths and masked codes",
+    "exportName": "OtpInput",
+    "file": "otp-input/legacy-otp-lengths-and-masked-codes.tsx"
+  },
+  {
+    "family": "form",
+    "name": "Native form",
+    "exportName": "Form",
+    "file": "form/legacy-native-form.tsx"
+  },
+  {
+    "family": "calendar",
+    "name": "Date picker",
+    "exportName": "DatePicker",
+    "file": "calendar/legacy-date-picker.tsx"
+  },
+  {
+    "family": "calendar",
+    "name": "Date range",
+    "exportName": "DateRangePicker",
+    "file": "calendar/legacy-date-range.tsx"
+  },
+  {
+    "family": "calendar",
+    "name": "Date limits and native time fields",
+    "exportName": "DatePicker",
+    "file": "calendar/legacy-date-limits-and-native-time-fields.tsx"
+  },
+  {
+    "family": "upload",
+    "name": "Local file selection",
+    "exportName": "FileUpload",
+    "file": "upload/legacy-local-file-selection.tsx"
+  },
+  {
+    "family": "upload",
+    "name": "File restrictions",
+    "exportName": "FileUpload",
+    "file": "upload/legacy-file-restrictions.tsx"
+  },
+  {
+    "family": "tag-input",
+    "name": "Editable tags",
+    "exportName": "TagInput",
+    "file": "tag-input/legacy-editable-tags.tsx"
+  },
+  {
+    "family": "color-picker",
+    "name": "Native color picker",
+    "exportName": "ColorPicker",
+    "file": "color-picker/legacy-native-color-picker.tsx"
+  },
+  {
+    "family": "checkbox",
+    "name": "Checkbox",
+    "exportName": "Checkbox",
+    "file": "checkbox/legacy-checkbox.tsx"
+  },
+  {
+    "family": "checkbox",
+    "name": "Checkbox states",
+    "exportName": "Checkbox",
+    "file": "checkbox/legacy-checkbox-states.tsx"
+  },
+  {
+    "family": "radio",
+    "name": "Radio group",
+    "exportName": "RadioGroup",
+    "file": "radio/legacy-radio-group.tsx"
+  },
+  {
+    "family": "radio",
+    "name": "Radio disabled states",
+    "exportName": "RadioGroup",
+    "file": "radio/legacy-radio-disabled-states.tsx"
+  },
+  {
+    "family": "switch",
+    "name": "Switch",
+    "exportName": "Switch",
+    "file": "switch/legacy-switch.tsx"
+  },
+  {
+    "family": "switch",
+    "name": "Switch states",
+    "exportName": "Switch",
+    "file": "switch/legacy-switch-states.tsx"
+  },
+  {
+    "family": "select",
+    "name": "Custom select",
+    "exportName": "Select",
+    "file": "select/legacy-custom-select.tsx"
+  },
+  {
+    "family": "select",
+    "name": "Select placeholder and errors",
+    "exportName": "Select",
+    "file": "select/legacy-select-placeholder-and-errors.tsx"
+  },
+  {
+    "family": "combobox",
+    "name": "Searchable combobox",
+    "exportName": "Combobox",
+    "file": "combobox/legacy-searchable-combobox.tsx"
+  },
+  {
+    "family": "combobox",
+    "name": "Combobox disabled and empty",
+    "exportName": "Combobox",
+    "file": "combobox/legacy-combobox-disabled-and-empty.tsx"
+  },
+  {
+    "family": "multi-select",
+    "name": "Searchable multiple select",
+    "exportName": "MultiSelect",
+    "file": "multi-select/legacy-searchable-multiple-select.tsx"
+  },
+  {
+    "family": "multi-select",
+    "name": "Multi-select disabled and empty",
+    "exportName": "MultiSelect",
+    "file": "multi-select/legacy-multi-select-disabled-and-empty.tsx"
+  },
+  {
+    "family": "slider",
+    "name": "Single-value slider",
+    "exportName": "Slider",
+    "file": "slider/legacy-single-value-slider.tsx"
+  },
+  {
+    "family": "slider",
+    "name": "Range, steps and disabled sliders",
+    "exportName": "Slider",
+    "file": "slider/legacy-range-steps-and-disabled-sliders.tsx"
+  },
+  {
+    "family": "rating",
+    "name": "Star rating",
+    "exportName": "Rating",
+    "file": "rating/legacy-star-rating.tsx"
+  },
+  {
+    "family": "rating",
+    "name": "Rating readonly and disabled",
+    "exportName": "Rating",
+    "file": "rating/legacy-rating-readonly-and-disabled.tsx"
+  },
+  {
+    "family": "badge",
+    "name": "Badge",
+    "exportName": "Badge",
+    "file": "badge/legacy-badge.tsx"
+  },
+  {
+    "family": "badge",
+    "name": "Badge styles and tones",
+    "exportName": "Badge",
+    "file": "badge/legacy-badge-styles-and-tones.tsx"
+  },
+  {
+    "family": "avatar",
+    "name": "Initial avatar",
+    "exportName": "Avatar",
+    "file": "avatar/legacy-initial-avatar.tsx"
+  },
+  {
+    "family": "avatar",
+    "name": "Avatar group",
+    "exportName": "AvatarGroup",
+    "file": "avatar/legacy-avatar-group.tsx"
+  },
+  {
+    "family": "avatar",
+    "name": "Avatar sizes and status",
+    "exportName": "Avatar",
+    "file": "avatar/legacy-avatar-sizes-and-status.tsx"
+  },
+  {
+    "family": "card",
+    "name": "Card",
+    "exportName": "Card",
+    "file": "card/legacy-card.tsx"
+  },
+  {
+    "family": "card",
+    "name": "Card surface variants",
+    "exportName": "Card",
+    "file": "card/legacy-card-surface-variants.tsx"
+  },
+  {
+    "family": "card",
+    "name": "Profile and product cards",
+    "exportName": "Card",
+    "file": "card/legacy-profile-and-product-cards.tsx"
+  },
+  {
+    "family": "table",
+    "name": "Interactive data table",
+    "exportName": "DataTable",
+    "file": "table/legacy-interactive-data-table.tsx"
+  },
+  {
+    "family": "accordion",
+    "name": "Native accordion",
+    "exportName": "Accordion",
+    "file": "accordion/legacy-native-accordion.tsx"
+  },
+  {
+    "family": "accordion",
+    "name": "Accordion multiple and disabled",
+    "exportName": "Accordion",
+    "file": "accordion/legacy-accordion-multiple-and-disabled.tsx"
+  },
+  {
+    "family": "timeline",
+    "name": "Activity timeline",
+    "exportName": "Timeline",
+    "file": "timeline/legacy-activity-timeline.tsx"
+  },
+  {
+    "family": "chart",
+    "name": "Bar chart",
+    "exportName": "Chart",
+    "file": "chart/legacy-bar-chart.tsx"
+  },
+  {
+    "family": "chart",
+    "name": "Line chart",
+    "exportName": "Chart",
+    "file": "chart/legacy-line-chart.tsx"
+  },
+  {
+    "family": "chart",
+    "name": "Area chart",
+    "exportName": "Chart",
+    "file": "chart/legacy-area-chart.tsx"
+  },
+  {
+    "family": "chart",
+    "name": "Donut chart",
+    "exportName": "Chart",
+    "file": "chart/legacy-donut-chart.tsx"
+  },
+  {
+    "family": "chart",
+    "name": "Heatmap chart",
+    "exportName": "Chart",
+    "file": "chart/legacy-heatmap-chart.tsx"
+  },
+  {
+    "family": "chart",
+    "name": "Scatter chart",
+    "exportName": "Chart",
+    "file": "chart/legacy-scatter-chart.tsx"
+  },
+  {
+    "family": "carousel",
+    "name": "Manual carousel",
+    "exportName": "Carousel",
+    "file": "carousel/legacy-manual-carousel.tsx"
+  },
+  {
+    "family": "tabs",
+    "name": "Tabs",
+    "exportName": "Tabs",
+    "file": "tabs/legacy-tabs.tsx"
+  },
+  {
+    "family": "tabs",
+    "name": "Underline tabs",
+    "exportName": "Tabs",
+    "file": "tabs/legacy-underline-tabs.tsx"
+  },
+  {
+    "family": "tabs",
+    "name": "Pill tabs",
+    "exportName": "Tabs",
+    "file": "tabs/legacy-pill-tabs.tsx"
+  },
+  {
+    "family": "tabs",
+    "name": "Vertical tabs and disabled",
+    "exportName": "Tabs",
+    "file": "tabs/legacy-vertical-tabs-and-disabled.tsx"
+  },
+  {
+    "family": "breadcrumbs",
+    "name": "Breadcrumb trail",
+    "exportName": "Breadcrumbs",
+    "file": "breadcrumbs/legacy-breadcrumb-trail.tsx"
+  },
+  {
+    "family": "pagination",
+    "name": "Numbered pagination",
+    "exportName": "Pagination",
+    "file": "pagination/legacy-numbered-pagination.tsx"
+  },
+  {
+    "family": "pagination",
+    "name": "Pagination boundaries",
+    "exportName": "Pagination",
+    "file": "pagination/legacy-pagination-boundaries.tsx"
+  },
+  {
+    "family": "stepper",
+    "name": "Project stepper",
+    "exportName": "Stepper",
+    "file": "stepper/legacy-project-stepper.tsx"
+  },
+  {
+    "family": "stepper",
+    "name": "Completed and final steps",
+    "exportName": "Stepper",
+    "file": "stepper/legacy-completed-and-final-steps.tsx"
+  },
+  {
+    "family": "dropdown",
+    "name": "Action menu",
+    "exportName": "DropdownMenu",
+    "file": "dropdown/legacy-action-menu.tsx"
+  },
+  {
+    "family": "dropdown",
+    "name": "Grouped menu actions",
+    "exportName": "DropdownMenu",
+    "file": "dropdown/legacy-grouped-menu-actions.tsx"
+  },
+  {
+    "family": "command",
+    "name": "Command palette",
+    "exportName": "CommandPalette",
+    "file": "command/legacy-command-palette.tsx"
+  },
+  {
+    "family": "alert",
+    "name": "Inline alert",
+    "exportName": "Alert",
+    "file": "alert/legacy-inline-alert.tsx"
+  },
+  {
+    "family": "alert",
+    "name": "Alert tones",
+    "exportName": "Alert",
+    "file": "alert/legacy-alert-tones.tsx"
+  },
+  {
+    "family": "toast",
+    "name": "Status toast",
+    "exportName": "Toast",
+    "file": "toast/legacy-status-toast.tsx"
+  },
+  {
+    "family": "toast",
+    "name": "Toast messages",
+    "exportName": "Toast",
+    "file": "toast/legacy-toast-messages.tsx"
+  },
+  {
+    "family": "progress",
+    "name": "Linear progress",
+    "exportName": "Progress",
+    "file": "progress/legacy-linear-progress.tsx"
+  },
+  {
+    "family": "progress",
+    "name": "Circular progress",
+    "exportName": "Progress",
+    "file": "progress/legacy-circular-progress.tsx"
+  },
+  {
+    "family": "progress",
+    "name": "Progress states",
+    "exportName": "Progress",
+    "file": "progress/legacy-progress-states.tsx"
+  },
+  {
+    "family": "skeleton",
+    "name": "Loading placeholder",
+    "exportName": "Skeleton",
+    "file": "skeleton/legacy-loading-placeholder.tsx"
+  },
+  {
+    "family": "skeleton",
+    "name": "Skeleton layouts",
+    "exportName": "Skeleton",
+    "file": "skeleton/legacy-skeleton-layouts.tsx"
+  },
+  {
+    "family": "spinner",
+    "name": "Loading spinner",
+    "exportName": "Spinner",
+    "file": "spinner/legacy-loading-spinner.tsx"
+  },
+  {
+    "family": "spinner",
+    "name": "Spinner sizes",
+    "exportName": "Spinner",
+    "file": "spinner/legacy-spinner-sizes.tsx"
+  },
+  {
+    "family": "empty-state",
+    "name": "Empty collection",
+    "exportName": "EmptyState",
+    "file": "empty-state/legacy-empty-collection.tsx"
+  },
+  {
+    "family": "empty-state",
+    "name": "Empty search and error states",
+    "exportName": "EmptyState",
+    "file": "empty-state/legacy-empty-search-and-error-states.tsx"
+  },
+  {
+    "family": "dialog",
+    "name": "Modal dialog",
+    "exportName": "Dialog",
+    "file": "dialog/legacy-modal-dialog.tsx"
+  },
+  {
+    "family": "dialog",
+    "name": "Destructive confirmation",
+    "exportName": "AlertDialog",
+    "file": "dialog/legacy-destructive-confirmation.tsx"
+  },
+  {
+    "family": "drawer",
+    "name": "Side drawer",
+    "exportName": "Drawer",
+    "file": "drawer/legacy-side-drawer.tsx"
+  },
+  {
+    "family": "drawer",
+    "name": "Drawer positions",
+    "exportName": "Drawer",
+    "file": "drawer/legacy-drawer-positions.tsx"
+  },
+  {
+    "family": "tooltip",
+    "name": "Focus and hover tooltip",
+    "exportName": "Tooltip",
+    "file": "tooltip/legacy-focus-and-hover-tooltip.tsx"
+  },
+  {
+    "family": "tooltip",
+    "name": "Tooltip positions",
+    "exportName": "Tooltip",
+    "file": "tooltip/legacy-tooltip-positions.tsx"
+  },
+  {
+    "family": "popover",
+    "name": "Context popover",
+    "exportName": "Popover",
+    "file": "popover/legacy-context-popover.tsx"
+  },
+  {
+    "family": "layout",
+    "name": "Responsive composition",
+    "exportName": "Container",
+    "file": "layout/legacy-responsive-composition.tsx"
+  },
+  {
+    "family": "kanban",
+    "name": "Keyboard-friendly board",
+    "exportName": "Kanban",
+    "file": "kanban/legacy-keyboard-friendly-board.tsx"
+  },
+  {
+    "family": "toggle",
+    "name": "Pressable toggle",
+    "exportName": "Toggle",
+    "file": "toggle/legacy-pressable-toggle.tsx"
+  },
+  {
+    "family": "toggle",
+    "name": "Toggle states",
+    "exportName": "Toggle",
+    "file": "toggle/legacy-toggle-states.tsx"
+  },
+  {
+    "family": "toggle-group",
+    "name": "Single-selection toggles",
+    "exportName": "ToggleGroup",
+    "file": "toggle-group/legacy-single-selection-toggles.tsx"
+  },
+  {
+    "family": "number-input",
+    "name": "Native number input",
+    "exportName": "NumberInput",
+    "file": "number-input/legacy-native-number-input.tsx"
+  },
+  {
+    "family": "number-input",
+    "name": "Number limits and stepper states",
+    "exportName": "NumberInput",
+    "file": "number-input/legacy-number-limits-and-stepper-states.tsx"
+  },
+  {
+    "family": "field",
+    "name": "Connected field",
+    "exportName": "Field",
+    "file": "field/legacy-connected-field.tsx"
+  },
+  {
+    "family": "label",
+    "name": "Native label",
+    "exportName": "Label",
+    "file": "label/legacy-native-label.tsx"
+  },
+  {
+    "family": "separator",
+    "name": "Semantic separator",
+    "exportName": "Separator",
+    "file": "separator/legacy-semantic-separator.tsx"
+  },
+  {
+    "family": "separator",
+    "name": "Separator directions",
+    "exportName": "Separator",
+    "file": "separator/legacy-separator-directions.tsx"
+  },
+  {
+    "family": "collapsible",
+    "name": "Native disclosure",
+    "exportName": "Collapsible",
+    "file": "collapsible/legacy-native-disclosure.tsx"
+  },
+  {
+    "family": "scroll-area",
+    "name": "Contained scrolling",
+    "exportName": "ScrollArea",
+    "file": "scroll-area/legacy-contained-scrolling.tsx"
+  },
+  {
+    "family": "aspect-ratio",
+    "name": "Landscape frame",
+    "exportName": "AspectRatio",
+    "file": "aspect-ratio/legacy-landscape-frame.tsx"
+  },
+  {
+    "family": "aspect-ratio",
+    "name": "Aspect ratio formats",
+    "exportName": "AspectRatio",
+    "file": "aspect-ratio/legacy-aspect-ratio-formats.tsx"
+  },
+  {
+    "family": "kbd",
+    "name": "Keyboard notation",
+    "exportName": "Kbd",
+    "file": "kbd/legacy-keyboard-notation.tsx"
+  },
+  {
+    "family": "kbd",
+    "name": "Keyboard combinations",
+    "exportName": "Kbd",
+    "file": "kbd/legacy-keyboard-combinations.tsx"
+  },
+  {
+    "family": "typography",
+    "name": "Semantic typography",
+    "exportName": "Heading",
+    "file": "typography/legacy-semantic-typography.tsx"
+  },
+  {
+    "family": "typography",
+    "name": "Heading hierarchy and text",
+    "exportName": "Heading",
+    "file": "typography/legacy-heading-hierarchy-and-text.tsx"
+  },
+  {
+    "family": "toolbar",
+    "name": "Action toolbar",
+    "exportName": "Toolbar",
+    "file": "toolbar/legacy-action-toolbar.tsx"
+  },
+  {
+    "family": "navbar",
+    "name": "Navigation bar",
+    "exportName": "Navbar",
+    "file": "navbar/legacy-navigation-bar.tsx"
+  },
+  {
+    "family": "sidebar",
+    "name": "Section navigation",
+    "exportName": "Sidebar",
+    "file": "sidebar/legacy-section-navigation.tsx"
+  },
+  {
+    "family": "button-link",
+    "name": "Navigation link",
+    "exportName": "ButtonLink",
+    "file": "button-link/legacy-navigation-link.tsx"
+  },
+  {
+    "family": "button-link",
+    "name": "Button link variants",
+    "exportName": "ButtonLink",
+    "file": "button-link/legacy-button-link-variants.tsx"
+  },
+  {
+    "family": "alert-dialog",
+    "name": "Delete confirmation",
+    "exportName": "AlertDialog",
+    "file": "alert-dialog/legacy-delete-confirmation.tsx"
+  },
+  {
+    "family": "input-group",
+    "name": "Search with an action",
+    "exportName": "InputGroup",
+    "file": "input-group/legacy-search-with-an-action.tsx"
+  },
+  {
+    "family": "input-group",
+    "name": "Input group prefixes",
+    "exportName": "InputGroup",
+    "file": "input-group/legacy-input-group-prefixes.tsx"
+  },
+  {
+    "family": "item",
+    "name": "Project files",
+    "exportName": "ItemGroup",
+    "file": "item/legacy-project-files.tsx"
+  },
+  {
+    "family": "item",
+    "name": "Item surface variants",
+    "exportName": "ItemGroup",
+    "file": "item/legacy-item-surface-variants.tsx"
+  },
+  {
+    "family": "simple-table",
+    "name": "Recent invoices",
+    "exportName": "Table",
+    "file": "simple-table/legacy-recent-invoices.tsx"
+  },
+  {
+    "family": "hover-card",
+    "name": "Profile preview",
+    "exportName": "HoverCard",
+    "file": "hover-card/legacy-profile-preview.tsx"
+  },
+  {
+    "family": "hover-card",
+    "name": "Top placement",
+    "exportName": "HoverCard",
+    "file": "hover-card/legacy-top-placement.tsx"
+  },
+  {
+    "family": "context-menu",
+    "name": "Project actions",
+    "exportName": "ContextMenu",
+    "file": "context-menu/legacy-project-actions.tsx"
+  },
+  {
+    "family": "context-menu",
+    "name": "Advanced actions",
+    "exportName": "ContextMenu",
+    "file": "context-menu/legacy-advanced-actions.tsx"
+  },
+  {
+    "family": "menubar",
+    "name": "Application menu",
+    "exportName": "Menubar",
+    "file": "menubar/legacy-application-menu.tsx"
+  },
+  {
+    "family": "menubar",
+    "name": "Advanced application menu",
+    "exportName": "Menubar",
+    "file": "menubar/legacy-advanced-application-menu.tsx"
+  },
+  {
+    "family": "navigation-menu",
+    "name": "Dropdown navigation",
+    "exportName": "NavigationMenu",
+    "file": "navigation-menu/legacy-dropdown-navigation.tsx"
+  },
+  {
+    "family": "navigation-menu",
+    "name": "Vertical navigation",
+    "exportName": "NavigationMenu",
+    "file": "navigation-menu/legacy-vertical-navigation.tsx"
+  },
+  {
+    "family": "tree-view",
+    "name": "Project files",
+    "exportName": "TreeView",
+    "file": "tree-view/legacy-project-files.tsx"
+  },
+  {
+    "family": "tree-view",
+    "name": "Multiple selection",
+    "exportName": "TreeView",
+    "file": "tree-view/legacy-multiple-selection.tsx"
+  },
+  {
+    "family": "inline-calendar",
+    "name": "Appointment date",
+    "exportName": "Calendar",
+    "file": "inline-calendar/legacy-appointment-date.tsx"
+  },
+  {
+    "family": "inline-calendar",
+    "name": "Unavailable dates",
+    "exportName": "Calendar",
+    "file": "inline-calendar/legacy-unavailable-dates.tsx"
+  },
+  {
+    "family": "range-calendar",
+    "name": "Trip dates",
+    "exportName": "RangeCalendar",
+    "file": "range-calendar/legacy-trip-dates.tsx"
+  },
+  {
+    "family": "range-calendar",
+    "name": "Unavailable range dates",
+    "exportName": "RangeCalendar",
+    "file": "range-calendar/legacy-unavailable-range-dates.tsx"
+  },
+  {
+    "family": "list-box",
+    "name": "Team selection",
+    "exportName": "ListBox",
+    "file": "list-box/legacy-team-selection.tsx"
+  },
+  {
+    "family": "list-box",
+    "name": "Multiple selection",
+    "exportName": "ListBox",
+    "file": "list-box/legacy-multiple-selection.tsx"
+  },
+  {
+    "family": "checkbox-card",
+    "name": "Outline choices",
+    "exportName": "CheckboxCard",
+    "file": "checkbox-card/legacy-outline-choices.tsx"
+  },
+  {
+    "family": "checkbox-card",
+    "name": "Soft choices",
+    "exportName": "CheckboxCard",
+    "file": "checkbox-card/legacy-soft-choices.tsx"
+  },
+  {
+    "family": "radio-card",
+    "name": "Outline plans",
+    "exportName": "RadioCard",
+    "file": "radio-card/legacy-outline-plans.tsx"
+  },
+  {
+    "family": "radio-card",
+    "name": "Soft plans",
+    "exportName": "RadioCard",
+    "file": "radio-card/legacy-soft-plans.tsx"
+  },
+  {
+    "family": "color-swatch-picker",
+    "name": "Circle swatches",
+    "exportName": "ColorSwatchPicker",
+    "file": "color-swatch-picker/legacy-circle-swatches.tsx"
+  },
+  {
+    "family": "color-swatch-picker",
+    "name": "Square swatches",
+    "exportName": "ColorSwatchPicker",
+    "file": "color-swatch-picker/legacy-square-swatches.tsx"
+  },
+  {
+    "family": "chip",
+    "name": "Chip variants",
+    "exportName": "Chip",
+    "file": "chip/legacy-chip-variants.tsx"
+  },
+  {
+    "family": "chip",
+    "name": "Removable chips",
+    "exportName": "Chip",
+    "file": "chip/legacy-removable-chips.tsx"
+  },
+  {
+    "family": "chip",
+    "name": "Selectable chip",
+    "exportName": "Chip",
+    "file": "chip/legacy-selectable-chip.tsx"
+  },
+  {
+    "family": "stat",
+    "name": "Default stats",
+    "exportName": "Stat",
+    "file": "stat/legacy-default-stats.tsx"
+  },
+  {
+    "family": "stat",
+    "name": "Outlined stats",
+    "exportName": "Stat",
+    "file": "stat/legacy-outlined-stats.tsx"
+  },
+  {
+    "family": "stat",
+    "name": "Soft stats",
+    "exportName": "Stat",
+    "file": "stat/legacy-soft-stats.tsx"
+  },
+  {
+    "family": "data-list",
+    "name": "Horizontal details",
+    "exportName": "DataList",
+    "file": "data-list/legacy-horizontal-details.tsx"
+  },
+  {
+    "family": "data-list",
+    "name": "Vertical details",
+    "exportName": "DataList",
+    "file": "data-list/legacy-vertical-details.tsx"
+  },
+  {
+    "family": "image",
+    "name": "Landscape image",
+    "exportName": "Image",
+    "file": "image/legacy-landscape-image.tsx"
+  },
+  {
+    "family": "image",
+    "name": "Contain image",
+    "exportName": "Image",
+    "file": "image/legacy-contain-image.tsx"
+  },
+  {
+    "family": "image",
+    "name": "Fallback image",
+    "exportName": "Image",
+    "file": "image/legacy-fallback-image.tsx"
+  },
+  {
+    "family": "code-block",
+    "name": "TypeScript example",
+    "exportName": "CodeBlock",
+    "file": "code-block/legacy-typescript-example.tsx"
+  },
+  {
+    "family": "code-block",
+    "name": "Line numbers",
+    "exportName": "CodeBlock",
+    "file": "code-block/legacy-line-numbers.tsx"
+  },
+  {
+    "family": "meter",
+    "name": "Storage meter",
+    "exportName": "Meter",
+    "file": "meter/legacy-storage-meter.tsx"
+  },
+  {
+    "family": "meter",
+    "name": "Tones and sizes",
+    "exportName": "Meter",
+    "file": "meter/legacy-tones-and-sizes.tsx"
+  },
+  {
+    "family": "clipboard",
+    "name": "Copy a command",
+    "exportName": "Clipboard",
+    "file": "clipboard/legacy-copy-a-command.tsx"
+  },
+  {
+    "family": "resizable",
+    "name": "Horizontal panels",
+    "exportName": "Resizable",
+    "file": "resizable/legacy-horizontal-panels.tsx"
+  },
+  {
+    "family": "resizable",
+    "name": "Vertical panels",
+    "exportName": "Resizable",
+    "file": "resizable/legacy-vertical-panels.tsx"
+  },
+  {
+    "family": "scroll-shadow",
+    "name": "Vertical notes",
+    "exportName": "ScrollShadow",
+    "file": "scroll-shadow/legacy-vertical-notes.tsx"
+  },
+  {
+    "family": "scroll-shadow",
+    "name": "Horizontal boards",
+    "exportName": "ScrollShadow",
+    "file": "scroll-shadow/legacy-horizontal-boards.tsx"
+  }
+]

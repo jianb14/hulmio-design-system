@@ -1,8 +1,7 @@
 # Hulmio UI
 
 Named React components for considered interfaces. This local preview includes
-**64 component families**, **89 working examples**, and eight named button
-designs. Version 0.1.0 is **not published on npm**; the local package name
+**104 component families** and **1,147 working examples**, with useful visual variants and richer controls. Version 0.1.0 is **not published on npm**; the local package name
 does not reserve a registry name.
 
 ## Install locally
@@ -20,7 +19,7 @@ Tailwind or gallery CSS. Other React versions and SSR-framework integrations hav
 not been verified. Native form controls support refs and native attributes.
 
 ```tsx
-import { PillButton, Input, Modal, DialogClose } from "hulmio-ui";
+import { Button, Input, Modal, DialogClose } from "hulmio-ui";
 import "hulmio-ui/styles.css";
 
 export default function App() {
@@ -30,10 +29,10 @@ export default function App() {
       <Modal
         title="Your first Hulmio modal"
         description="The same components you see in the gallery."
-        trigger={<PillButton>Open example</PillButton>}
+        trigger={<Button>Open example</Button>}
       >
         <DialogClose asChild>
-          <PillButton variant="outline">Got it</PillButton>
+          <Button variant="outline">Got it</Button>
         </DialogClose>
       </Modal>
     </div>
@@ -41,106 +40,142 @@ export default function App() {
 }
 ```
 
-## Pick a named design
+## Customize in your app
 
-Import a design by name, then choose its semantic variant, size, or state:
+Components accept native props, `className`, and `style`. Button keeps semantic
+`variant`, `size`, `shape`, `loading`, and `disabled` props. Decorative named
+presets are excluded. Use semantic `variant` props for the visual styles.
+Use `Button`, `Input`, `Card`, `Badge`, and `Tabs` as the base components.
 
 ```tsx
-import { PillButton, BrutalistButton, FilledInput, SoftCard } from "hulmio-ui";
-import "hulmio-ui/styles.css";
-
-<PillButton variant="primary" size="lg">Continue</PillButton>
-<BrutalistButton variant="destructive" loading>Deleting</BrutalistButton>
-<FilledInput label="Project name" placeholder="Something good" />
-<SoftCard title="A place for your next idea"><p>Your content.</p></SoftCard>
+<Button className="checkout-action" style={{ borderRadius: 18 }}>
+  Continue
+</Button>
+<Input className="checkout-email" label="Email" type="email" />
 ```
 
-Button designs: `ClassicButton`, `PillButton`, `SoftButton`, `OutlineButton`, `ElevatedButton`, `GradientButton`, `BrutalistButton`, `GlassButton`.
-The base `Button` also accepts `design`. All eight preserve the shared native
-button props/ref, `variant`, `size`, `loading`, and `disabled` behavior.
-An explicitly supplied `shape` can override a design's default corners.
+Load your CSS after the package stylesheet. Override shared tokens globally or on
+a wrapper to theme one part of your app. Set tokens on `html` for portaled content.
 
-Variants: `primary`, `secondary`, `outline`, `ghost`, `link`,
-`destructive`, `soft`, `success`, `warning`, `information`.
-Sizes: `xs`, `sm`, `md`, `lg`, `xl`. Use `ButtonLink` for navigation.
+```css
+:root {
+  --hulmio-primary: #243f88;
+  --hulmio-primary-hover: #1c326d;
+  --hulmio-on-primary: #fff;
+  --hulmio-input-focus: #aeb7cd;
+  --hulmio-radius-md: 12px;
+  --hulmio-font-family: "Your font", sans-serif;
+}
+.checkout-action[data-hulmio-ui] { padding-inline: 24px; }
+.checkout-email .input-shell { min-height: 48px; }
+```
 
-Other named visual presets include `OutlineInput`, `FilledInput`,
-`UnderlineInput`, `SoftCard`, `OutlinedCard`, `ElevatedCard`,
-`SoftBadge`, `OutlineBadge`, `PillTabs`, and `UnderlineTabs`.
-Badge/alert tones are `neutral | primary | success | warning | danger | info`.
+`Input.className` styles the field wrapper; `Input.style` and native attributes go
+to the inner input. Target `.input-shell` through your own wrapper class to customize
+its border or surface. Text fields show a 2px ring with a 2px gap when focused.
+Action controls keep keyboard focus indicators and have no ring while pressed.
+
+Variants: `primary`, `secondary`, `outline`, `ghost`, `link`, `destructive`,
+`soft`, `success`, `warning`, `information`. Sizes: `xs`, `sm`, `md`, `lg`, `xl`.
+Input adds `variant="outline|filled|underline"` and `controlSize="sm|md|lg"`; native numeric `size` remains supported. Tabs adds `variant="segmented|underline|pill"`; Card adds `variant="default|outlined|soft"`. Badge adds `variant="solid|soft|outline"`; an explicit variant wins over the legacy `outline` boolean.
+
+The default input ring uses the current `--hulmio-focus` color with a 2px gap. `--hulmio-input-focus` remains an optional consumer override.
+
+Search inputs suppress the browser's built-in clear decoration. Use `clearable`
+for one labeled clear action with an inset hover background; clearing returns
+focus to the field. Coarse-pointer targets retain their larger touch area.
+
+Use `ButtonLink` for navigation. Badge/alert tones are
+`neutral | primary | success | warning | danger | info`.
 
 ## Component index
 
-| Family | Named exports | Examples |
+| Family | Public exports | Examples |
 | --- | --- | --- |
-| Button | `Button`, `ClassicButton`, `PillButton`, `SoftButton`, `OutlineButton`, `ElevatedButton`, `GradientButton`, `BrutalistButton`, `GlassButton` | 8 |
-| Icon button | `IconButton` | 1 |
-| Button group | `ButtonGroup` | 1 |
-| Input | `Input`, `OutlineInput`, `FilledInput`, `UnderlineInput` | 4 |
-| Textarea | `Textarea` | 1 |
-| OTP input | `OtpInput` | 1 |
+| Button | `Button` | 4 |
+| Icon button | `IconButton` | 2 |
+| Button group | `ButtonGroup` | 2 |
+| Input | `Input` | 8 |
+| Textarea | `Textarea` | 2 |
+| OTP input | `OtpInput`, `NativeOtpInput` | 2 |
 | Form | `Form` | 1 |
-| Date & time | `DatePicker`, `DateRangePicker` | 2 |
-| File upload | `FileUpload` | 1 |
-| Tag input | `TagInput` | 1 |
-| Color picker | `ColorPicker` | 1 |
-| Checkbox | `Checkbox` | 1 |
-| Radio group | `Radio`, `RadioGroup` | 1 |
-| Switch | `Switch` | 1 |
-| Select | `Select`, `NativeSelect` | 1 |
-| Combobox | `Combobox` | 1 |
-| Multi-select | `MultiSelect` | 1 |
-| Slider | `Slider` | 1 |
-| Rating | `Rating` | 1 |
-| Badge & tag | `Badge`, `SoftBadge`, `OutlineBadge` | 3 |
-| Avatar | `Avatar`, `AvatarGroup` | 2 |
-| Card | `Card`, `SoftCard`, `OutlinedCard`, `ElevatedCard` | 4 |
+| Date & time | `DatePicker`, `DateRangePicker`, `NativeDatePicker`, `NativeDateRangePicker` | 3 |
+| Upload | `FileUpload`, `NativeFileUpload` | 2 |
+| Tag Input | `TagInput` | 1 |
+| Color Picker | `ColorPicker` | 1 |
+| Checkbox | `Checkbox` | 2 |
+| Radio | `Radio`, `RadioGroup` | 2 |
+| Switch | `Switch` | 2 |
+| Select | `Select`, `NativeSelect` | 2 |
+| Combobox | `Combobox`, `NativeCombobox` | 2 |
+| Multi Select | `MultiSelect`, `NativeMultiSelect` | 2 |
+| Slider | `Slider`, `NativeSlider` | 2 |
+| Rating | `Rating` | 2 |
+| Badge & tag | `Badge` | 2 |
+| Avatar | `Avatar`, `AvatarGroup` | 3 |
+| Card | `Card` | 3 |
 | Data table | `DataTable` | 1 |
-| Accordion | `Accordion` | 1 |
+| Accordion | `Accordion` | 2 |
 | Timeline | `Timeline` | 1 |
 | Chart | `Chart` | 6 |
 | Carousel | `Carousel` | 1 |
-| Tabs | `Tabs`, `PillTabs`, `UnderlineTabs` | 3 |
+| Tabs | `Tabs` | 4 |
 | Breadcrumbs | `Breadcrumbs` | 1 |
-| Pagination | `Pagination` | 1 |
-| Stepper | `Stepper` | 1 |
-| Dropdown menu | `DropdownMenu` | 1 |
-| Command palette | `CommandPalette` | 1 |
-| Alert | `Alert` | 1 |
-| Toast | `Toast` | 1 |
-| Progress | `Progress` | 2 |
-| Skeleton | `Skeleton` | 1 |
-| Spinner | `Spinner` | 1 |
-| Empty state | `EmptyState` | 1 |
-| Dialog | `Dialog`, `Modal`, `DialogClose` | 1 |
-| Drawer & sheet | `Drawer` | 1 |
-| Tooltip | `Tooltip` | 1 |
+| Pagination | `Pagination` | 2 |
+| Stepper | `Stepper` | 2 |
+| Dropdown | `DropdownMenu` | 2 |
+| Command | `CommandPalette` | 1 |
+| Alert | `Alert` | 2 |
+| Toast | `Toast` | 2 |
+| Progress | `Progress` | 3 |
+| Skeleton | `Skeleton` | 2 |
+| Spinner | `Spinner` | 2 |
+| Empty State | `EmptyState` | 2 |
+| Dialog | `Dialog`, `Modal`, `DialogClose` | 2 |
+| Drawer | `Drawer` | 2 |
+| Tooltip | `Tooltip` | 2 |
 | Popover | `Popover` | 1 |
-| Layout primitives | `Container`, `Stack`, `Grid`, `Split` | 1 |
-| Kanban board | `Kanban` | 1 |
-| Toggle | `Toggle` | 1 |
-| Toggle group | `ToggleGroup` | 1 |
-| Number input | `NumberInput` | 1 |
+| Layout | `Container`, `Stack`, `Grid`, `Split` | 1 |
+| Kanban | `Kanban` | 1 |
+| Toggle | `Toggle` | 2 |
+| Toggle Group | `ToggleGroup` | 1 |
+| Number Input | `NumberInput`, `NativeNumberInput` | 2 |
 | Field | `Field` | 1 |
 | Label | `Label` | 1 |
-| Separator | `Separator` | 1 |
+| Separator | `Separator` | 2 |
 | Collapsible | `Collapsible` | 1 |
-| Scroll area | `ScrollArea` | 1 |
-| Aspect ratio | `AspectRatio` | 1 |
-| Keyboard key | `Kbd` | 1 |
-| Typography | `Text`, `Heading` | 1 |
+| Scroll Area | `ScrollArea` | 1 |
+| Aspect Ratio | `AspectRatio` | 2 |
+| Kbd | `Kbd` | 2 |
+| Typography | `Text`, `Heading` | 2 |
 | Toolbar | `Toolbar` | 1 |
 | Navbar | `Navbar` | 1 |
 | Sidebar | `Sidebar` | 1 |
-| Button link | `ButtonLink` | 1 |
-| Alert dialog | `AlertDialog` | 1 |
-| Input group | `InputGroup`, `InputGroupInput`, `InputGroupAddon` | 1 |
-| Item | `ItemGroup`, `Item`, `ItemContent`, `ItemTitle`, `ItemDescription`, `ItemActions` | 1 |
+| Button Link | `ButtonLink` | 2 |
+| Alert Dialog | `AlertDialog` | 1 |
+| Input Group | `InputGroup`, `InputGroupInput`, `InputGroupAddon` | 2 |
+| Item | `Item`, `ItemGroup`, `ItemContent`, `ItemTitle`, `ItemDescription`, `ItemActions` | 2 |
 | Table | `Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption` | 1 |
-
-The website's component pages contain full copyable React examples and supported
-behavior notes. Reference compositions are labeled separately from package examples.
-Use the exported `*Props` and supporting types for each component's exact API.
+| Hover Card | `HoverCard` | 2 |
+| Context Menu | `ContextMenu` | 2 |
+| Menubar | `Menubar` | 2 |
+| Navigation Menu | `NavigationMenu` | 2 |
+| Tree View | `TreeView` | 2 |
+| Calendar | `Calendar` | 2 |
+| Range calendar | `RangeCalendar` | 2 |
+| List Box | `ListBox` | 2 |
+| Checkbox Card | `CheckboxCard` | 2 |
+| Radio Card | `RadioCard` | 2 |
+| Color Swatch Picker | `ColorSwatchPicker` | 2 |
+| Chip | `Chip` | 3 |
+| Stat | `Stat` | 3 |
+| Data List | `DataList` | 2 |
+| Image | `Image` | 3 |
+| Code Block | `CodeBlock` | 2 |
+| Meter | `Meter` | 2 |
+| Clipboard | `Clipboard` | 1 |
+| Resizable | `Resizable`, `ResizablePanel`, `ResizableHandle` | 2 |
+| Scroll Shadow | `ScrollShadow` | 2 |
 
 ## Composable building blocks
 
@@ -165,9 +200,7 @@ built-in filtering, sorting, selection, editing or pagination.
 optional ref-capable `trigger`, `confirmLabel`, `cancelLabel`, `destructive`,
 children, and `open`/`defaultOpen`/`onOpenChange`. Focus starts on Cancel. Outside
 clicks do not dismiss it; Escape and Cancel close without calling `onConfirm`.
-Confirm invokes the synchronous callback and closes. Async mutations, loading and
-error handling belong in the consuming app: keep a controlled dialog open while
-the operation runs. `portalContainer` supports a themed subtree. With no trigger,
+Confirm accepts a synchronous callback or a promise. It prevents duplicate confirmation, stays open while pending, and shows a rejected operation as an inline error so the user can retry. Controlled state remains app-owned; use onOpenChange to accept successful closure. `portalContainer` supports a themed subtree. With no trigger,
 the app should restore focus to its own opener when the controlled dialog closes.
 
 The additions take inspiration from the [shadcn/ui component catalog](https://ui.shadcn.com/docs/components)
@@ -175,40 +208,36 @@ and use Hulmio's own implementation, APIs, tokens and existing Radix dependency.
 
 ## Forms and controlled values
 
-Input uses native `value/onChange`; custom composite values use the matching
-`onValueChange`, `onCheckedChange`, `onRangeChange`, or `onFilesChange`
-callback. Native controls accept `name`, `id`, validation and ARIA attributes.
-Field connects one direct native/ref-capable control to its label, hint and error.
-For nested or multiple controls, use a group component or wire descriptions explicitly.
+Input keeps native `value/onChange`; rich controls use `onValueChange`, `onCheckedChange`, `onRangeChange`, or `onFilesChange`. `Field` connects a single control with its label, hint, and error.
 
-MultiSelect is a native multiple select. Combobox uses datalist and permits free
-text. DatePicker uses native browser date/time/month/week inputs. DateRangePicker
-uses ISO date strings and native validity; it performs no timezone conversion.
-OtpInput accepts text codes and respects its length; it is not server validation.
-TagInput submits committed tags through repeated hidden named fields. Stateful
-composites retain React state on native form reset: reset their controlled values
-or remount them. FileUpload selects files and can validate maxSize in bytes;
-upload transport/progress and server validation belong to the consuming app.
+Combobox and MultiSelect now provide searchable styled options and chips. DatePicker and DateRangePicker provide custom date calendars, Slider supports scalar and range values, NumberInput adds steppers, OTP shows individual slots, and FileUpload provides a local dropzone/list with validation.
 
-`Select` is a custom Radix control with styled options, selected checkmarks,
-disabled options, typeahead, arrow-key navigation, Escape and focus return.
-Use `value`/`onValueChange` or `defaultValue`. Supply `name`, `required`, `form`
-and `autoComplete` for form integration. Uncontrolled selects reset with their
-associated form, including an external `form` attribute; canceled resets preserve
-the selection, and controlled values stay app-owned. Validation focuses the first
-invalid field. Option values must be nonempty strings; use `placeholder` for an
-empty selection. It accepts `label`, `hint`, `error`, `placeholder`, trigger button props,
-and `portalContainer` for a themed subtree. Its ref targets `HTMLButtonElement`.
-This replaces the preview's previous native Select; use the exported
-`NativeSelect`/`NativeSelectProps` for the original `HTMLSelectElement` ref,
-native `onChange` event, and native-only attributes.
+The explicit `NativeCombobox`, `NativeMultiSelect`, `NativeDatePicker`, `NativeDateRangePicker`, `NativeSlider`, `NativeNumberInput`, `NativeOtpInput`, and `NativeFileUpload` exports retain browser-native alternatives. Existing NativeSelect is also available. Calendar values are date-only ISO strings and ranges are `{ start, end }`.
 
-`DropdownMenu` items may include `checked` and `onCheckedChange` for checkbox
-choices with selected checkmarks. Regular action items keep `onSelect`. Menu
-and select triggers use a border-color focus state; text inputs use one tight
-outline without a focus shadow. An invalid input's text, border and focus outline
-use the danger color. Hover is a lighter border/surface change, distinct from focus.
-Buttons scale to 97% while pressed and retain their label's position.
+Use `value` with the appropriate callback for controlled state, or `defaultValue`
+for local state. Uncontrolled controls respond to uncancelled form resets.
+
+| Control | Controlled value | Callback / ref |
+| --- | --- | --- |
+| Combobox | `string` | `onValueChange`, native `onChange`; input ref |
+| MultiSelect | `string[]` | `onValueChange`, native `onChange`; hidden select ref |
+| DatePicker | ISO date `string` | `onValueChange`, native `onChange`; hidden ISO input ref |
+| DateRangePicker | `{ start, end }` | `onValueChange` / `onRangeChange`; fieldset ref |
+| Slider | `number` / `number[]` | `onValueChange`; first thumb input ref |
+| NumberInput | native numeric input value | `onChange` / `onValueChange`; input ref |
+| OtpInput | `string` | `onValueChange` / `onChange`; input ref |
+| FileUpload | `files: File[]` | `onFilesChange`; file input ref |
+
+Combobox displays an option's label and submits its value. Native `onChange`
+receives that value for option selections, and the typed string for free text.
+MultiSelect submits repeated names; use `FormData.getAll(name)`. Date and slider
+ranges submit `${name}-start` and `${name}-end`. Slider forwards native focus,
+blur and keyboard callbacks to its first thumb. Native alternatives preserve
+the previous browser controls when an app depends on their DOM behavior.
+
+The source repository also contains `docs/CUSTOM-CONTROLS.md`, with migration
+examples, ref details, validation and form behavior.
+
 
 ## Data and navigation
 
@@ -219,18 +248,20 @@ controlled; without it, edits remain local until the rows prop is replaced.
 Charts include a readable data table; scatter/heatmap use indexed categorical
 values, not arbitrary x/y points or matrices. Kanban uses explicit keyboard-friendly
 move controls; persistence belongs to the app. Carousel is manually navigated.
-Toast is a status surface; your app controls its lifetime and notification queue.
+Toast works as a standalone status surface. ToastProvider and ToastQueue supply optional notification lifetimes, actions, promises and queue management.
 
 ## Themes and typography
 
-Set `data-hulmio-theme="light"`, `"dark"`, or `"contrast"` on `html`
+Set `data-hulmio-theme="light"` or `"dark"` on `html`
 so default portals inherit the theme. Modal, Drawer, DropdownMenu, Tooltip, Popover
 and CommandPalette accept `portalContainer` for an explicitly themed subtree.
+Combobox, MultiSelect, DatePicker, DateRangePicker, HoverCard, ContextMenu
+and Menubar support this as well. NavigationMenu content stays inside its subtree.
 Triggers using Radix asChild take a single ref-capable interactive React element.
 
 The package inherits your app's fonts and makes no font/network requests. Set
-`--hulmio-font-family` to override. The website uses self-hosted Google Sans Flex
-as primary, Instrument Serif as secondary display, and IBM Plex Mono for code;
+`--hulmio-font-family` to override. The website uses self-hosted Onest
+as primary, Google Sans Flex as secondary, and IBM Plex Mono for code;
 website font files/licenses are separate from the UI tarball. CSS is scoped to
 Hulmio components, with keyboard focus, disabled states and reduced-motion rules.
 
@@ -241,3 +272,42 @@ publication license and registry/account settings before a public release.
 Backend/authentication/authorization, payment processing, upload services and
 specialist enterprise features are outside this UI library. See the repository's
 owner guide, coverage notes and work log for current verification and limitations.
+
+## New component families
+
+The additional twenty families cover menus, hover previews, trees, listboxes, inline calendars, choice cards, swatches, chips, stats, data lists, images, code, meters, clipboard actions, resizing, and scroll cues. Every family has public TypeScript declarations and a runnable example in the gallery. The source repository's `docs/ADDITIONAL-COMPONENTS.md` describes detailed contracts and limitations.
+
+## Expanded component examples
+
+The gallery provides 1,147 source-backed examples across 104 families. Each page
+separates the default usage, visual options, interactive states, compositions,
+customization, actual prop types and accessibility guidance. The reference topic
+inventory is pinned to HeroUI v3.2.7; Hulmio uses its own implementation and design.
+
+- `TextField`, `SearchField`, `NumberField`, `CheckboxGroup`, `DateField`, `TimeField`,
+  `Fieldset`, `Description`, `ErrorMessage` and `FieldError` support composed forms.
+  React Aria field props use `isRequired`, `isDisabled`, `value/onChange` and
+  `validationBehavior`. Existing `Input` and native controls retain their APIs.
+- `SegmentedDatePicker` and `SegmentedDateRangePicker` explicitly accept DateValue
+  objects. The existing `DatePicker` and `DateRangePicker` retain date-only ISO
+  strings. Import parsing functions from `@internationalized/date` when using the
+  segmented examples; range form names are `startName` and `endName`.
+- `ColorArea`, `ColorField`, `ColorSlider`, `ColorSwatch` and `ComposedColorPicker`
+  provide pointer/keyboard channel editing. Native `ColorPicker` remains available.
+- `Autocomplete`, richer Select/Combobox/MultiSelect, ListBox, Calendar and
+  RangeCalendar add the collection, controlled, grouping and virtualized examples.
+- `ToastProvider` renders a `ToastQueue`; `toast` uses `defaultToastQueue`. Existing
+  `Toast` remains usable as a standalone surface. Queue promises propagate rejection
+  to the caller as well as displaying an error; catch them in your app.
+- `Sheet` accepts fractional/pixel snap points and a controlled snap index. Its
+  handle exposes the same positions to keyboard users. Modal and AlertDialog add
+  size, placement, backdrops and explicit dismissal options.
+- `DataTable` adds controlled selection/sort, custom cells, resizable columns,
+  loading/empty states and virtual rows. `Table` remains the semantic building block.
+  Install `@tanstack/react-table` 8.x only for the optional TanStack composition.
+
+Some copied examples import `lucide-react` icons or `@internationalized/date`.
+Install those packages in your app when using those examples. Core components still
+need only their declared package dependencies and the stylesheet, with no Tailwind.
+Async and social examples demonstrate local interactions; apps supply network
+requests, authentication, persistence and upload transport.

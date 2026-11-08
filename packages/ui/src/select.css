@@ -7,7 +7,7 @@
 .h-select-trigger:where([data-hulmio-ui]):disabled { opacity: .5; cursor: not-allowed; }
 .h-select-trigger:where([data-hulmio-ui])[data-placeholder] { color: var(--hulmio-muted); }
 .h-select-content:where([data-hulmio-ui]) { z-index: 100; width: var(--radix-select-trigger-width); min-width: max(var(--radix-select-trigger-width), 160px); max-width: calc(100vw - 24px); max-height: min(320px, var(--radix-select-content-available-height)); overflow: hidden; padding: 4px; border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md, 10px); background: var(--hulmio-surface); color: var(--hulmio-text); box-shadow: none; }
-:where([data-hulmio-ui="select-content"]) .h-select-option { display: flex; align-items: center; justify-content: space-between; gap: 12px; position: relative; min-height: 34px; padding: 7px 30px 7px 10px; border-radius: 6px; color: inherit; font-size: 14px; line-height: 1.4; cursor: pointer; outline: none; user-select: none; }
+:where([data-hulmio-ui="select-content"]) .h-select-option { display: flex; align-items: center; justify-content: space-between; gap: 12px; position: relative; min-height: 34px; padding: 7px 30px 7px 10px; border-radius: var(--hulmio-radius-md, 10px); color: inherit; font-size: 14px; line-height: 1.4; cursor: pointer; outline: none; user-select: none; }
 :where([data-hulmio-ui="select-content"]) .h-select-option[data-highlighted] { background: var(--hulmio-subtle); }
 :where([data-hulmio-ui="select-content"]) .h-select-option:is(:focus, :focus-visible) { outline: none; box-shadow: none; }
 :where([data-hulmio-ui="select-content"]) .h-select-option[data-state="checked"] { color: var(--hulmio-primary); font-weight: 500; }

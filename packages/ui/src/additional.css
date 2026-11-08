@@ -1,0 +1,141 @@
+/* Additional families are self-contained: no gallery CSS or utility framework. */
+.h-hover-card:where([data-hulmio-ui]) { width: min(300px, calc(100vw - 24px)); padding: 20px; border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md); background: var(--hulmio-surface); color: var(--hulmio-text); font-size: 14px; line-height: 1.6; z-index: 80; }
+.h-hover-card:where([data-hulmio-ui]) :is(h3, p) { margin: 0; }
+.h-hover-card:where([data-hulmio-ui]) p { margin-top: 6px; color: var(--hulmio-muted); }
+.h-additional-menu:where([data-hulmio-ui]) { min-width: 208px; max-width: calc(100vw - 24px); padding: 5px; border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md); color: var(--hulmio-text); background: var(--hulmio-surface); box-shadow: var(--hulmio-shadow); font-size: 14px; z-index: 90; }
+:where([data-hulmio-ui]) .h-additional-menu-item { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 36px; padding: 7px 10px; border-radius: var(--hulmio-radius-md, 10px); user-select: none; cursor: default; outline: none; }
+:where([data-hulmio-ui]) .h-additional-menu-item[data-highlighted] { background: var(--hulmio-soft); color: var(--hulmio-primary); }
+:where([data-hulmio-ui]) .h-additional-menu-item[data-disabled] { opacity: .4; pointer-events: none; }
+:where([data-hulmio-ui]) .h-additional-menu-item[data-destructive] { color: var(--hulmio-danger); }
+:where([data-hulmio-ui]) .h-additional-shortcut { color: var(--hulmio-muted); font-size: 11px; letter-spacing: .02em; }
+:where([data-hulmio-ui]) .h-additional-menu-separator { height: 1px; margin: 5px 0; background: var(--hulmio-border); }
+.h-menubar:where([data-hulmio-ui]) { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 4px; border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md); background: var(--hulmio-surface); color: var(--hulmio-text); }
+:where([data-hulmio-ui]) :is(.h-menubar-trigger, .h-navigation-trigger, .h-navigation-link) { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 8px 12px; color: inherit; font: inherit; font-size: 14px; text-decoration: none; border: 0; border-radius: var(--hulmio-radius-md, 10px); background: transparent; cursor: pointer; }
+:where([data-hulmio-ui]) :is(.h-menubar-trigger, .h-navigation-trigger):is(:hover, [data-state="open"]), :where([data-hulmio-ui]) .h-navigation-link:is(:hover, [data-active]) { background: var(--hulmio-soft); color: var(--hulmio-primary); }
+:where([data-hulmio-ui]) .h-menubar-trigger:disabled { opacity: .4; cursor: not-allowed; }
+.h-navigation-menu:where([data-hulmio-ui]) { position: relative; display: inline-flex; max-width: 100%; color: var(--hulmio-text); }
+:where([data-hulmio-ui]) .h-navigation-list { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.h-navigation-menu[data-orientation="vertical"]:where([data-hulmio-ui]) .h-navigation-list { flex-direction: column; }
+:where([data-hulmio-ui]) .h-navigation-content { position: absolute; left: 0; top: calc(100% + 6px); width: max-content; max-width: min(440px, calc(100vw - 32px)); padding: 20px; background: var(--hulmio-surface); border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md); z-index: 40; font-size: 14px; line-height: 1.5; }
+:where([data-hulmio-ui]) .h-navigation-content a { display: block; padding: 8px 0; color: var(--hulmio-primary); text-decoration: none; }
+:where([data-hulmio-ui]) .h-navigation-content a:hover { text-decoration: underline; }
+.h-inline-calendar:where([data-hulmio-ui]) { width: max-content; max-width: 100%; padding: 16px; background: var(--hulmio-surface); color: var(--hulmio-text); border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md); font-size: 14px; }
+:where([data-hulmio-ui]) .h-calendar-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+:where([data-hulmio-ui]) .h-calendar-heading { margin: 0; font-size: 14px; font-weight: 600; }
+:where([data-hulmio-ui]) .h-calendar-nav { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; color: inherit; border: 0; border-radius: var(--hulmio-radius-md, 10px); background: transparent; cursor: pointer; }
+:where([data-hulmio-ui]) .h-calendar-nav:hover { background: var(--hulmio-subtle); }
+:where([data-hulmio-ui]) .h-calendar-nav[disabled] { opacity: .35; cursor: not-allowed; }
+:where([data-hulmio-ui]) .h-calendar-grid { border-collapse: collapse; border-spacing: 0; }
+:where([data-hulmio-ui]) .h-calendar-grid :is(td, th) { padding: 1px; border: 0; }
+:where([data-hulmio-ui]) .h-calendar-weekday { height: 30px; color: var(--hulmio-muted); font-size: 11px; font-weight: 500; }
+:where([data-hulmio-ui]) .h-calendar-cell { display: grid; place-items: center; width: 34px; height: 34px; border-radius: var(--hulmio-radius-md, 10px); cursor: pointer; font-variant-numeric: tabular-nums; }
+:where([data-hulmio-ui]) .h-calendar-cell[data-hovered] { background: var(--hulmio-soft); }
+:where([data-hulmio-ui]) .h-calendar-cell[data-selected] { background: var(--hulmio-primary); color: var(--hulmio-on-primary); }
+.h-range-calendar:where([data-hulmio-ui]) .h-calendar-cell[data-selected] { border-radius: 0; background: var(--hulmio-soft); color: var(--hulmio-primary); }
+.h-range-calendar:where([data-hulmio-ui]) .h-calendar-cell:is([data-selection-start], [data-selection-end]) { border-radius: var(--hulmio-radius-md, 10px); background: var(--hulmio-primary); color: var(--hulmio-on-primary); }
+:where([data-hulmio-ui]) .h-calendar-cell:is([data-disabled], [data-unavailable]) { opacity: .35; cursor: not-allowed; }
+:where([data-hulmio-ui]) .h-calendar-cell[data-unavailable] { text-decoration: line-through; }
+:where([data-hulmio-ui]) .h-calendar-cell[data-outside-month] { visibility: hidden; }
+.h-inline-calendar[data-disabled]:where([data-hulmio-ui]) { opacity: .5; }
+.h-inline-calendar[data-invalid]:where([data-hulmio-ui]) { border-color: var(--hulmio-danger); }
+.h-tree-view:where([data-hulmio-ui]), .h-list-box:where([data-hulmio-ui]) { display: grid; gap: 3px; width: 100%; min-width: 180px; padding: 5px; border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md); background: var(--hulmio-surface); color: var(--hulmio-text); font-size: 14px; }
+:where([data-hulmio-ui]) .h-tree-item { border-radius: var(--hulmio-radius-md, 10px); cursor: default; }
+:where([data-hulmio-ui]) .h-tree-row { display: flex; gap: 8px; align-items: center; min-height: 38px; padding: 6px 12px 6px 8px; }
+:where([data-hulmio-ui]) .h-tree-item[data-selected], :where([data-hulmio-ui]) .h-list-box-option[data-selected] { background: var(--hulmio-soft); color: var(--hulmio-primary); }
+:where([data-hulmio-ui]) .h-tree-item[data-hovered], :where([data-hulmio-ui]) .h-list-box-option[data-hovered] { background: var(--hulmio-subtle); }
+:where([data-hulmio-ui]) .h-tree-item[data-disabled], :where([data-hulmio-ui]) .h-list-box-option[data-disabled] { opacity: .4; }
+:where([data-hulmio-ui]) .h-tree-chevron { display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: var(--hulmio-radius-md, 10px); color: inherit; background: transparent; cursor: pointer; }
+:where([data-hulmio-ui]) .h-tree-spacer { width: 24px; }
+:where([data-hulmio-ui]) .h-list-box-option { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 10px 12px; border-radius: var(--hulmio-radius-md, 10px); cursor: default; }
+:where([data-hulmio-ui]) .h-list-box-option > div { flex: 1; }
+:where([data-hulmio-ui]) .h-list-box-option [slot="label"] { display: block; font-weight: 500; }
+:where([data-hulmio-ui]) .h-additional-description { display: block; margin: 4px 0 0; color: var(--hulmio-muted); font-size: 13px; font-weight: 400; line-height: 1.6; }
+.h-choice-card:where([data-hulmio-ui]) { position: relative; display: flex; align-items: flex-start; gap: 12px; padding: 18px; min-height: 72px; border: 1px solid var(--hulmio-control-border); border-radius: var(--hulmio-radius-md); background: var(--hulmio-surface); color: var(--hulmio-text); cursor: pointer; }
+.h-choice-card:where([data-hulmio-ui]) > input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
+.h-choice-card:where([data-hulmio-ui]) .h-choice-content { flex: 1; }
+.h-choice-card:where([data-hulmio-ui]) .h-choice-label { font-size: 14px; font-weight: 600; }
+.h-choice-card:where([data-hulmio-ui]) .h-choice-indicator { display: grid; place-items: center; width: 18px; height: 18px; margin-top: 2px; border: 1px solid var(--hulmio-control-border); border-radius: 4px; flex-shrink: 0; color: transparent; }
+.h-choice-card[data-hulmio-ui="radio-card"] .h-choice-indicator { border-radius: 50%; }
+.h-choice-card[data-hulmio-ui="radio-card"] .h-choice-indicator > span { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.h-choice-card:where([data-hulmio-ui]):has(input:checked) { border-color: var(--hulmio-primary); }
+.h-choice-card:where([data-hulmio-ui])[data-variant="soft"]:has(input:checked) { background: var(--hulmio-soft); }
+.h-choice-card:where([data-hulmio-ui]):has(input:checked) .h-choice-indicator { background: var(--hulmio-primary); border-color: var(--hulmio-primary); color: var(--hulmio-on-primary); }
+.h-choice-card:where([data-hulmio-ui]):has(input:disabled) { opacity: .45; cursor: not-allowed; }
+.h-choice-card:where([data-hulmio-ui]):has(input[aria-invalid="true"]) { border-color: var(--hulmio-danger); }
+.h-color-swatch-picker:where([data-hulmio-ui]) { min-width: 0; margin: 0; padding: 0; border: 0; color: var(--hulmio-text); }
+.h-color-swatch-picker:where([data-hulmio-ui]) legend { margin-bottom: 10px; padding: 0; font-size: 14px; font-weight: 500; }
+:where([data-hulmio-ui]) .h-swatch-options { display: flex; flex-wrap: wrap; gap: 12px; }
+:where([data-hulmio-ui]) .h-swatch-option { position: relative; display: block; width: 36px; height: 36px; cursor: pointer; }
+:where([data-hulmio-ui]) .h-swatch-option input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: inherit; }
+:where([data-hulmio-ui]) .h-swatch-option > span { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: var(--h-swatch-color); box-shadow: inset 0 0 0 1px #0002; pointer-events: none; }
+.h-color-swatch-picker[data-shape="square"]:where([data-hulmio-ui]) .h-swatch-option > span { border-radius: 6px; }
+:where([data-hulmio-ui]) .h-swatch-option svg { opacity: 0; color: #fff; filter: drop-shadow(0 1px 2px #000); }
+:where([data-hulmio-ui]) .h-swatch-option:has(input:checked) svg { opacity: 1; }
+:where([data-hulmio-ui]) .h-swatch-option:has(input:disabled) { opacity: .35; cursor: not-allowed; }
+.h-chip:where([data-hulmio-ui]) { --h-chip-tone: var(--hulmio-primary); --h-chip-bg: var(--hulmio-soft); display: inline-flex; align-items: center; gap: 2px; width: max-content; max-width: 100%; min-height: 30px; border: 1px solid transparent; border-radius: 999px; background: var(--h-chip-bg); color: var(--h-chip-tone); font-size: 13px; font-weight: 500; }
+.h-chip[data-tone="neutral"]:where([data-hulmio-ui]) { --h-chip-tone: var(--hulmio-text); --h-chip-bg: var(--hulmio-subtle); }
+:is(.h-chip, .h-meter)[data-tone="success"]:where([data-hulmio-ui]) { --h-chip-tone: var(--hulmio-success); --h-chip-bg: var(--hulmio-success-bg); --h-meter-tone: var(--hulmio-success); }
+:is(.h-chip, .h-meter)[data-tone="warning"]:where([data-hulmio-ui]) { --h-chip-tone: var(--hulmio-warning); --h-chip-bg: var(--hulmio-warning-bg); --h-meter-tone: var(--hulmio-warning); }
+:is(.h-chip, .h-meter)[data-tone="danger"]:where([data-hulmio-ui]) { --h-chip-tone: var(--hulmio-danger); --h-chip-bg: var(--hulmio-danger-bg); --h-meter-tone: var(--hulmio-danger); }
+:is(.h-chip, .h-meter)[data-tone="info"]:where([data-hulmio-ui]) { --h-chip-tone: var(--hulmio-info); --h-chip-bg: var(--hulmio-info-bg); --h-meter-tone: var(--hulmio-info); }
+.h-chip[data-variant="solid"]:where([data-hulmio-ui]) { background: var(--h-chip-tone); color: var(--hulmio-surface); }
+.h-chip[data-variant="outline"]:where([data-hulmio-ui]) { background: transparent; border-color: var(--h-chip-tone); }
+.h-chip[data-selected="true"]:where([data-hulmio-ui]) { background: var(--hulmio-primary); color: var(--hulmio-on-primary); }
+.h-chip[data-disabled]:where([data-hulmio-ui]) { opacity: .45; }
+.h-chip:where([data-hulmio-ui]) :is(.h-chip-label, .h-chip-remove) { display: inline-flex; align-items: center; justify-content: center; min-height: 28px; margin: 0; padding: 4px 10px; border: 0; border-radius: inherit; background: transparent; color: inherit; font: inherit; }
+.h-chip:where([data-hulmio-ui]) button { cursor: pointer; }
+.h-chip:where([data-hulmio-ui]) .h-chip-remove { width: 28px; padding: 0; margin-right: 2px; }
+.h-chip:where([data-hulmio-ui]) .h-chip-remove:hover { background: #0001; }
+.h-chip[data-size="sm"]:where([data-hulmio-ui]) { min-height: 24px; font-size: 11px; }
+.h-chip[data-size="sm"]:where([data-hulmio-ui]) :is(.h-chip-label, .h-chip-remove) { min-height: 22px; }
+.h-stat:where([data-hulmio-ui]) { padding: 22px; background: var(--hulmio-surface); color: var(--hulmio-text); border-radius: var(--hulmio-radius-md); }
+.h-stat[data-variant="outlined"]:where([data-hulmio-ui]) { border: 1px solid var(--hulmio-border); }
+.h-stat[data-variant="soft"]:where([data-hulmio-ui]) { background: var(--hulmio-soft); }
+.h-stat:where([data-hulmio-ui]) dl { margin: 0; }
+.h-stat:where([data-hulmio-ui]) dt { color: var(--hulmio-muted); font-size: 13px; }
+.h-stat:where([data-hulmio-ui]) dd { margin: 0; }
+.h-stat:where([data-hulmio-ui]) .h-stat-value { margin-top: 12px; font-size: clamp(28px, 4vw, 40px); font-weight: 600; line-height: 1.15; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+.h-stat:where([data-hulmio-ui]) .h-stat-change { margin-top: 14px; font-size: 12px; color: var(--hulmio-muted); }
+.h-stat:where([data-hulmio-ui]) .h-stat-change[data-trend="up"] { color: var(--hulmio-success); }
+.h-stat:where([data-hulmio-ui]) .h-stat-change[data-trend="down"] { color: var(--hulmio-danger); }
+.h-data-list:where([data-hulmio-ui]) { width: 100%; margin: 0; color: var(--hulmio-text); font-size: 14px; }
+.h-data-list:where([data-hulmio-ui]) > div { display: grid; grid-template-columns: minmax(90px, 1fr) minmax(0, 2fr); gap: 18px; padding: 14px 0; }
+.h-data-list[data-divided]:where([data-hulmio-ui]) > div + div { border-top: 1px solid var(--hulmio-border); }
+.h-data-list:where([data-hulmio-ui]) dt { color: var(--hulmio-muted); }
+.h-data-list:where([data-hulmio-ui]) dd { margin: 0; overflow-wrap: anywhere; }
+.h-data-list[data-orientation="vertical"]:where([data-hulmio-ui]) > div { grid-template-columns: 1fr; gap: 5px; }
+.h-data-list[data-size="sm"]:where([data-hulmio-ui]) { font-size: 12px; }
+.h-data-list[data-size="sm"]:where([data-hulmio-ui]) > div { padding: 10px 0; }
+.h-image:where([data-hulmio-ui]) { width: 100%; margin: 0; color: var(--hulmio-text); }
+.h-image:where([data-hulmio-ui]) .h-image-frame { overflow: hidden; }
+.h-image[data-radius="sm"]:where([data-hulmio-ui]) .h-image-frame { border-radius: 4px; }
+.h-image[data-radius="md"]:where([data-hulmio-ui]) .h-image-frame { border-radius: var(--hulmio-radius-md); }
+.h-image:where([data-hulmio-ui]) img { display: block; width: 100%; height: 100%; }
+.h-image:where([data-hulmio-ui]) .h-image-fallback { display: grid; place-items: center; width: 100%; height: 100%; min-height: 120px; padding: 24px; background: var(--hulmio-subtle); color: var(--hulmio-muted); font-size: 13px; }
+.h-image:where([data-hulmio-ui]) figcaption { margin-top: 9px; color: var(--hulmio-muted); font-size: 12px; line-height: 1.6; }
+.h-meter:where([data-hulmio-ui]) { --h-meter-tone: var(--hulmio-primary); width: 100%; color: var(--hulmio-text); }
+.h-meter[data-tone="neutral"]:where([data-hulmio-ui]) { --h-meter-tone: var(--hulmio-muted); }
+.h-meter:where([data-hulmio-ui]) .h-meter-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; font-size: 13px; }
+.h-meter:where([data-hulmio-ui]) .h-meter-label > :last-child { font-variant-numeric: tabular-nums; }
+.h-meter:where([data-hulmio-ui]) .h-meter-track { height: 8px; overflow: hidden; border-radius: 999px; background: var(--hulmio-subtle); }
+.h-meter:where([data-hulmio-ui]) .h-meter-fill { display: block; height: 100%; border-radius: inherit; background: var(--h-meter-tone); }
+.h-meter[data-size="sm"]:where([data-hulmio-ui]) .h-meter-track { height: 4px; }
+.h-clipboard:where([data-hulmio-ui]) { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+:where([data-hulmio-ui]) .h-clipboard-error { color: var(--hulmio-danger); font-size: 12px; }
+.h-resizable:where([data-hulmio-ui]) { width: 100%; min-height: 180px; overflow: hidden; border: 1px solid var(--hulmio-border); border-radius: var(--hulmio-radius-md); background: var(--hulmio-surface); color: var(--hulmio-text); }
+.h-resizable-panel:where([data-hulmio-ui]) { height: 100%; padding: 20px; overflow: auto; font-size: 14px; }
+.h-resizable-handle:where([data-hulmio-ui]) { display: grid; place-items: center; width: 10px; background: var(--hulmio-subtle); border-inline: 1px solid var(--hulmio-border); }
+.h-resizable-handle[aria-orientation="horizontal"]:where([data-hulmio-ui]) { width: auto; height: 10px; border-inline: 0; border-block: 1px solid var(--hulmio-border); }
+.h-resizable-handle:where([data-hulmio-ui]) .h-resizable-grip { width: 2px; height: 22px; border-radius: 2px; background: var(--hulmio-control-border); }
+.h-resizable-handle[aria-orientation="horizontal"]:where([data-hulmio-ui]) .h-resizable-grip { width: 22px; height: 2px; }
+.h-scroll-shadow:where([data-hulmio-ui]) { overflow: auto; overscroll-behavior: contain; color: var(--hulmio-text); }
+.h-scroll-shadow[data-orientation="vertical"]:where([data-hulmio-ui]) { overflow-x: hidden; }
+.h-scroll-shadow[data-orientation="horizontal"]:where([data-hulmio-ui]) { overflow-y: hidden; }
+:where([data-hulmio-ui]) :is(.h-calendar-cell, .h-tree-item, .h-list-box-option)[data-focus-visible],
+:where([data-hulmio-ui]) :is(.h-calendar-nav, .h-tree-chevron, .h-menubar-trigger, .h-navigation-trigger, .h-navigation-link, .h-navigation-content a, .h-chip-label, .h-chip-remove):focus-visible,
+:is(.h-resizable-handle, .h-scroll-shadow):where([data-hulmio-ui]):focus-visible,
+.h-choice-card:where([data-hulmio-ui]):has(input:focus-visible),
+:where([data-hulmio-ui]) .h-swatch-option:has(input:focus-visible) { outline: 2px solid var(--hulmio-input-focus, var(--hulmio-focus)); outline-offset: 2px; }
+.h-choice-card:where([data-hulmio-ui]):has(input[aria-invalid="true"]:focus-visible),
+.h-inline-calendar[data-invalid]:where([data-hulmio-ui]) .h-calendar-cell[data-focus-visible] { outline-color: var(--hulmio-danger); }
+@media (max-width: 380px) { .h-inline-calendar:where([data-hulmio-ui]) { padding: 10px; } :where([data-hulmio-ui]) .h-calendar-cell { width: 30px; height: 32px; } }

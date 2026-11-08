@@ -6,6 +6,10 @@ export default defineConfig(({ mode }) => ({
   // Browser checks must not invalidate a developer's running server cache.
   cacheDir: mode === "test" ? "node_modules/.vite-playwright" : "node_modules/.vite",
   plugins: [react(), tailwindcss()],
+  server: {
+    watch: { ignored: ["**/artifacts/**", "**/.package-check/**", "**/.superpowers/**", "**/test-results/**", "**/playwright-report/**", "**/dist/**"] },
+  },
+  optimizeDeps: { include: ["react", "react-dom/client", "lucide-react", "react-aria-components", "@internationalized/date", "@tanstack/react-table"] },
   resolve: {
     alias: [
       { find: "hulmio-ui/styles.css", replacement: fileURLToPath(new URL("./packages/ui/src/styles.css", import.meta.url)) },

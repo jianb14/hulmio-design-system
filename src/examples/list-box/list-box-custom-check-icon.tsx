@@ -1,0 +1,11 @@
+import { ListBox } from "hulmio-ui";
+import { CircleCheck } from "lucide-react";
+import "hulmio-ui/styles.css";
+
+export default function Example() {
+  return (
+    <div style={{ display: "grid", gap: 16, width: "100%", maxWidth: 640, justifyItems: "start" }}>
+      <ListBox label="Team" options={[{ id: "design", label: "Design", description: "Create thoughtful experiences" }, { id: "engineering", label: "Engineering", description: "Build reliable products" }, { id: "research", label: "Research", description: "Understand customer needs" }]} defaultSelectedKeys={["design"]} renderIndicator={() => <CircleCheck size={18} />} />
+    </div>
+  );
+}

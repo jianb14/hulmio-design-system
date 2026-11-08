@@ -118,15 +118,7 @@
   background: var(--hulmio-surface);
   border-radius: var(--hulmio-radius-md, 10px);
   overflow: hidden;
-  transition:
-    border-color 0.15s,
-    outline-color 0.15s;
-}
-:where([data-hulmio-ui="input"]) .input-shell:focus-within {
-  border-color: var(--hulmio-focus);
-  outline: 2px solid var(--hulmio-focus);
-  outline-offset: 0;
-  box-shadow: none;
+  transition: border-color 0.15s;
 }
 :where([data-hulmio-ui="input"]) .input-shell:hover:not(:focus-within):not(.is-disabled):not(.input-invalid):not(:has([aria-invalid="true"])) { border-color: color-mix(in srgb, var(--hulmio-control-border) 60%, var(--hulmio-muted)); }
 :where([data-hulmio-ui="input"]) .input-shell > input:focus-visible { outline: none; box-shadow: none; }
@@ -141,6 +133,9 @@
   outline: none;
   font-size: 12px;
 }
+:where([data-hulmio-ui="input"]) input[type="search"] { -webkit-appearance: none; appearance: none; }
+:where([data-hulmio-ui="input"]) input[type="search"]::-webkit-search-cancel-button,
+:where([data-hulmio-ui="input"]) input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none; }
 :where([data-hulmio-ui="input"]) input::placeholder,
 :where([data-hulmio-ui="input"]) textarea::placeholder {
   color: var(--hulmio-muted);
@@ -173,7 +168,7 @@
 }
 :where([data-hulmio-ui="input"]) .input-action:hover {
   color: var(--hulmio-text);
-  background: var(--hulmio-subtle);
+  background-color: var(--hulmio-subtle);
 }
 :where([data-hulmio-ui="input"]) .input-invalid {
   border-color: var(--hulmio-danger);
@@ -207,7 +202,7 @@
   transform: translate(-50%, -50%);
   padding: 30px;
   border: 1px solid var(--hulmio-border);
-  border-radius: 16px;
+  border-radius: var(--hulmio-radius-md, 10px);
   background: var(--hulmio-surface);
   box-shadow: 0 24px 90px #0002;
   max-height: 90dvh;
@@ -235,7 +230,7 @@
   right: 15px;
   top: 16px;
   color: var(--hulmio-muted);
-  border-radius: 6px;
+  border-radius: var(--hulmio-radius-md, 10px);
 }
 :where([data-hulmio-ui="modal"]) .dialog-close:hover {
   background: var(--hulmio-subtle);
@@ -265,7 +260,7 @@
   width: 100%;
   max-width: 100%;
   max-height: 85dvh;
-  border-radius: 18px 18px 0 0;
+  border-radius: var(--hulmio-radius-md, 10px) var(--hulmio-radius-md, 10px) 0 0;
 }
 .popover-content:where([data-hulmio-ui]) {
   max-width: 360px;

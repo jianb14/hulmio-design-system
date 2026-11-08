@@ -8,3 +8,8 @@ playwright-report/
 artifacts/
 .package-check/
 .npm-cache/
+.taste-skill/
+.superpowers/
+
+parity-playwright.config.local.ts
+badge-playwright.config.local.ts

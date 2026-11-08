@@ -1,9 +1,11 @@
-import { forwardRef, useId, useRef, useState } from "react";
+import { forwardRef, useEffect, useId, useRef, useState } from "react";
 import type { InputHTMLAttributes, ReactNode } from "react";
 import { X, Eye, EyeOff } from "lucide-react";
 import { cn } from "./utils";
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  variant?: "outline" | "filled" | "underline";
+  controlSize?: "sm" | "md" | "lg";
   label?: string;
   helper?: string;
   error?: string;
@@ -20,6 +22,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       leading,
       trailing,
       clearable,
+      variant = "outline",
+      controlSize = "md",
       type = "text",
       id,
       className,
@@ -36,8 +40,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const [inner, setInner] = useState(defaultValue ?? "");
     const inputRef = useRef<HTMLInputElement | null>(null);
     const current = value ?? inner;
+    useEffect(() => {
+      const form = inputRef.current?.form;
+      let active = true;
+      const reset = (event: Event) => setTimeout(() => {
+        if (active && !event.defaultPrevented && value === undefined) setInner(defaultValue ?? "");
+      }, 0);
+      form?.addEventListener("reset", reset);
+      return () => { active = false; form?.removeEventListener("reset", reset); };
+    }, [value, defaultValue, props.form]);
     return (
-      <div data-hulmio-ui="input" className={cn("field", className)}>
+      <div data-hulmio-ui="input" data-variant={variant} data-size={controlSize} className={cn("field", className)}>
         {label && (
           <label htmlFor={inputId}>
             {label}
@@ -85,7 +98,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             <button
               type="button"
               aria-label="Clear input"
-              className="input-action"
+              className="input-action input-clear-action"
               onClick={() => {
                 const input = inputRef.current;
                 if (!input) return;

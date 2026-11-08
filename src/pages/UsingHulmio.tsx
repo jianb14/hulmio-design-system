@@ -2,14 +2,13 @@ import { ArrowRight, ArrowUpRight, Check, Package, ShieldCheck } from "lucide-re
 import { Button, Input, Modal, DialogClose, CodeBlock } from "../components/ui";
 import { PageIntro } from "./Foundations";
 import { firstExample, localPackage, packageComponents } from "../lib/distribution";
-import { PillButton } from "hulmio-ui";
 
 export function UsingHulmio({ notify }: { notify: (text: string) => void }) {
   return (
     <>
       <PageIntro
         title="Take the good parts with you."
-        description="Choose a named design, import it into your React app, and make it yours. A guided path from the collection to your project."
+        description="Choose a component, import it into your React app, and make it yours. A guided path from the collection to your project."
       />
       <div className="package-status" role="note">
         <span className="package-mark"><Package size={23} /></span>
@@ -54,9 +53,9 @@ export function UsingHulmio({ notify }: { notify: (text: string) => void }) {
                 <Modal
                   title="Your first Hulmio modal"
                   description="The same components you see in the gallery."
-                  trigger={<PillButton>Open example <ArrowRight size={14} /></PillButton>}
+                  trigger={<Button>Open example <ArrowRight size={14} /></Button>}
                 >
-                  <DialogClose asChild><PillButton variant="outline">Got it</PillButton></DialogClose>
+                  <DialogClose asChild><Button variant="outline">Got it</Button></DialogClose>
                 </Modal>
               </div>
             </div>
@@ -66,9 +65,9 @@ export function UsingHulmio({ notify }: { notify: (text: string) => void }) {
             <div>
               <span className="overline">A FAMILIAR FEEL</span>
               <h2 id="theme-title">Keep the theme together.</h2>
-              <p>Set the theme on <code>html</code> so portaled modals receive it too. Choose <code>light</code>, <code>dark</code>, or <code>contrast</code>. Colors use the same theme values as the gallery; fonts inherit from your app.</p>
+              <p>Set the theme on <code>html</code> so portaled modals receive it too. Choose <code>light</code> or <code>dark</code>. Colors use the same theme values as the gallery; fonts inherit from your app.</p>
               <CodeBlock language="html" code={'<html data-hulmio-theme="dark">'} onCopy={notify} />
-              <p className="usage-caption">For the website's primary typography, load Google Sans Flex in your app and set <code>--hulmio-font-family: "Google Sans Flex", sans-serif</code>. Components inherit your font; the package does not fetch fonts.</p>
+              <p className="usage-caption">Inputs follow the theme focus color with a 2px ring and gap; optional <code>--hulmio-input-focus</code> overrides it in your app. For the website's primary typography, load Onest in your app and set <code>--hulmio-font-family: "Onest", sans-serif</code>. Components inherit your font; the package does not fetch fonts.</p>
             </div>
           </section>
         </div>
@@ -82,13 +81,13 @@ export function UsingHulmio({ notify }: { notify: (text: string) => void }) {
               </a>
             ))}
             <a className="usage-component" href="#/components"><span>Explore every component family</span><ArrowUpRight size={14} /></a>
-            <p>Named designs, TypeScript types, and theme tokens are included. Every component page shows a working import example and supported behavior. Reference compositions are labeled separately.</p>
+            <p>React components, TypeScript types, and theme tokens are included. Every component page shows a working import example and supported behavior. Useful variants stay visible above expandable, copyable code panels.</p>
           </section>
           <section>
             <span className="overline">WHAT IS ALREADY CONNECTED</span>
             <ul className="usage-checks">
               <li><Check size={13} /> Gallery and package share components</li>
-              <li><Check size={13} /> Shared light, dark, and contrast colors</li>
+              <li><Check size={13} /> Shared light and dark colors</li>
               <li><Check size={13} /> CSS included; no Tailwind setup</li>
               <li><Check size={13} /> Local installation instructions</li>
             </ul>

@@ -13,7 +13,7 @@ test("sidebar headings align and component links are indented", async ({ page })
   expect(positions.child - positions.category).toBeGreaterThanOrEqual(12);
 });
 
-test("input group has one tight focus ring and search has no focus shadow", async ({ page }) => {
+test("input group has one separated focus ring and search has no focus shadow", async ({ page }) => {
   await page.goto("/#/components/input-group");
   const input = page.getByRole("searchbox", { name: "Search projects", exact: true });
   await input.focus();
@@ -24,7 +24,7 @@ test("input group has one tight focus ring and search has no focus shadow", asyn
   });
   expect(styles.innerOutline).toBe("none");
   expect(styles.shadow).toBe("none");
-  expect(parseFloat(styles.offset)).toBe(0);
+  expect(parseFloat(styles.offset)).toBe(2);
   expect(parseFloat(styles.radius)).toBeGreaterThanOrEqual(8);
   await page.goto("/#/components");
   const search = page.getByRole("searchbox", { name: "Search components", exact: true });
@@ -58,7 +58,7 @@ test("custom select supports keyboard selection and marks the selected option", 
   const select = page.getByRole("combobox", { name: "Workspace", exact: true });
   await expect(select).toHaveJSProperty("tagName", "BUTTON");
   await select.focus();
-  expect(await select.evaluate(el => getComputedStyle(el).outlineStyle)).toBe("none");
+  expect(await select.evaluate(el => getComputedStyle(el).outlineStyle)).toBe("solid");
   await page.keyboard.press("ArrowDown");
   await expect(page.getByRole("listbox")).toBeVisible();
   const studio = page.getByRole("option", { name: "Design studio", exact: true });
@@ -78,7 +78,7 @@ test("custom select supports keyboard selection and marks the selected option", 
 
 test("buttons have a visible hover and scale on press without moving", async ({ page }) => {
   await page.goto("/#/components/button");
-  const classic = page.locator('[data-library-design="classic"] .library-button-stage button');
+  const classic = page.locator('[data-example-id="button--variants"] .library-source-example button').first();
   await expect(classic.locator("svg")).toHaveCount(0);
   const before = await classic.evaluate(el => getComputedStyle(el).backgroundColor);
   await classic.hover();
@@ -97,7 +97,7 @@ test("buttons have a visible hover and scale on press without moving", async ({ 
 
 test("dropdown trigger uses a border focus and selectable items show checks", async ({ page }) => {
   await page.goto("/#/components/dropdown");
-  const trigger = page.getByRole("button", { name: "Project actions", exact: true });
+  const trigger = page.locator("[data-legacy-example]").getByRole("button", { name: "Project actions", exact: true });
   await trigger.focus();
   expect(await trigger.evaluate(el => getComputedStyle(el).outlineStyle)).toBe("none");
   await trigger.click();
