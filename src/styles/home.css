@@ -13,8 +13,8 @@
 .h-home-description, .h-hero-intro > p, .h-home-section-intro > p { font-family: "Google Sans Flex", sans-serif; }
 .h-home-description { max-width: 380px; margin-top: 24px !important; font-size: 18px; line-height: 1.65; color: var(--home-muted); }
 .h-home-links { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
-.h-home-action { display: inline-flex; align-items: center; justify-content: space-between; gap: 28px; min-height: 52px; padding: 14px 23px; background: var(--home-ink); color: var(--home-paper); border-radius: var(--radius-md); font-size: 14px; font-weight: 550; transition: background .18s, translate .18s; }
-.h-home-action:hover { background: #1b392e; color: #f8f9f3; translate: 0 -2px; }
+.h-home-action { display: inline-flex; align-items: center; justify-content: space-between; gap: 28px; min-height: 52px; padding: 14px 23px; background: var(--hulmio-primary); color: var(--hulmio-on-primary); border-radius: var(--radius-md); font-size: 14px; font-weight: 550; transition: background .18s, color .18s, translate .18s; }
+.h-home-action:hover { background: var(--hulmio-primary-hover); color: var(--hulmio-on-primary); translate: 0 -2px; }
 .h-home-link { display: inline-flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; }
 .h-home-link:hover { text-decoration: underline; text-underline-offset: 5px; }
 .h-home-section-intro { display: grid; grid-template-columns: 1.2fr 1fr; align-items: end; gap: 80px; margin-bottom: 64px; }
@@ -100,6 +100,8 @@
 .h-playground-tabs > .h-tab-panel { display: grid; grid-template-rows: minmax(0, 1fr) auto; flex: 1; min-height: 0; padding: 0; }
 .h-playground-stage { display: flex; align-items: center; justify-content: center; min-height: 0; padding: 28px 4px 20px; overflow: auto; }
 .h-playground-stage > :is(.field, .h-tabs) { width: 100%; max-width: 360px; }
+.h-playground [data-hulmio-ui="input"] > label { margin-bottom: 10px; }
+.h-playground [data-hulmio-ui="input"] > :is(.field-helper, .field-error) { margin-top: 10px; }
 .h-playground-stage > .h-tabs > .h-tab-panel { min-height: 55px; padding-top: 18px; font-size: 13px; line-height: 1.6; }
 .h-playground-stage > .h-tabs p { display: flex; align-items: center; gap: 7px; }
 .h-playground-actions { text-align: center; }

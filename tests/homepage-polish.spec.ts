@@ -51,7 +51,7 @@ test("scroll entrances begin on arrival and skip already readable fast-scroll co
     scrollTo({ top: scrollY + element.getBoundingClientRect().top - innerHeight - 100, behavior: "instant" });
   });
   await expect(heading).not.toHaveAttribute("data-revealed", "true");
-  await page.evaluate(() => scrollBy({ top: 180, behavior: "instant" }));
+  await page.evaluate(() => scrollBy({ top: 280, behavior: "instant" }));
   await expect(heading).toHaveAttribute("data-revealed", "true");
   const entry = await heading.evaluate(element => ({
     top: element.getBoundingClientRect().top,
@@ -71,6 +71,29 @@ test("scroll entrances begin on arrival and skip already readable fast-scroll co
   await expect(later).toHaveCSS("opacity", "1");
 });
 
+test("hero playground waits until enough of the card is visible and settles at a readable pace", async ({ page }) => {
+  await page.setViewportSize({ width: 1536, height: 730 });
+  await page.addInitScript(() => {
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (...args: Parameters<Element["animate"]>) {
+      const animation = animate.apply(this, args);
+      if (this.matches(".h-hero-project")) animation.pause();
+      return animation;
+    };
+  });
+  await page.goto("/");
+  await expect(page.locator(".h-home")).toHaveClass(/h-motion-ready/);
+  const project = page.locator(".h-hero-project");
+  await expect(project).not.toHaveAttribute("data-revealed", "true");
+  await project.evaluate(element => scrollTo({ top: scrollY + element.getBoundingClientRect().top - innerHeight * .55, behavior: "instant" }));
+  await expect(project).toHaveAttribute("data-revealed", "true");
+  const duration = await project.evaluate(element => element.getAnimations()[0]?.effect?.getTiming().duration);
+  expect(duration).toBeGreaterThanOrEqual(850);
+  await project.evaluate(element => element.getAnimations().forEach(animation => animation.finish()));
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  expect(await project.evaluate(element => element.getAnimations().length)).toBe(0);
+});
+
 test("hero backdrop stays steady when scrolling and mobile entrances honor reduced motion", async ({ page }) => {
   await page.goto("/");
   const mark = page.locator(".h-hero-mark");
@@ -82,7 +105,7 @@ test("hero backdrop stays steady when scrolling and mobile entrances honor reduc
   const title = page.locator("#home-categories-title");
   await page.evaluate(() => {
     const title = document.getElementById("home-categories-title")!;
-    scrollTo({ top: scrollY + title.getBoundingClientRect().top - innerHeight + 100, behavior: "instant" });
+    scrollTo({ top: scrollY + title.getBoundingClientRect().top - innerHeight + 180, behavior: "instant" });
   });
   await expect(title).toHaveAttribute("data-revealed", "true");
   expect(await title.evaluate(element => element.getAnimations().length)).toBeGreaterThan(0);
@@ -103,7 +126,7 @@ test("mobile category cards preserve their stagger when entrance motion finishes
   });
   await page.goto("/");
   const card = page.locator(".h-category-index a").nth(1);
-  await card.evaluate(element => scrollTo({ top: scrollY + element.getBoundingClientRect().top - innerHeight + 100, behavior: "instant" }));
+  await card.evaluate(element => scrollTo({ top: scrollY + element.getBoundingClientRect().top - innerHeight + 220, behavior: "instant" }));
   await expect(card).toHaveAttribute("data-revealed", "true");
   expect(await card.evaluate(element => element.getAnimations().length)).toBe(1);
   const enteringY = (await card.boundingBox())!.y;

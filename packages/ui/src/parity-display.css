@@ -55,7 +55,7 @@
 .h-color-swatch-picker[data-variant="soft"] { background: var(--hulmio-subtle); padding: 12px; border-radius: var(--hulmio-radius-md); }
 .h-color-swatch-picker[data-variant="solid"] .h-swatch-option { border: 3px solid var(--hulmio-surface); box-shadow: 0 0 0 1px var(--hulmio-border); }
 .h-meter[data-size="lg"] .h-meter-track { height: 12px; }
-.h-tabs .h-tab-list { overflow: auto; flex-wrap: nowrap; }
+.h-tabs .h-tab-list { overflow-x: auto; overflow-y: hidden; flex-wrap: nowrap; }
 .h-tabs .h-tab-list > button { flex-shrink: 0; }
 .h-tabs[data-variant="secondary"] .h-tab-list { background: transparent; border: 0; border-bottom: 1px solid var(--hulmio-border); border-radius: 0; }
 .h-tabs[data-variant="secondary"] [role="tab"][aria-selected="true"] { background: var(--hulmio-soft); color: var(--hulmio-primary); box-shadow: none; }

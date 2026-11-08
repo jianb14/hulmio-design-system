@@ -15,11 +15,11 @@
 }
 .site-navbar .site-search.h-button:hover { border-color: var(--muted); background: var(--surface); color: var(--muted); }
 .site-navbar .h-button:is(.site-search, .icon-control, .mobile-menu):active { transform: none; }
-.site-navbar .site-search kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 22px; margin-left: auto; padding: 0 5px; line-height: 1; }
+.site-navbar .site-search kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 22px; margin-left: auto; padding: 0 5px; border: 1px solid var(--border); background: var(--subtle); line-height: 1; }
 .site-navbar .site-github { gap: 8px; min-height: 36px; padding: 0 12px; flex-shrink: 0; border-radius: 9999px; background: color-mix(in srgb, var(--background) 92%, var(--text)); color: var(--text); }
 .site-navbar .site-github:hover { background: color-mix(in srgb, var(--background) 86%, var(--text)); color: var(--text); text-decoration: none; }
 .site-navbar .site-github-count { font-size: 14px; line-height: 1; font-variant-numeric: tabular-nums; }
-.site-navbar .icon-control { padding: 0; border-radius: var(--radius-md, var(--hulmio-radius-md)); }
+.site-navbar .icon-control { padding: 0; border-radius: 50%; }
 .site-navbar .theme-menu { border-radius: var(--radius-md, var(--hulmio-radius-md)); }
 .site-navbar .theme-menu button { justify-content: flex-start; border-radius: var(--radius-md, var(--hulmio-radius-md)); }
 .site-navbar .mobile-menu { padding: 0; border-radius: var(--radius-md, var(--hulmio-radius-md)); }

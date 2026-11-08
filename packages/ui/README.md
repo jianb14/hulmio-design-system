@@ -72,7 +72,8 @@ a wrapper to theme one part of your app. Set tokens on `html` for portaled conte
 
 `Input.className` styles the field wrapper; `Input.style` and native attributes go
 to the inner input. Target `.input-shell` through your own wrapper class to customize
-its border or surface. Text fields show a 2px ring with a 2px gap when focused.
+its border or surface. Outline and filled text fields show a 2px ring with a 2px
+gap when focused. Underline inputs emphasize only the bottom border on focus.
 Action controls keep keyboard focus indicators and have no ring while pressed.
 
 Variants: `primary`, `secondary`, `outline`, `ghost`, `link`, `destructive`,
@@ -80,6 +81,8 @@ Variants: `primary`, `secondary`, `outline`, `ghost`, `link`, `destructive`,
 Input adds `variant="outline|filled|underline"` and `controlSize="sm|md|lg"`; native numeric `size` remains supported. Tabs adds `variant="segmented|underline|pill"`; Card adds `variant="default|outlined|soft"`. Badge adds `variant="solid|soft|outline"`; an explicit variant wins over the legacy `outline` boolean.
 
 The default input ring uses the current `--hulmio-focus` color with a 2px gap. `--hulmio-input-focus` remains an optional consumer override.
+
+Tab lists scroll horizontally when needed and suppress vertical overflow.
 
 Search inputs suppress the browser's built-in clear decoration. Use `clearable`
 for one labeled clear action with an inset hover background; clearing returns

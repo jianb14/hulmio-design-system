@@ -26,7 +26,7 @@ how to invoke them in chat.
   theme changes crossfade while respecting reduced motion. Foundations includes
   an Accessibility guide with a keyboard-usable example and a shipping checklist.
 - The homepage has a bounded component playground, a composed form, and a distinct
-  settings preview. Short entrances run once on arrival on desktop and mobile,
+  settings preview. Slower entrances run once after enough content enters the viewport on desktop and mobile,
   skipping readable content after fast scrolling. The hero backdrop stays steady;
   smaller screens have a layered composition and reduced motion stays static.
 - Component pages keep previews visible above faded code excerpts with centered **Expand code** controls and local copy feedback. Demo buttons do

@@ -3,6 +3,43 @@
 Ito ang tala ng mga pagbabago para maintindihan ng owner ang bawat milestone.
 Dates use Asia/Manila.
 
+## 2026-11-08 - Home control states and entrance timing
+
+Made the navbar search shortcut distinct from its search surface in both themes,
+and kept the theme control's hover background circular on desktop and mobile.
+The hero primary link now uses the active theme's primary/hover/text tokens,
+including the lime action in dark mode. The playground input has explicit gaps
+above the field and below it for helper/error text.
+
+Shared underline inputs now indicate focus with a stronger bottom border only;
+outline/filled inputs keep their separated focus rings. Tab lists retain
+horizontal scrolling when needed while suppressing the unintended vertical
+scrollbar caused by the underline's overlapping border.
+
+Home entrances wait until 30% of the element is visible inside a viewport inset
+by 96px at the bottom. They settle over 700-1,000ms with a gentler ease, and retain
+once-only playback, fast-scroll skipping, authored rotation, keyboard-focus
+protection and reduced-motion cancellation. The fast-scroll cutoff now accounts
+for element height so larger cards can still animate at their later trigger.
+
+Validation: the new early-hero regression failed before the fix and passed
+afterward; all 21 focused homepage/navbar/control-style tests passed. Browser
+checks and screenshots verified both themes at 320, 390, 768, 1440 and 1920px,
+including input gaps, underline-only focus, overflow and hover colors. Production
+build passed with the existing large-chunk warning. Independent source review
+found no important regressions. `npm run check:package` passed an installed
+tarball, all 104 public families and 1,147 compiled examples, standalone styles,
+customization, themes, overlays, mobile layout and reduced motion. The consumer
+build retained its existing ignored `use client` and large-chunk warnings.
+
+The full Playwright run finished with 118/120 passing. Two checks timed out:
+`additional-components.spec.ts` - inline/range calendar selection (10s click
+timeout, also reproduced in an isolated rerun), and `system.spec.ts` - the full
+desktop/mobile gallery sweep (360s overall timeout). All homepage, navbar and
+control-style checks passed in that run. These timeout limitations remain
+separate from this UI correction; no calendar behavior or suite timeout was
+changed.
+
 ## 2026-11-08 - Full-library examples and shared API expansion
 
 Implemented the approved HeroUI v3.2.7 topic inventory using Hulmio components and

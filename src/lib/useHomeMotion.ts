@@ -39,15 +39,16 @@ export function useHomeMotion() {
     desktop.addEventListener("change", schedule);
     const observer = typeof IntersectionObserver === "undefined" ? null : new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
+        if (!entry.isIntersecting || entry.intersectionRatio < .3) return;
         const element = entry.target as HTMLElement;
         observer?.unobserve(element);
         element.dataset.revealed = "true";
         if (reduced.matches || typeof element.animate !== "function" || element.contains(document.activeElement)) return;
         const inHero = !!element.closest(".h-home-hero");
-        const top = element.getBoundingClientRect().top;
+        const bounds = element.getBoundingClientRect();
+        const triggerTop = innerHeight - 96 - bounds.height * .3;
         // A fast scroll should never turn already readable content into an entrance.
-        if (top < 0 || (top < innerHeight * .7 && (!inHero || scrollY > 0))) return;
+        if (bounds.top < 0 || (bounds.top < triggerTop - innerHeight * .2 && (!inHero || scrollY > 0))) return;
         const kind = element.dataset.reveal;
         // Individual transforms preserve authored rotation and centering.
         const travel = desktop.matches ? 20 : 12;
@@ -56,15 +57,15 @@ export function useHomeMotion() {
           : kind === "code" ? { opacity: .4, translate: "10px 0" }
           : { opacity: .25, translate: `0 ${travel}px` };
         const animation = element.animate([start, { opacity: 1, translate: "0 0" }], {
-          duration: desktop.matches ? (kind === "picture" ? 600 : 480) : 400,
-          delay: inHero && scrollY === 0 ? Math.min(140, Number(element.dataset.revealDelay) || 0)
-            : kind === "row" ? Math.min(90, Number(element.dataset.revealDelay) || 0) : 0,
-          easing: "cubic-bezier(.22,1,.36,1)", fill: "backwards",
+          duration: desktop.matches ? (kind === "picture" ? 1000 : 850) : (kind === "picture" ? 850 : 700),
+          delay: inHero && scrollY === 0 ? Math.min(240, Number(element.dataset.revealDelay) || 0)
+            : kind === "row" ? Math.min(180, Number(element.dataset.revealDelay) || 0) : 0,
+          easing: "cubic-bezier(.22,.61,.36,1)", fill: "backwards",
         });
         animations.add(animation);
         animation.finished.then(() => animations.delete(animation), () => animations.delete(animation));
       });
-    }, { threshold: 0, rootMargin: "0px 0px -32px 0px" });
+    }, { threshold: .3, rootMargin: "0px 0px -96px 0px" });
     home.querySelectorAll("[data-home-reveal]").forEach(element => observer?.observe(element));
     return () => {
       cancelAnimationFrame(frame);
